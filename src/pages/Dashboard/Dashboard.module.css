@@ -1,0 +1,76 @@
+/* 대시보드 페이지 전체 컨테이너 */
+.dashboardContainer {
+    padding: 24px;
+    box-sizing: border-box;
+    flex-direction: column;
+    background-color: #f8f9fa;
+}
+
+/* 🔹 헤더 (이벤트 목록 제목 + 유저 버튼) */
+.header {
+    display: flex;
+    justify-content: space-between; /* 제목과 버튼을 양 끝으로 정렬 */
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+/* 페이지 제목 */
+.pageTitle {
+    font-size: 24px;
+    font-weight: 700;
+}
+.sortButtonWrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+    margin-right: 300px;
+    font-weight: 500;
+}
+
+.sortButton {
+    width: 13px; /* 이미지 크기 */
+    height: 8px;
+    margin-top: 10px;
+}
+
+/* 🔹 유저 버튼 */
+.userButton img {
+    width: 27px; /* 버튼 크기 */
+    height: 17px;
+    cursor: pointer;
+}
+
+/* 이벤트 카드 목록 */
+.eventList {
+    display: flex;
+    flex-wrap: wrap; /* 카드가 줄바꿈되도록 */
+    gap: 20px;
+    margin-bottom: 32px;
+    flex-direction: column;
+}
+
+/* 버튼을 감싸는 wrapper */
+.buttonWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+/* 버튼 스타일 */
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+    color: white;
+    background: linear-gradient(to right, #7b2cbf, #4c1d95);
+    border-radius: 9999px;
+    text-decoration: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* 버튼 hover 효과 */
+.button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+}

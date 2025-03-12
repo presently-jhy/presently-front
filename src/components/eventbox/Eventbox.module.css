@@ -1,0 +1,58 @@
+/* 전체 컨테이너 - 카드 형태로 보이도록 스타일링 */
+
+.container {
+    display: flex;
+    align-items: center;
+    width: 336px;
+    height: 74px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 16px;
+    margin-bottom: 12px;
+    /* 원하는 경우 그림자 추가 */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+/* 이벤트 이미지 */
+.giftImgDiv img {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* 텍스트 쪽 전체 래퍼 */
+.eventTextDiv {
+    display: flex;
+    flex-direction: column;
+    margin-left: 12px;
+    flex: 1; /* 이미지를 제외하고 남은 공간을 차지하도록 */
+}
+
+/* 이벤트 타이틀 */
+.eventTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 8px;
+}
+
+/* 날짜/조회수/선물수 영역 묶는 컨테이너 */
+.infoContainer {
+    display: flex;
+    gap: 16px; /* 아이템 간 간격 */
+}
+
+/* 아이콘 + 텍스트 한 줄 정렬 */
+.infoItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.infoItem img {
+    width: 14px;
+    height: 14px;
+    object-fit: contain;
+}
