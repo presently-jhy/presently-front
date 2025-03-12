@@ -8,24 +8,24 @@ import sortEventDate from './sortEventDate.png'; // 🔹 최신순 정렬 버튼
 const mockupData = [
     {
         eventImg: 'https://via.placeholder.com/56',
-        eventName: 'React Conference 2025',
-        eventDate: '2025-05-20',
-        eventView: 1200,
-        eventPresent: 30,
+        eventName: '이준형님의 생일;)',
+        eventDate: '2025-01-03',
+        eventView: 1247,
+        eventPresent: 100,
     },
     {
         eventImg: 'https://via.placeholder.com/56',
-        eventName: 'JavaScript Meetup',
-        eventDate: '2025-06-15',
-        eventView: 900,
-        eventPresent: 40,
+        eventName: '그냥 엄혜영의 생일',
+        eventDate: '2025-04-30',
+        eventView: 904,
+        eventPresent: 87,
     },
     {
         eventImg: 'https://via.placeholder.com/56',
-        eventName: 'Frontend Workshop',
-        eventDate: '2025-07-10',
-        eventView: 750,
-        eventPresent: 50,
+        eventName: '엄마 생신',
+        eventDate: '2025-10-13',
+        eventView: 1750,
+        eventPresent: 150,
     },
 ];
 
