@@ -1,27 +1,52 @@
-import { Link } from 'react-router-dom';
-import gift from './gift.png';
+// import { Link } from "react-router-dom";
+import { useState } from "react";
+import styles from "./Home.module.css";
+
+import gift from "./gift.png";
+import googleLoginImg from "./google-icon.png";
+import kakaoLoginImg from "./kakao-icon.png";
 
 function Home() {
-    return (
-        <div className="flex flex-col items-center justify-center h-screen w-full bg-white text-center space-y-6">
-            {/* 브랜드 이름 */}
-            <h1 className="text-4xl font-serif">presently</h1>
+  const [isLogin, setIsLogin] = useState(false);
 
-            {/* 설명 */}
-            <p className="text-lg text-gray-600">선물. 기념일. 더 완벽하게.</p>
+  const handleLoginCheck = () => {
+    //눌리면 로그인 여부를 확인하는 로직 실행
 
-            {/* 선물 이미지 */}
-            <img src={gift} alt="Gift" className="w-32 h-32" />
-
-            {/* 버튼 */}
-            <Link
-                to="/login"
-                className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-6 py-3 rounded-full text-lg shadow-md"
-            >
-                선물 받으러 가기
-            </Link>
+    //만약 로그인이 안됐으면(isLogin=False) 새로 loginDiv를 렌더링
+    setIsLogin(true);
+  };
+  return (
+    <>
+      <div className={styles.homecontainer}>
+        <div className={styles.logoText}>presently</div>
+        <div className={styles.subText}>선물. 기념일. 더 완벽하게.</div>
+        <div className={styles.giftDiv}>
+          <img src={gift} alt="gift" className={styles.giftImg} />
         </div>
-    );
+        {isLogin ? (
+          <div>
+            <div>
+              <div className={styles.googleLoginDv}>
+                <img src={googleLoginImg} alt="googleLoginImg" className={styles.googleLoginImg} />
+              </div>
+              <div className={styles.kakaoLoginDiv}>
+                <img src={kakaoLoginImg} alt="kakaoLoginImg" className={styles.kakaoLoginImg} />
+              </div>
+            </div>
+            <div className={styles.captionText}>
+              시작할 경우, 프레젠틀리의 서비스 이용약관과
+              <br />
+              개인정보 보호정책에 동의하게 됩니다.
+            </div>
+          </div>
+        ) : (
+          <div className={styles.goButtonDiv} onClick={handleLoginCheck}>
+            <button className={styles.goButton}>선물 받으러가기</button>
+          </div>
+        )}
+      </div>
+    </>
+  );
 }
 
 export default Home;
