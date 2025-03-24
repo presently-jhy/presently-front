@@ -1,0 +1,159 @@
+/* 페이지 전체 컨테이너 */
+.container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 헤더 영역 */
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 112px;
+    margin-top: 30px;
+}
+
+/* 뒤로가기 버튼 */
+.backButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 80px;
+}
+
+.backButton img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+/* 페이지 제목 */
+.title {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-h2);
+    line-height: var(--lh-h2);
+}
+
+/* 폼: 가로 폭 제한 & 중앙 정렬 */
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+    margin: 0 auto;
+}
+
+/* 중앙 예시 이미지 + 카메라 아이콘 컨테이너 */
+.imageContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+/* 이벤트 유형별 예시 이미지 */
+.eventImage {
+    height: 100%;
+    max-width: 240px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* 카메라 아이콘 라벨 */
+.cameraLabel {
+    position: absolute;
+    bottom: 0;
+    right: 36px;
+    cursor: pointer;
+}
+
+/* 카메라 아이콘 이미지 */
+.cameraIcon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    margin-right: 50px;
+}
+
+/* 파일 입력 숨김 */
+.imageInput {
+    display: none;
+}
+
+/* 입력 그룹 (텍스트 창 세 개) */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-bottom: 6px;
+}
+
+/* 텍스트/날짜 입력 스타일 */
+.textInput {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    line-height: var(--lh-body-small);
+    padding: 12px;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    color: #333;
+    width: 316px;
+    ::placeholder {
+        color: #999;
+    }
+}
+
+/* 텍스트영역 스타일 */
+.textarea {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    line-height: var(--lh-body-small);
+    padding: 12px;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    resize: none;
+    color: #333;
+    width: 316px;
+    ::placeholder {
+        color: #999;
+    }
+}
+
+/* 글자수 표시 */
+.charCount {
+    font-size: 0.8rem;
+    color: #999;
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+}
+
+/* 회색 안내 문구 */
+.infoMessage {
+    color: #999;
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    line-height: var(--lh-body-small);
+    text-align: center;
+    margin-bottom: 63px;
+}
+
+/* 추가하기 버튼 */
+.submitButton {
+    background: linear-gradient(to right, #7b2cbf, #4c1d95);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 9999px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    align-self: center;
+    width: 200px;
+}
+
+.submitButton:hover {
+    background: linear-gradient(to right, #5a1f8c, #3a1270);
+}
