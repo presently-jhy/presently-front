@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import styles from './Dashboard.module.css';
 import Eventbox from '../../components/eventbox/Eventbox';
 import userButton from './userButton.png';
 import sortEventDate from './sortEventDate.png';
 
 const Dashboard = () => {
-    // localStorage에서 저장된 이벤트를 상태로 관리
     const [events, setEvents] = useState([]);
+    const navigate = useNavigate();
 
-    // 컴포넌트 마운트 시 localStorage의 이벤트 로드
     useEffect(() => {
         const storedEvents = JSON.parse(localStorage.getItem('events')) || [];
         setEvents(storedEvents);
@@ -19,6 +18,18 @@ const Dashboard = () => {
     const sortByNewest = () => {
         const sortedEvents = [...events].sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate));
         setEvents(sortedEvents);
+    };
+
+    // 삭제 핸들러: 해당 인덱스 삭제
+    const handleDelete = (indexToDelete) => {
+        const updatedEvents = events.filter((_, index) => index !== indexToDelete);
+        setEvents(updatedEvents);
+        localStorage.setItem('events', JSON.stringify(updatedEvents));
+    };
+
+    // 이벤트 클릭 시 /fundsend 페이지로 이동, 이벤트 데이터를 state로 전달
+    const handleEventClick = (event) => {
+        navigate('/fundsend', { state: event });
     };
 
     return (
@@ -44,12 +55,27 @@ const Dashboard = () => {
 
             {/* 이벤트 카드 목록 */}
             <div className={styles.eventList}>
-                {events.map((event, index) => (
-                    <Eventbox key={index} {...event} />
-                ))}
+                {events.map((event, index) => {
+                    // eventPresent: 펀드이면 입력한 금액, 선물이면 기본 1 (또는 별도 giftCount)
+                    const computedEventPresent = event.eventType === 'fund' ? event.giftAmount || 0 : 1;
+                    const computedEventView = event.eventView || 0;
+
+                    return (
+                        <div key={index} onClick={() => handleEventClick(event)} className={styles.eventLinkWrapper}>
+                            <Eventbox
+                                {...event}
+                                eventView={computedEventView}
+                                eventPresent={computedEventPresent}
+                                onDelete={(e) => {
+                                    e.stopPropagation();
+                                    handleDelete(index);
+                                }}
+                            />
+                        </div>
+                    );
+                })}
             </div>
 
-            {/* 이벤트 추가하기 버튼 */}
             <div className={styles.buttonWrapper}>
                 <Link to="/addEvent" className={styles.button}>
                     이벤트 추가하기

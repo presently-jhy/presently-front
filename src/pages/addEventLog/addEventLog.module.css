@@ -1,4 +1,6 @@
-/* 페이지 전체 컨테이너 */
+@import '../../global.css';
+
+/* 전체 컨테이너 */
 .container {
     width: 100%;
     min-height: 100vh;
@@ -12,11 +14,10 @@
 .header {
     display: flex;
     align-items: center;
-    margin-bottom: 112px;
     margin-top: 30px;
+    margin-bottom: 112px;
 }
 
-/* 뒤로가기 버튼 */
 .backButton {
     background: none;
     border: none;
@@ -30,22 +31,45 @@
     object-fit: contain;
 }
 
-/* 페이지 제목 */
 .title {
     font-size: var(--fs-h2);
     font-weight: var(--fw-h2);
     line-height: var(--lh-h2);
 }
 
-/* 폼: 가로 폭 제한 & 중앙 정렬 */
-.form {
+/* 토글 컨테이너 (펀드/선물 버튼) - 타이틀과 이미지 영역 사이 */
+.toggleContainer {
     display: flex;
-    flex-direction: column;
-    max-width: 350px;
-    margin: 0 auto;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
 }
 
-/* 중앙 예시 이미지 + 카메라 아이콘 컨테이너 */
+/* 토글 버튼 (96px x 32px) */
+.toggleButton {
+    width: 96px;
+    height: 32px;
+    border-radius: 16px;
+    border: 2px solid currentColor;
+    background-color: #fff;
+    color: #664fab;
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.toggleButton:hover {
+    opacity: 0.8;
+}
+
+/* 활성 상태: 보라 배경, 흰색 텍스트 */
+.activeToggle {
+    background-color: #664fab;
+    color: #fff;
+}
+
+/* 중앙 이미지 영역 */
 .imageContainer {
     position: relative;
     display: flex;
@@ -53,15 +77,13 @@
     margin-bottom: 60px;
 }
 
-/* 이벤트 유형별 예시 이미지 */
 .eventImage {
-    height: 100%;
-    max-width: 240px;
+    width: 157px;
+    height: 157px;
     object-fit: cover;
     border-radius: 8px;
 }
 
-/* 카메라 아이콘 라벨 */
 .cameraLabel {
     position: absolute;
     bottom: 0;
@@ -69,20 +91,18 @@
     cursor: pointer;
 }
 
-/* 카메라 아이콘 이미지 */
 .cameraIcon {
     width: 36px;
     height: 36px;
     object-fit: contain;
-    margin-right: 50px;
+    margin-right: 60px;
 }
 
-/* 파일 입력 숨김 */
 .imageInput {
     display: none;
 }
 
-/* 입력 그룹 (텍스트 창 세 개) */
+/* 입력 그룹 */
 .inputGroup {
     display: flex;
     flex-direction: column;
@@ -90,7 +110,6 @@
     margin-bottom: 6px;
 }
 
-/* 텍스트/날짜 입력 스타일 */
 .textInput {
     font-size: var(--fs-body-small);
     font-weight: var(--fw-body-small);
@@ -100,12 +119,12 @@
     border-radius: 8px;
     color: #333;
     width: 316px;
-    ::placeholder {
-        color: #999;
-    }
 }
 
-/* 텍스트영역 스타일 */
+.textInput::placeholder {
+    color: #999;
+}
+
 .textarea {
     font-size: var(--fs-body-small);
     font-weight: var(--fw-body-small);
@@ -116,12 +135,12 @@
     resize: none;
     color: #333;
     width: 316px;
-    ::placeholder {
-        color: #999;
-    }
 }
 
-/* 글자수 표시 */
+.textarea::placeholder {
+    color: #999;
+}
+
 .charCount {
     font-size: 0.8rem;
     color: #999;
@@ -130,7 +149,7 @@
     right: 12px;
 }
 
-/* 회색 안내 문구 */
+/* 안내 문구 */
 .infoMessage {
     color: #999;
     font-size: var(--fs-body-small);

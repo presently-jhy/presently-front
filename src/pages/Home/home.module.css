@@ -1,66 +1,66 @@
 .homecontainer {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .logoText {
-  font-size: calc(48rem / 16);
-  font-family: var(--font-logo);
-  margin-bottom: 4.2vh;
+    font-size: calc(48rem / 16);
+    font-family: var(--font-logo);
+    margin-bottom: 4.2vh;
 }
 
 .subText {
-  font-size: var(--fs-h4);
-  font-family: var(--font-primary);
-  font-weight: var(--fw-h4);
-  line-height: var(--lh-h4);
-  margin-bottom: 2.6vh;
+    font-size: var(--fs-h4);
+    font-family: var(--font-primary);
+    font-weight: var(--fw-h4);
+    line-height: var(--lh-h4);
+    margin-bottom: 2.6vh;
 }
 
 .giftDiv {
-  margin-bottom: -2.6vh;
+    margin-bottom: -2.6vh;
 }
 
 .giftImg {
-  width: calc(220rem / 16);
+    width: calc(220rem / 16);
 }
 
 .goButton {
-  width: calc(230rem / 16);
-  height: calc(49rem / 16);
-  border-radius: 30px;
-  background-color: #7d57b1;
-  color: white;
-
-  font-size: calc(20rem / 16);
-  font-family: var(--font-primary);
+    width: calc(230rem / 16);
+    height: calc(49rem / 16);
+    border-radius: 30px;
+    background-color: #7d57b1;
+    color: white;
+    font-size: calc(20rem / 16);
+    font-family: var(--font-primary);
 }
 .googleLoginImg {
-  width: calc(231rem / 16);
+    width: calc(231rem / 16);
+    margin-bottom: 10px;
 }
 .kakaoLoginImg {
-  width: calc(231rem / 16);
+    width: calc(231rem / 16);
 }
 
 .googleLoginDiv {
-  width: calc(231rem / 16);
-  height: calc(53rem / 16);
+    width: calc(231rem / 16);
+    height: calc(53rem / 16);
 }
 
 .kakaoLoginDiv {
-  width: calc(231rem / 16);
-  height: calc(53rem / 16);
-  margin-bottom: 5.86vh;
+    width: calc(231rem / 16);
+    height: calc(53rem / 16);
+    margin-bottom: 5.86vh;
 }
 
 .captionText {
-  font-size: var(--fs-caption);
-  font-family: var(--font-primary);
-  line-height: var(--lh-caption);
-  font-weight: var(--fw-caption);
+    font-size: var(--fs-caption);
+    font-family: var(--font-primary);
+    line-height: var(--lh-caption);
+    font-weight: var(--fw-caption);
 
-  text-align: center;
+    text-align: center;
 }

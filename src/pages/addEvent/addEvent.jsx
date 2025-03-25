@@ -26,7 +26,6 @@ function AddEvent() {
 
             {/* 메인 콘텐츠 영역 */}
             <div className={styles.content}>
-                {/* 기존 p 태그 대신, 여백때문에 span 태그를 사용해 두 줄로 분리해 스타일링 */}
                 <p className={styles.subtitle}>
                     <span className={styles.subtitleGray}>함께 기록하고 나누고 싶은</span>
                     <br />
@@ -36,7 +35,7 @@ function AddEvent() {
                 {/* 세 개의 이벤트 유형을 가로로 배치 */}
                 <div className={styles.eventContainer}>
                     {/* 기념일 */}
-                    <div className={styles.etcContainer}>
+                    <div className={styles.eventOption}>
                         <Link to="/addEventLog" state={{ eventType: 'anniversary' }} className={styles.eventTypeButton}>
                             <img src={anniversaryIcon} alt="기념일" />
                             <span>기념일</span>
@@ -44,7 +43,7 @@ function AddEvent() {
                     </div>
 
                     {/* 생일 */}
-                    <div className={styles.etcContainer}>
+                    <div className={styles.eventOption}>
                         <Link to="/addEventLog" state={{ eventType: 'birthday' }} className={styles.eventTypeButton}>
                             <img src={birthdayIcon} alt="생일" />
                             <span>생일</span>
@@ -52,7 +51,7 @@ function AddEvent() {
                     </div>
 
                     {/* 기타 */}
-                    <div className={styles.etcContainer}>
+                    <div className={styles.eventOption}>
                         <Link to="/addEventLog" state={{ eventType: 'etc' }} className={styles.eventTypeButton}>
                             <img src={etcIcon} alt="기타" />
                             <span>기타</span>

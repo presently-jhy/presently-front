@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import AddEvent from './pages/addEvent/addEvent';
 import AddEventLog from './pages/addEventLog/addEventLog';
 import GiftEnroll from './pages/GiftEnroll/GiftEnroll';
+import FundSend from './pages/FundSend/FundSend';
 
 export default function AppRouter() {
     return (
@@ -14,6 +15,7 @@ export default function AppRouter() {
                 <Route path="/addEvent" element={<AddEvent />} />
                 <Route path="/addEventLog" element={<AddEventLog />} />
                 <Route path="/giftenroll" element={<GiftEnroll />} />
+                <Route path="/fundsend" element={<FundSend />} />
             </Routes>
         </Router>
     );
