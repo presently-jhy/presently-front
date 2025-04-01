@@ -1,0 +1,225 @@
+@import '../../global.css'; /* 프로젝트 구조에 맞게 전역 스타일 import */
+
+/* 페이지 전체 컨테이너 */
+.container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-primary);
+}
+
+/* 헤더 영역 */
+.header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    margin-top: 30px;
+}
+
+/* 뒤로가기 버튼 */
+.backButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 80px;
+}
+
+.backButton img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+/* 페이지 제목 */
+.title {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-h2);
+    line-height: var(--lh-h2);
+}
+
+/* 이벤트명 (예: "2025 나의 생일") */
+.eventName {
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-h4);
+    line-height: var(--lh-h4);
+    color: #aaa;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 펀드 / 선물 탭 */
+.tabContainer {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* 탭 버튼 (기본 96 x 32로 예시) */
+.tabButton {
+    width: 96px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #fff; /* 기본은 흰색 */
+    color: #664fab; /* 보라 텍스트 */
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    border: 1px solid #664fab;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.tabButton:hover {
+    transform: translateY(-1px);
+}
+
+/* 활성 탭(보라 배경 + 흰 텍스트) */
+.activeTab {
+    background-color: #664fab;
+    color: #fff;
+}
+
+/* 받고 싶은 / 받기 싫은 / 받은 버튼들 */
+.receiveContainer {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+/* 각 버튼 (78 x 26) */
+.receiveButton {
+    width: 78px;
+    height: 26px;
+    border-radius: 6px;
+    background-color: #fff; /* 기본 흰색 */
+    color: #664fab;
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    border: 1px solid #664fab;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+.receiveButton:hover {
+    transform: translateY(-1px);
+}
+/* 활성화 시 보라 배경 + 흰 텍스트 */
+.receiveActive {
+    background-color: #664fab;
+    color: #fff;
+}
+
+/* 폼 (가로 폭 제한 & 중앙 정렬) */
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 340px;
+    margin: 0 auto;
+}
+
+/* 이미지 미리보기 + 카메라 아이콘 */
+.imageContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.exampleImage {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.cameraLabel {
+    position: absolute;
+    bottom: 0;
+    right: 28px;
+    cursor: pointer;
+}
+
+.cameraIcon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    margin-right: 80px;
+    margin-bottom: 2px;
+}
+
+.imageInput {
+    display: none;
+}
+
+/* 입력 그룹 (텍스트 필드들) */
+.inputGroup {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 6px; /* 텍스트 간격 6px */
+}
+
+/* 텍스트 입력 */
+.textInput {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    line-height: var(--lh-body-small);
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: #333;
+    width: 316px;
+    ::placeholder {
+        color: #999;
+    }
+}
+
+/* 텍스트영역 (설명) */
+.textArea {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    line-height: var(--lh-body-small);
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+    color: #333;
+    width: 316px;
+    ::placeholder {
+        color: #999;
+    }
+}
+
+/* 글자수 표시 */
+.charCount {
+    font-size: 0.8rem;
+    color: #999;
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+}
+
+/* 완료하기 버튼 */
+.submitButton {
+    background: linear-gradient(to right, #7d57b1, #594aa8);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 9999px;
+    font-size: var(--fs-button);
+    font-weight: var(--fw-button);
+    cursor: pointer;
+    transition: background 0.3s ease;
+    align-self: center;
+    width: 200px;
+    text-align: center;
+    margin-top: 12px;
+}
+
+.submitButton:hover {
+    opacity: 0.9;
+}

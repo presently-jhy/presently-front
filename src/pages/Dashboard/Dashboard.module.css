@@ -1,0 +1,89 @@
+/* 대시보드 페이지 전체 컨테이너 */
+.dashboardContainer {
+    padding: 24px;
+    box-sizing: border-box;
+    flex-direction: column;
+    background-color: #f8f9fa;
+    height: 100vh;
+}
+
+/*  헤더  */
+.header {
+    display: flex;
+    justify-content: space-between; /* 제목과 버튼을 양 끝으로 정렬 */
+    align-items: center;
+    margin-bottom: 24px;
+}
+/* 페이지 제목 */
+.pageTitle {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-h2);
+    line-height: var(--lh-h2);
+}
+.sortButtonWrapper {
+    display: flex;
+    justify-content: row;
+    margin-bottom: 16px;
+    margin-right: 300px;
+    width: calc(85rem / 16);
+}
+
+.sortButton {
+    width: 13px;
+    height: 8px;
+    margin-top: 8px;
+    margin-right: 5px;
+}
+
+.sortButtonText {
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-h4);
+    line-height: var(--lh-h4);
+    width: 100%;
+}
+
+/*  유저 버튼 */
+.userButton img {
+    width: 27px;
+    height: 17px;
+    cursor: pointer;
+}
+
+/* 이벤트 카드 목록 */
+.eventList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: calc(1rem / 16);
+    margin-bottom: 32px;
+    flex-direction: column;
+}
+
+/* 버튼을 감싸는 wrapper */
+.buttonWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 24px;
+}
+
+/* 버튼 스타일 */
+.button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.125rem;
+    color: white;
+    background: linear-gradient(to right, #7b2cbf, #4c1d95);
+    border-radius: 9999px;
+    text-decoration: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* 버튼 hover 효과 */
+.button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.eventLinkWrapper {
+    cursor: pointer;
+}

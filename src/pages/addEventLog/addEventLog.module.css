@@ -1,0 +1,178 @@
+@import '../../global.css';
+
+/* 전체 컨테이너 */
+.container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 헤더 영역 */
+.header {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 112px;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 80px;
+}
+
+.backButton img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.title {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-h2);
+    line-height: var(--lh-h2);
+}
+
+/* 토글 컨테이너 (펀드/선물 버튼) - 타이틀과 이미지 영역 사이 */
+.toggleContainer {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* 토글 버튼 (96px x 32px) */
+.toggleButton {
+    width: 96px;
+    height: 32px;
+    border-radius: 16px;
+    border: 2px solid currentColor;
+    background-color: #fff;
+    color: #664fab;
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.toggleButton:hover {
+    opacity: 0.8;
+}
+
+/* 활성 상태: 보라 배경, 흰색 텍스트 */
+.activeToggle {
+    background-color: #664fab;
+    color: #fff;
+}
+
+/* 중앙 이미지 영역 */
+.imageContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 60px;
+}
+
+.eventImage {
+    width: 157px;
+    height: 157px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.cameraLabel {
+    position: absolute;
+    bottom: 0;
+    right: 36px;
+    cursor: pointer;
+}
+
+.cameraIcon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    margin-right: 60px;
+}
+
+.imageInput {
+    display: none;
+}
+
+/* 입력 그룹 */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin-bottom: 6px;
+}
+
+.textInput {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    line-height: var(--lh-body-small);
+    padding: 12px;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    color: #333;
+    width: 316px;
+}
+
+.textInput::placeholder {
+    color: #999;
+}
+
+.textarea {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    line-height: var(--lh-body-small);
+    padding: 12px;
+    border: 1px solid #fff;
+    border-radius: 8px;
+    resize: none;
+    color: #333;
+    width: 316px;
+}
+
+.textarea::placeholder {
+    color: #999;
+}
+
+.charCount {
+    font-size: 0.8rem;
+    color: #999;
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+}
+
+/* 안내 문구 */
+.infoMessage {
+    color: #999;
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    line-height: var(--lh-body-small);
+    text-align: center;
+    margin-bottom: 63px;
+}
+
+/* 추가하기 버튼 */
+.submitButton {
+    background: linear-gradient(to right, #7b2cbf, #4c1d95);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 9999px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    align-self: center;
+    width: 200px;
+}
+
+.submitButton:hover {
+    background: linear-gradient(to right, #5a1f8c, #3a1270);
+}
