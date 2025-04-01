@@ -1,0 +1,126 @@
+/* 모달 배경 */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 모달 컨테이너(카드) */
+.modalContent {
+  width: 90%;
+  max-width: 350px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 닫기 버튼 (X) */
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: var(--fs-h3); /* 22px */
+  line-height: 1;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.imageCircleWrap {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin: 12px 0;
+}
+
+/* 원형 차트 영역 (펀딩 시 conic-gradient) */
+.progressCircle {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  position: relative;
+  background: #ededed; /* 선물이면 그냥 회색 원 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.previewImage {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+/* 원형 차트 위의 퍼센트 숫자 (펀딩 시) */
+.progressText {
+  position: absolute;
+  font-size: var(--fs-h4); /* 18px */
+  font-weight: var(--fw-semi-bold); /* 600 */
+  color: #fff;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* 제목 + 가격 */
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.giftTitle {
+  font-size: var(--fs-body-large); /* 16px */
+  font-weight: var(--fw-medium);
+  color: #000;
+}
+
+.giftPrice {
+  font-size: var(--fs-body-small); /* 14px */
+  font-weight: var(--fw-medium);
+  color: #333;
+}
+
+/* 설명 */
+.giftDescription {
+  font-size: var(--fs-body-small); /* 14px */
+  color: #666;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+/* 버튼들 */
+.detailButton {
+  font-size: var(--fs-body-small);
+  color: #666;
+  background: none;
+  border: none;
+  margin-bottom: 8px;
+  cursor: pointer;
+  text-decoration: underline;
+  align-self: center;
+}
+
+.actionButton {
+  font-size: var(--fs-body-small);
+  font-weight: var(--fw-medium);
+  color: #fff;
+  background: linear-gradient(to right, #a874ff, #b783ff);
+  border-radius: 8px;
+  padding: 12px 0;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+}
