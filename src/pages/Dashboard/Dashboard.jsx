@@ -36,7 +36,7 @@ const Dashboard = () => {
         <div className={styles.dashboardContainer}>
             <div className={styles.header}>
                 <h1 className={styles.pageTitle}>이벤트 목록</h1>
-                <Link to="/user" className={styles.userButton}>
+                <Link to="/setting" className={styles.userButton}>
                     <img src={userButton} alt="User Page" />
                 </Link>
             </div>
