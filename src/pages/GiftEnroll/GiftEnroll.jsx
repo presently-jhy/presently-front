@@ -81,7 +81,7 @@ function GiftEnroll() {
         const updatedGifts = [...existingGifts, newGift];
         localStorage.setItem('gifts', JSON.stringify(updatedGifts));
 
-        navigate('/dashboard');
+        navigate('/eventview');
     };
 
     return (
