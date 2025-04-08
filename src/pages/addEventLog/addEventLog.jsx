@@ -25,15 +25,16 @@ function AddEventLog() {
     // 선택된 eventType에 따라 기본 이미지를 반환하는 함수
     const getEventTypeImage = () => {
         if (selectedType === 'anniversary') return anniversaryImg;
-        if (selectedType === 'gift') return etcImg;
+        if (selectedType === 'etc') return etcImg;
+        if (selectedType === 'gift') return /* gift에 해당하는 이미지가 있다면 */;
         return birthdayImg;
     };
 
-    // 토글 버튼을 눌러 'fund' 또는 'gift'를 선택
+    // 펀드와 선물 토글 버튼 핸들러
     const handleSelectFund = () => setSelectedType('fund');
     const handleSelectGift = () => setSelectedType('gift');
 
-    // **문제 방지를 위해 한 번만 계산된 기본 이미지** (토글 시 재계산 방지)
+    // 한 번 계산된 기본 이미지 (토글 시 재계산 방지)
     const [defaultImage] = useState(() => getEventTypeImage());
 
     const handleBack = () => {
@@ -66,8 +67,13 @@ function AddEventLog() {
         const updatedEvents = [...existingEvents, newEvent];
         localStorage.setItem('events', JSON.stringify(updatedEvents));
 
-        // FundSend 페이지에 새 이벤트 데이터를 전달
-        navigate('/fundsend', { state: newEvent });
+        // 선택한 모드에 따라 페이지 분기 처리:
+        // 펀드 선택 시 FundSend로, 선물 선택 시 GiftEnroll으로 이동
+        if (selectedType === 'fund') {
+            navigate('/fundsend', { state: newEvent });
+        } else {
+            navigate('/giftenroll', { state: newEvent });
+        }
     };
 
     return (

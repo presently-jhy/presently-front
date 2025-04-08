@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Home.module.css';
 
-import gift from './gift.png';
+import gift from './gift2.png';
 import googleLoginImg from './google-icon.png';
 import kakaoLoginImg from './kakao-icon.png';
 

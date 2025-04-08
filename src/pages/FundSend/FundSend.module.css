@@ -1,21 +1,31 @@
 @import '../../global.css';
 
+/* 전역 box-sizing 적용 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 /* 전체 컨테이너 */
 .container {
     width: 100%;
+    max-width: 480px; /* 모바일 기준 최대 너비 */
+    margin: 0 auto;
     min-height: 100vh;
-    padding: 16px;
-    box-sizing: border-box;
+    padding: 1rem; /* 16px */
     display: flex;
     flex-direction: column;
     font-family: var(--font-primary);
 }
 
-/* 펀드 모드: 배경 보라 + 흰 텍스트, 선물 모드: 배경 흰색 + 보라 텍스트 */
+/* 모드별 스타일 */
+/* 펀드 모드: 배경 보라, 흰 텍스트 / 선물 모드: 배경 흰색, 보라 텍스트 */
 .fundMode {
     background-color: #664fab;
     color: #fff;
 }
+
 .giftMode {
     background-color: #f8f9fa;
     color: #664fab;
@@ -25,54 +35,60 @@
 .header {
     display: flex;
     align-items: center;
-    margin-top: 30px;
-    margin-bottom: 16px;
+    margin: 1.875rem 0 1rem; /* 위: 30px, 아래: 16px */
+    justify-content: flex-start;
 }
+
 .backButton {
     background: none;
     border: none;
     cursor: pointer;
-    margin-right: 16px;
+    margin-right: 1rem;
 }
+
 .backButton img {
-    width: 24px;
-    height: 24px;
+    width: 1.5rem; /* 24px */
+    height: 1.5rem;
     object-fit: contain;
 }
-/* 페이지 타이틀: 항상 검정 */
+
+/* 페이지 타이틀 (항상 검정색) */
 .pageTitle {
     font-size: var(--fs-h2);
     font-weight: var(--fw-h2);
     line-height: var(--lh-h2);
     color: #000;
-    margin-left: 50px;
+    margin-left: 1rem; /* 간격을 줄여서 버튼과 자연스럽게 연결 */
 }
 
 /* 이벤트 정보 영역 */
 .eventInfo {
     text-align: center;
-    margin-bottom: 16px;
+    margin: 0.5rem 0 1rem;
 }
+
 .eventTitle {
     font-size: var(--fs-h4);
     font-weight: var(--fw-h4);
-    color: #aaa;
-    margin-bottom: 4px;
-}
-.eventDate {
-    font-size: var(--fs-body-small);
-    color: #666;
+    color: #000;
+    margin-bottom: 0.25rem;
 }
 
-/* 중앙 워치 이미지 */
+.eventDate {
+    font-size: var(--fs-body-small);
+    color: #000;
+}
+
+/* 중앙 이미지 영역 */
 .watchImgWrapper {
     display: flex;
     justify-content: center;
-    margin-bottom: 16px;
+    margin: 1.5rem auto; /* 위아래 동일한 여백 */
 }
+
 .watchImg {
-    width: 140px;
-    height: 140px;
+    width: 8.75rem; /* 140px */
+    height: 8.75rem;
     object-fit: cover;
     border-radius: 50%;
 }
@@ -82,18 +98,18 @@
     font-size: var(--fs-h3);
     font-weight: var(--fw-h3);
     line-height: var(--lh-h3);
-    margin-bottom: 20px;
+    margin-bottom: 1.25rem;
     text-align: left;
 }
 
 /* inline 금액 입력 */
 .amountInlineInput {
-    width: 70px;
-    margin: 4px 6px;
-    padding: 4px 8px;
+    width: 5rem; /* 약간 넓게 조정 */
+    margin: 0 0.25rem; /* 좌우 여백 최소화 */
+    padding: 0.25rem 0.5rem;
     font-size: var(--fs-body-small);
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 0.375rem; /* 6px */
     text-align: right;
     outline: none;
 }
@@ -101,15 +117,15 @@
 /* 방명록 입력창 */
 .messageTextarea {
     width: 100%;
-    max-width: 340px;
-    margin: 0 auto 20px auto;
+    max-width: 21.25rem; /* 340px */
+    margin: 0 auto 1.25rem;
     display: block;
     font-size: var(--fs-body-small);
     font-weight: var(--fw-body-small);
     line-height: var(--lh-body-small);
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+    padding: 0.75rem;
+    border-radius: 0.5rem; /* 8px */
+    border: 1px solid #fff;
     resize: none;
     outline: none;
 }
@@ -119,44 +135,52 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-bottom: 12px;
+    margin-bottom: 30px;
+    margin-top: 0.75rem;
 }
+
 .nicknameInput {
-    width: 140px;
+    width: 8.75rem; /* 140px */
     font-size: var(--fs-h3);
     font-weight: var(--fw-h3);
     line-height: var(--lh-h3);
     text-align: right;
-    border: none;
-    background: transparent;
-    outline: none;
+    padding: 0.75rem;
+    border-radius: 0.5rem; /* 8px */
+    border: 1px solid #fff;
 }
+
 .nicknameSuffix {
-    margin-left: 4px;
+    margin-left: 0.25rem;
     font-size: var(--fs-h3);
     font-weight: var(--fw-h3);
 }
 
 /* 완료하기 버튼 */
 .submitButton {
-    width: 200px;
-    padding: 14px;
+    width: 12.5rem; /* 200px */
+    padding: 0.875rem;
     border-radius: 9999px;
     font-size: var(--fs-button);
     font-weight: var(--fw-button);
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: all 0.2s ease;
     border: none;
     align-self: center;
 }
+
 .fundMode .submitButton {
     background-color: #fff;
     color: #664fab;
 }
+
 .giftMode .submitButton {
     background: linear-gradient(to right, #7d57b1, #594aa8);
     color: #fff;
 }
-.submitButton:hover {
+
+.submitButton:hover,
+.submitButton:focus {
     opacity: 0.85;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2); /* 인터랙티브 효과 추가 */
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './GiftEnroll.module.css';
 import arrowIcon from './arrowIcon.png';
 import fundExampleImg from './fundExample.png';
@@ -8,11 +8,15 @@ import cameraIcon from './cameraIcon.png';
 
 function GiftEnroll() {
     const navigate = useNavigate();
+    const location = useLocation();
+    // AddEventLog에서 전달한 이벤트 데이터
+    const eventData = location.state;
 
-    // “펀드” / “선물” 중 어떤 걸 선택했는지 관리
-    const [selectedType, setSelectedType] = useState('fund');
+    // 이벤트 데이터에 따른 초기 선택값: eventType이 'gift'면 gift, 아니면 fund
+    const initialType = eventData?.eventType === 'gift' ? 'gift' : 'fund';
+    const [selectedType, setSelectedType] = useState(initialType);
 
-    // “받고 싶은 / 받기 싫은 / 받은”
+    // “받고 싶은 / 받기 싫은 / 받은” 상태
     const [receiveStatus, setReceiveStatus] = useState('want');
 
     // 업로드 이미지(base64)
@@ -33,12 +37,12 @@ function GiftEnroll() {
     const handleSelectFund = () => setSelectedType('fund');
     const handleSelectGift = () => setSelectedType('gift');
 
-    // “받고 싶은 / 받기 싫은 / 받은”
+    // “받고 싶은 / 받기 싫은 / 받은” 선택
     const handleSelectWant = () => setReceiveStatus('want');
     const handleSelectUnwant = () => setReceiveStatus('unwant');
     const handleSelectDone = () => setReceiveStatus('done');
 
-    // 이미지 업로드
+    // 이미지 업로드 핸들러
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
@@ -55,32 +59,28 @@ function GiftEnroll() {
         return selectedType === 'fund' ? fundExampleImg : giftExampleImg;
     };
 
-    // 최종 미리보기 이미지: 업로드한 것 or 기본 예시
+    // 미리보기 이미지: 업로드한 것 or 기본 예시 이미지
     const previewImage = imageFile || getExampleImage();
 
-    // 폼 제출 -> 로컬 스토리지에 저장
+    // 폼 제출: 선물 데이터를 로컬 스토리지에 저장하고 Dashboard로 이동
     const handleSubmit = (e) => {
         e.preventDefault();
-        // 새 객체 생성
         const newGift = {
             id: Date.now(), // 임시 ID
-            selectedType, // "fund" or "gift"
+            selectedType, // "fund" 또는 "gift"
             receiveStatus, // "want", "unwant", "done"
             giftName,
             giftDescription,
             giftAmount,
             giftLink,
-            imageUrl: previewImage, // base64 or 예시 이미지
+            imageUrl: previewImage, // base64 또는 예시 이미지
+            eventId: eventData?.id || null, // 이벤트와 연결할 식별자
         };
 
-        // 기존 gifts 배열을 로컬 스토리지에서 불러옴
         const existingGifts = JSON.parse(localStorage.getItem('gifts')) || [];
-        // 새 gift 추가
         const updatedGifts = [...existingGifts, newGift];
-        // 다시 저장
         localStorage.setItem('gifts', JSON.stringify(updatedGifts));
 
-        // 완료 후 다른 페이지(예: /dashboard)로 이동
         navigate('/dashboard');
     };
 
@@ -94,8 +94,8 @@ function GiftEnroll() {
                 <h2 className={styles.title}>선물 등록</h2>
             </header>
 
-            {/* (예시) 이벤트명 */}
-            <div className={styles.eventName}>2025 나의 생일</div>
+            {/* 이벤트 정보 영역: AddEventLog에서 전달받은 이벤트명 표시 */}
+            <div className={styles.eventName}>{eventData?.eventName || '이벤트명'}</div>
 
             {/* 펀드 / 선물 탭 */}
             <div className={styles.tabContainer}>
@@ -138,7 +138,6 @@ function GiftEnroll() {
             {/* 이미지 업로드 / 미리보기 */}
             <div className={styles.imageContainer}>
                 <img src={previewImage} alt="예시" className={styles.exampleImage} />
-
                 <label htmlFor="imageFile" className={styles.cameraLabel}>
                     <img src={cameraIcon} alt="카메라 버튼" className={styles.cameraIcon} />
                 </label>

@@ -4,15 +4,15 @@ import styles from './FundSend.module.css';
 import arrowIcon from './arrowIcon.png';
 import watchImg from './watch.png'; // 기본 이벤트 이미지
 
-// 기본 이벤트 데이터 (없을 경우 사용할 기본값)
+// 기본 이벤트 데이터 (전달받은 데이터가 없을 경우 사용할 기본값)
 const defaultEventData = {
     id: 0,
-    eventTitle: '애플워치 울트라', // H2 스타일
-    eventName: '2025 나의 생일', // H4, Bold, Gray
+    eventTitle: '애플워치 울트라',
+    eventName: '2025 나의 생일',
     eventDate: '2025-06-15',
     eventImg: watchImg,
     eventType: 'fund', // 'fund' 또는 'gift'
-    eventDescription: '행복한 추억', // 최대 30자 (AddEventLog에서 입력)
+    eventDescription: '행복한 추억',
     eventView: 0,
     eventPresent: 0,
     nickname: '',
@@ -22,12 +22,20 @@ function FundSend() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // location.state로 전달받은 이벤트 데이터가 있으면 사용, 없으면 기본값
-    const passedEvent = location.state;
-    const [eventData, setEventData] = useState(passedEvent || defaultEventData);
-    const isFundMode = eventData.eventType === 'fund';
+    // 전달받은 state를 분해합니다.
+    // 만약 { eventData, gift } 형태로 전달된다면 gift가 우선적으로 모드를 결정하게 할 수 있습니다.
+    const passedState = location.state || {};
+    // eventData는 passedState.eventData가 있으면 사용, 없으면 passedState 자체를 eventData로 간주
+    const initialEventData = passedState.eventData || passedState || defaultEventData;
+    // gift 데이터가 전달되었으면 추출 (없으면 null)
+    const passedGift = passedState.gift || null;
 
-    // 입력 상태: 금액, 닉네임, 방명록
+    // FundSend 모드 결정: gift 데이터가 있으면 gift.selectedType을 참고하고, 그렇지 않으면 eventData.eventType을 사용
+    const isFundMode = passedGift ? passedGift.selectedType === 'fund' : initialEventData.eventType === 'fund';
+
+    // 상태 초기화
+    const [eventData, setEventData] = useState(initialEventData);
+    const [giftData, setGiftData] = useState(passedGift);
     const [amount, setAmount] = useState('');
     const [nickname, setNickname] = useState('');
     const [message, setMessage] = useState('');
@@ -37,17 +45,14 @@ function FundSend() {
         window.history.back();
     };
 
-    // 폼 제출: 로컬스토리지의 해당 이벤트를 업데이트하고 Dashboard로 이동
+    // 폼 제출: localStorage의 이벤트 데이터를 업데이트한 후 Dashboard로 이동
     const handleSubmit = (e) => {
         e.preventDefault();
         const storedEvents = JSON.parse(localStorage.getItem('events')) || [];
         const updatedEvents = storedEvents.map((evt) => {
             if (evt.id === eventData.id) {
-                // 조회수 증가
                 const newView = (evt.eventView || 0) + 1;
-                // 닉네임: 기존 닉네임이 없으면 FundSend에서 입력한 값 사용
                 const newNickname = evt.nickname || (nickname.trim() ? nickname : evt.nickname);
-                // eventPresent: 펀드일 경우, 금액(숫자)로 업데이트; 선물일 경우 1 증가
                 const newPresent = isFundMode ? Number(amount) || evt.eventPresent : (evt.eventPresent || 0) + 1;
                 return {
                     ...evt,
@@ -62,7 +67,7 @@ function FundSend() {
         navigate('/dashboard');
     };
 
-    // 상단 문장 구성: 줄바꿈 적용
+    // 상단 문장: 펀드 모드에서는 금액 입력 필드를, 선물 모드에서는 간단한 참여 메시지 표시
     const topText = isFundMode ? (
         <>
             {eventData.eventDescription}
@@ -91,7 +96,6 @@ function FundSend() {
                 <button className={styles.backButton} onClick={handleBack}>
                     <img src={arrowIcon} alt="뒤로가기" />
                 </button>
-                {/* 페이지 타이틀은 항상 검정색 */}
                 <h2 className={styles.pageTitle}>{eventData.eventName}</h2>
             </header>
 
@@ -118,7 +122,7 @@ function FundSend() {
                 rows={4}
             />
 
-            {/* 닉네임 입력 및 "이/가" 표시 (완료하기 버튼 바로 위, 오른쪽) */}
+            {/* 닉네임 입력 및 "이/가" 표시 */}
             <div className={styles.nicknameContainer}>
                 <input
                     type="text"

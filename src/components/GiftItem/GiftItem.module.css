@@ -1,75 +1,69 @@
 .giftItemContainer {
-  display: flex;
-  align-items: center;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  margin-bottom: 12px;
-  padding: 12px;
-  cursor: pointer; /* 클릭 가능하게 */
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    cursor: pointer;
 }
 
 .giftImage {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  border-radius: 6px;
-  margin-right: 12px;
+    width: 3.75rem; /* 60px */
+    height: 3.75rem;
+    object-fit: cover;
+    border-radius: 0.375rem;
+    margin-right: 0.75rem;
 }
 
 .textWrap {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .topLine {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
-/* 라벨 (펀딩/선물) */
 .typeBadge {
-  font-size: var(--fs-caption); /* 보통 12px */
-  font-weight: var(--fw-medium);
-  color: #fff;
-  padding: 2px 6px;
-  border-radius: 4px;
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    color: #fff;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
 }
 
-/* 펀딩 => 보라색 */
 .fundBadge {
-  background-color: #a874ff;
+    background-color: var(--primary-color);
 }
 
-/* 선물 => 분홍색 */
 .giftBadge {
-  background-color: #ff6fae;
+    background-color: var(--secondary-color);
 }
 
-/* 제목 */
 .itemTitle {
-  font-size: var(--fs-body-small); /* 14px */
-  font-weight: var(--fw-medium);
-  color: #000;
+    font-size: 0.875rem;
+    font-weight: var(--fw-medium);
+    color: #000;
 }
 
-/* 퍼센트 (펀딩률) */
 .fundingPercent {
-  font-size: var(--fs-caption); /* 12px */
-  font-weight: var(--fw-medium);
-  color: #ff5b5b;
+    font-size: var(--fs-caption);
+    font-weight: var(--fw-medium);
+    color: #ff5b5b;
 }
 
-/* 한 줄 설명 (길면 말줄임표 처리) */
 .itemDescription {
-  font-size: var(--fs-caption); /* 12px */
-  color: #999;
-  line-height: 1.4;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 240px; /* 말줄임 적용될 최대 너비 */
+    font-size: var(--fs-caption);
+    color: #999;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 15rem;
 }
