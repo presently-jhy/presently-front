@@ -177,3 +177,10 @@
 .submitButton:hover {
     background: linear-gradient(to right, #5a1f8c, #3a1270);
 }
+
+.inputGroups {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

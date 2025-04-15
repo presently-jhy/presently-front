@@ -8,68 +8,68 @@ import sortEventDate from './sortEventDate.png';
 const Dashboard = () => {
     const [events, setEvents] = useState([]);
     const navigate = useNavigate();
+    const currentUserId = 'user123';
 
     useEffect(() => {
-        const storedEvents = JSON.parse(localStorage.getItem('events')) || [];
-        setEvents(storedEvents);
+        const storedEvents = JSON.parse(localStorage.getItem('events'));
+        if (storedEvents && storedEvents.length > 0) {
+            setEvents(storedEvents);
+        } else {
+            fetch('/data/events.json')
+                .then((res) => res.json())
+                .then((data) => setEvents(data))
+                .catch((err) => {
+                    console.error('이벤트 불러오기 실패:', err);
+                    setEvents([]);
+                });
+        }
     }, []);
 
-    // 최신순 정렬
     const sortByNewest = () => {
         const sortedEvents = [...events].sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate));
         setEvents(sortedEvents);
     };
 
-    // 삭제 핸들러: 해당 인덱스 삭제
-    const handleDelete = (indexToDelete) => {
+    const handleDelete = (indexToDelete, e) => {
+        e.stopPropagation();
         const updatedEvents = events.filter((_, index) => index !== indexToDelete);
         setEvents(updatedEvents);
         localStorage.setItem('events', JSON.stringify(updatedEvents));
     };
 
-    // 이벤트 클릭 시 /eventview 페이지로 이동, 이벤트 데이터를 state로 전달
     const handleEventClick = (event) => {
         navigate('/eventview', { state: event });
     };
 
     return (
         <div className={styles.dashboardContainer}>
-            <div className={styles.header}>
+            <header className={styles.header}>
                 <h1 className={styles.pageTitle}>이벤트 목록</h1>
                 <Link to="/setting" className={styles.userButton}>
                     <img src={userButton} alt="User Page" />
                 </Link>
-            </div>
+            </header>
 
-            <div className={styles.sortButtonWrapper}>
-                <div>
-                    <img
-                        src={sortEventDate}
-                        alt="Sort by Newest"
-                        className={styles.sortButton}
-                        onClick={sortByNewest}
-                    />
-                </div>
+            <div className={styles.sortButtonWrapper} onClick={sortByNewest}>
+                <img src={sortEventDate} alt="Sort by Newest" className={styles.sortButton} />
                 <div className={styles.sortButtonText}>최신순</div>
             </div>
 
-            {/* 이벤트 카드 목록 */}
             <div className={styles.eventList}>
                 {events.map((event, index) => {
-                    // eventPresent: 펀드이면 입력한 금액, 선물이면 기본 1 (또는 별도 giftCount)
-                    const computedEventPresent = event.eventType === 'fund' ? event.giftAmount || 0 : 1;
+                    const isOwner = event.ownerId === currentUserId;
+                    // JSON에 저장된 조회수와 받은 선물 개수를 그대로 사용 (값이 없으면 0)
                     const computedEventView = event.eventView || 0;
+                    const receivedGiftCount = event.eventPresent || 0;
 
                     return (
                         <div key={index} onClick={() => handleEventClick(event)} className={styles.eventLinkWrapper}>
                             <Eventbox
                                 {...event}
                                 eventView={computedEventView}
-                                eventPresent={computedEventPresent}
-                                onDelete={(e) => {
-                                    e.stopPropagation();
-                                    handleDelete(index);
-                                }}
+                                eventPresent={receivedGiftCount}
+                                isOwner={isOwner}
+                                onDelete={(e) => handleDelete(index, e)}
                             />
                         </div>
                     );

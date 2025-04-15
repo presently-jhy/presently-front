@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import styles from './FundSend.module.css';
 import arrowIcon from './arrowIcon.png';
-import watchImg from './watch.png'; // 기본 이벤트 이미지
+import watchImg from './watch.png';
+import AmountDial from '../../components/AmountDial/AmountDial'; // AmountDial 임포트
 
 // 기본 이벤트 데이터 (전달받은 데이터가 없을 경우 사용할 기본값)
 const defaultEventData = {
@@ -11,7 +13,7 @@ const defaultEventData = {
     eventName: '2025 나의 생일',
     eventDate: '2025-06-15',
     eventImg: watchImg,
-    eventType: 'fund', // 'fund' 또는 'gift'
+    eventType: 'gift', // 선물 모드 기본값 (혹은 'fund')
     eventDescription: '행복한 추억',
     eventView: 0,
     eventPresent: 0,
@@ -22,37 +24,71 @@ function FundSend() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // 전달받은 state를 분해합니다.
-    // 만약 { eventData, gift } 형태로 전달된다면 gift가 우선적으로 모드를 결정하게 할 수 있습니다.
+    // 전달받은 state 분해
     const passedState = location.state || {};
-    // eventData는 passedState.eventData가 있으면 사용, 없으면 passedState 자체를 eventData로 간주
     const initialEventData = passedState.eventData || passedState || defaultEventData;
-    // gift 데이터가 전달되었으면 추출 (없으면 null)
     const passedGift = passedState.gift || null;
-
-    // FundSend 모드 결정: gift 데이터가 있으면 gift.selectedType을 참고하고, 그렇지 않으면 eventData.eventType을 사용
+    // gift 데이터가 전달되었으면 gift.selectedType 기준, 없으면 eventData.eventType 사용
     const isFundMode = passedGift ? passedGift.selectedType === 'fund' : initialEventData.eventType === 'fund';
 
     // 상태 초기화
-    const [eventData, setEventData] = useState(initialEventData);
-    const [giftData, setGiftData] = useState(passedGift);
+    const [eventData] = useState(initialEventData);
+    const [giftData] = useState(passedGift);
     const [amount, setAmount] = useState('');
     const [nickname, setNickname] = useState('');
     const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    // 추가: 다이얼 모달 토글 상태 (기본: false)
+    const [showDial, setShowDial] = useState(false);
 
-    // 뒤로가기
     const handleBack = () => {
         window.history.back();
     };
 
-    // 폼 제출: localStorage의 이벤트 데이터를 업데이트한 후 Dashboard로 이동
+    // 펀드 보내기 폼 제출 시, gift 객체의 currentAmount와 percent 업데이트
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // 기본 유효성 검사
+        if (!nickname.trim()) {
+            setError('닉네임을 입력해 주세요.');
+            return;
+        }
+        if (isFundMode) {
+            const numericAmount = Number(amount);
+            if (!numericAmount || numericAmount <= 0) {
+                setError('보낼 금액을 올바르게 입력해 주세요.');
+                return;
+            }
+        }
+
+        // gift 객체 업데이트 (펀드인 경우)
+        if (isFundMode && giftData) {
+            const storedGifts = JSON.parse(localStorage.getItem('gifts')) || [];
+            const updatedGifts = storedGifts.map((gift) => {
+                if (gift.id === giftData.id) {
+                    // 누적 금액 업데이트
+                    const newCurrentAmount = (gift.currentAmount || 0) + Number(amount);
+                    // 목표 금액(targetAmount)은 gift에 저장된 값 사용, 없으면 기본값 1,000,000
+                    const targetAmount = gift.targetAmount || 1000000;
+                    const newPercent = Math.min(100, (newCurrentAmount / targetAmount) * 100);
+                    return {
+                        ...gift,
+                        currentAmount: newCurrentAmount,
+                        percent: newPercent.toFixed(0) + '%',
+                    };
+                }
+                return gift;
+            });
+            localStorage.setItem('gifts', JSON.stringify(updatedGifts));
+        }
+
+        // 이벤트 업데이트 처리 (기존 로직)
         const storedEvents = JSON.parse(localStorage.getItem('events')) || [];
         const updatedEvents = storedEvents.map((evt) => {
             if (evt.id === eventData.id) {
                 const newView = (evt.eventView || 0) + 1;
-                const newNickname = evt.nickname || (nickname.trim() ? nickname : evt.nickname);
+                const newNickname = nickname.trim() ? nickname : evt.nickname;
                 const newPresent = isFundMode ? Number(amount) || evt.eventPresent : (evt.eventPresent || 0) + 1;
                 return {
                     ...evt,
@@ -64,29 +100,36 @@ function FundSend() {
             return evt;
         });
         localStorage.setItem('events', JSON.stringify(updatedEvents));
+
+        // 제출 후 대시보드로 이동
         navigate('/dashboard');
     };
 
-    // 상단 문장: 펀드 모드에서는 금액 입력 필드를, 선물 모드에서는 간단한 참여 메시지 표시
-    const topText = isFundMode ? (
-        <>
-            {eventData.eventDescription}
+    // 상단 콘텐츠: 펀드 모드에서는 기본 인라인 입력창을 보여주고, 포커스 시 슬라이더 모달 토글
+    const topContent = isFundMode ? (
+        <div>
+            <span className={styles.eventDescription}>{eventData.eventDescription}</span>
             <br />
-            <input
-                type="text"
-                className={styles.amountInlineInput}
-                placeholder="10,000"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-            />
-            원 보냅니다.
-        </>
+            <div className={styles.amountContainer}>
+                {!showDial && (
+                    <input
+                        type="text"
+                        className={styles.amountInlineInput}
+                        placeholder="10,000"
+                        value={amount}
+                        onFocus={() => setShowDial(true)}
+                        onChange={(e) => setAmount(e.target.value)}
+                    />
+                )}
+                <span className={styles.currency}>원 보냅니다.</span>
+            </div>
+        </div>
     ) : (
-        <>
-            {eventData.eventDescription}
+        <div>
+            <span className={styles.eventDescription}>{eventData.eventDescription}</span>
             <br />
-            참여합니다.
-        </>
+            <span className={styles.participationText}>정말 소중한 선물을 보내요!</span>
+        </div>
     );
 
     return (
@@ -99,19 +142,36 @@ function FundSend() {
                 <h2 className={styles.pageTitle}>{eventData.eventName}</h2>
             </header>
 
-            {/* 이벤트 정보 영역 */}
+            {/* 이벤트 정보 */}
             <div className={styles.eventInfo}>
                 <h4 className={styles.eventTitle}>{eventData.eventTitle}</h4>
                 <p className={styles.eventDate}>{eventData.eventDate}</p>
             </div>
 
             {/* 중앙 이미지 */}
-            <div className={styles.watchImgWrapper}>
-                <img src={eventData.eventImg} alt="이벤트 이미지" className={styles.watchImg} />
+            <div className={styles.imageWrapper}>
+                <img src={eventData.eventImg} alt="이벤트 이미지" className={styles.eventImg} />
             </div>
 
-            {/* 상단 문장 */}
-            <p className={styles.topText}>{topText}</p>
+            {/* 상단 콘텐츠 영역 */}
+            <div className={styles.topContent}>{topContent}</div>
+
+            {/* 다이얼 모달 (금액 입력 슬라이더) */}
+            {showDial && (
+                <div className={styles.sliderModal}>
+                    <div className={styles.sliderModalContent}>
+                        <AmountDial
+                            value={amount}
+                            setValue={setAmount}
+                            maxValue={giftData && giftData.targetAmount ? giftData.targetAmount : 1000000}
+                        />
+                        <div className={styles.sliderValue}>{parseInt(amount, 10).toLocaleString('ko-KR')}원</div>
+                        <button type="button" className={styles.closeDialButton} onClick={() => setShowDial(false)}>
+                            닫기
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {/* 방명록 입력 */}
             <textarea
@@ -122,7 +182,7 @@ function FundSend() {
                 rows={4}
             />
 
-            {/* 닉네임 입력 및 "이/가" 표시 */}
+            {/* 닉네임 입력 */}
             <div className={styles.nicknameContainer}>
                 <input
                     type="text"
@@ -134,10 +194,18 @@ function FundSend() {
                 <span className={styles.nicknameSuffix}>이/가</span>
             </div>
 
-            {/* 완료하기 버튼 */}
-            <button className={styles.submitButton} onClick={handleSubmit}>
-                완료하기
-            </button>
+            {/* 에러 메시지 */}
+            {error && <div className={styles.errorMessage}>{error}</div>}
+
+            {/* 제출 버튼 */}
+            <motion.button
+                className={styles.submitButton}
+                onClick={handleSubmit}
+                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.05 }}
+            >
+                {isFundMode ? '펀드 보내기' : '선물 보내기'}
+            </motion.button>
         </div>
     );
 }

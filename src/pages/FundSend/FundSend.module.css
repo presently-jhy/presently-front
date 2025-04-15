@@ -1,26 +1,14 @@
-@import '../../global.css';
-
-/* 전역 box-sizing 적용 */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-/* 전체 컨테이너 */
 .container {
     width: 100%;
-    max-width: 480px; /* 모바일 기준 최대 너비 */
+    max-width: 480px;
     margin: 0 auto;
     min-height: 100vh;
-    padding: 1rem; /* 16px */
+    padding: 1rem;
     display: flex;
     flex-direction: column;
     font-family: var(--font-primary);
 }
 
-/* 모드별 스타일 */
-/* 펀드 모드: 배경 보라, 흰 텍스트 / 선물 모드: 배경 흰색, 보라 텍스트 */
 .fundMode {
     background-color: #664fab;
     color: #fff;
@@ -31,11 +19,10 @@
     color: #664fab;
 }
 
-/* 헤더 영역 */
 .header {
     display: flex;
     align-items: center;
-    margin: 1.875rem 0 1rem; /* 위: 30px, 아래: 16px */
+    margin: 30px 0 16px;
     justify-content: flex-start;
 }
 
@@ -47,21 +34,19 @@
 }
 
 .backButton img {
-    width: 1.5rem; /* 24px */
-    height: 1.5rem;
+    width: 24px;
+    height: 24px;
     object-fit: contain;
 }
 
-/* 페이지 타이틀 (항상 검정색) */
 .pageTitle {
     font-size: var(--fs-h2);
     font-weight: var(--fw-h2);
     line-height: var(--lh-h2);
     color: #000;
-    margin-left: 1rem; /* 간격을 줄여서 버튼과 자연스럽게 연결 */
+    margin-left: 1rem;
 }
 
-/* 이벤트 정보 영역 */
 .eventInfo {
     text-align: center;
     margin: 0.5rem 0 1rem;
@@ -79,22 +64,20 @@
     color: #000;
 }
 
-/* 중앙 이미지 영역 */
-.watchImgWrapper {
+.imageWrapper {
     display: flex;
     justify-content: center;
-    margin: 1.5rem auto; /* 위아래 동일한 여백 */
+    margin: 1.5rem auto;
 }
 
-.watchImg {
-    width: 8.75rem; /* 140px */
-    height: 8.75rem;
+.eventImg {
+    width: 140px;
+    height: 140px;
     object-fit: cover;
     border-radius: 50%;
 }
 
-/* 상단 문장 (H3 스타일) */
-.topText {
+.topContent {
     font-size: var(--fs-h3);
     font-weight: var(--fw-h3);
     line-height: var(--lh-h3);
@@ -102,51 +85,105 @@
     text-align: left;
 }
 
-/* inline 금액 입력 */
+.eventDescription {
+    margin-bottom: 0.5rem;
+}
+
+.amountContainer {
+    display: flex;
+    align-items: center;
+}
+
+/* 인라인 입력창 */
 .amountInlineInput {
-    width: 5rem; /* 약간 넓게 조정 */
-    margin: 0 0.25rem; /* 좌우 여백 최소화 */
+    width: 5rem;
+    margin: 0 0.25rem;
     padding: 0.25rem 0.5rem;
     font-size: var(--fs-body-small);
     border: 1px solid #ccc;
-    border-radius: 0.375rem; /* 6px */
+    border-radius: 6px;
     text-align: right;
     outline: none;
+}
+
+.currency {
+    font-size: var(--fs-body-small);
+}
+
+/* 슬라이더 모달 (토글 시 나타나는 오버레이) */
+.sliderModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.sliderModalContent {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+}
+
+.sliderValue {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+    color: #333;
+}
+
+.closeDialButton {
+    margin-top: 1.5rem;
+    background: #664fab;
+    color: #fff;
+    border: none;
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.closeDialButton:hover {
+    background: #563d91;
 }
 
 /* 방명록 입력창 */
 .messageTextarea {
     width: 100%;
-    max-width: 21.25rem; /* 340px */
+    max-width: 340px;
     margin: 0 auto 1.25rem;
     display: block;
     font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    line-height: var(--lh-body-small);
     padding: 0.75rem;
-    border-radius: 0.5rem; /* 8px */
+    border-radius: 8px;
     border: 1px solid #fff;
     resize: none;
     outline: none;
 }
 
-/* 닉네임 입력 및 "이/가" 표시 */
 .nicknameContainer {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-bottom: 30px;
-    margin-top: 0.75rem;
+    margin: 0.75rem 0 30px;
 }
 
 .nicknameInput {
-    width: 8.75rem; /* 140px */
+    width: 140px;
     font-size: var(--fs-h3);
     font-weight: var(--fw-h3);
-    line-height: var(--lh-h3);
     text-align: right;
     padding: 0.75rem;
-    border-radius: 0.5rem; /* 8px */
+    border-radius: 8px;
     border: 1px solid #fff;
 }
 
@@ -156,9 +193,8 @@
     font-weight: var(--fw-h3);
 }
 
-/* 완료하기 버튼 */
 .submitButton {
-    width: 12.5rem; /* 200px */
+    width: 200px;
     padding: 0.875rem;
     border-radius: 9999px;
     font-size: var(--fs-button);
@@ -182,5 +218,12 @@
 .submitButton:hover,
 .submitButton:focus {
     opacity: 0.85;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2); /* 인터랙티브 효과 추가 */
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+}
+
+.errorMessage {
+    color: #ff4d4f;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 1rem;
 }

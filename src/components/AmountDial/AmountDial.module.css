@@ -1,0 +1,42 @@
+.dialContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2rem auto;
+    width: 250px;
+    height: 250px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dial {
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.dial.active {
+    transform: scale(1.1);
+}
+
+.progressArc {
+    fill: none;
+    stroke: #7d57b1;
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.knob {
+    fill: #aaa;
+    stroke: none;
+    cursor: pointer;
+}
+
+.dialText {
+    font-size: 1rem; /* 약간 작게 조정 */
+    fill: #7d57b1;
+    font-weight: 500;
+    dominant-baseline: middle;
+}

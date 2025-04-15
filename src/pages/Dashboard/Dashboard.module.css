@@ -1,33 +1,49 @@
 /* 대시보드 페이지 전체 컨테이너 */
 .dashboardContainer {
+    display: flex;
+    flex-direction: column;
     padding: 24px;
     box-sizing: border-box;
-    flex-direction: column;
     background-color: #f8f9fa;
-    height: 100vh;
+    min-height: 100vh;
 }
 
-/*  헤더  */
+/* 헤더 영역 */
 .header {
     display: flex;
-    justify-content: space-between; /* 제목과 버튼을 양 끝으로 정렬 */
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
 }
-/* 페이지 제목 */
+
+/* 페이지 제목 스타일 */
 .pageTitle {
     font-size: var(--fs-h2);
     font-weight: var(--fw-h2);
     line-height: var(--lh-h2);
 }
-.sortButtonWrapper {
-    display: flex;
-    justify-content: row;
-    margin-bottom: 16px;
-    margin-right: 300px;
-    width: calc(85rem / 16);
+
+/* 유저 버튼 이미지 */
+.userButton img {
+    width: 27px;
+    height: 17px;
+    cursor: pointer;
 }
 
+/* 정렬 버튼 wrapper: 아이콘과 텍스트를 함께 감싸 클릭 영역 확장 */
+.sortButtonWrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.sortButtonWrapper:hover {
+    transform: scale(1.03);
+}
+
+/* 정렬 버튼 아이콘 */
 .sortButton {
     width: 13px;
     height: 8px;
@@ -35,34 +51,37 @@
     margin-right: 5px;
 }
 
+/* 정렬 버튼 텍스트 */
 .sortButtonText {
     font-size: var(--fs-h4);
     font-weight: var(--fw-h4);
     line-height: var(--lh-h4);
-    width: 100%;
 }
 
-/*  유저 버튼 */
-.userButton img {
-    width: 27px;
-    height: 17px;
-    cursor: pointer;
-}
-
-/* 이벤트 카드 목록 */
+/* 이벤트 카드 목록 컨테이너 */
 .eventList {
     display: flex;
-    flex-wrap: wrap;
-    gap: calc(1rem / 16);
-    margin-bottom: 32px;
     flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 32px;
 }
 
-/* 버튼을 감싸는 wrapper */
+/* 이벤트 카드를 감싸는 클릭 영역 */
+.eventLinkWrapper {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.eventLinkWrapper:hover {
+    transform: translateY(-3px);
+}
+
+/* 하단 버튼 wrapper */
 .buttonWrapper {
     display: flex;
     justify-content: center;
     margin-top: 24px;
+    color: white;
 }
 
 /* 버튼 스타일 */
@@ -78,12 +97,7 @@
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
-/* 버튼 hover 효과 */
 .button:hover {
     transform: scale(1.05);
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-.eventLinkWrapper {
-    cursor: pointer;
 }

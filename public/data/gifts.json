@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1622559876543,
+        "selectedType": "gift",
+        "receiveStatus": "want",
+        "giftName": "황금 지팡이",
+        "giftDescription": "왕의 기운을 물씬 풍기는 황금 지팡이. 누군가에게 전해주면 마치 마법처럼, 치킨 맛이 난다는 소문이… (확실치는 않지만 즐거움 보장!)",
+        "giftAmount": 150000,
+        "imageUrl": "https://example.com/images/gift1.jpg",
+        "eventId": 1622551234567,
+        "percent": null
+    },
+    {
+        "id": 1622559876544,
+        "selectedType": "fund",
+        "receiveStatus": "want",
+        "giftName": "최신 스마트폰",
+        "giftDescription": "10년간 쌓인 사랑을 한 번에 보여줄 최신 스마트폰! 셀카를 찍으면 시간도 멈출지도 모릅니다. (자세한 건 사용 후 후기 참조)",
+        "giftAmount": 800000,
+        "imageUrl": "https://example.com/images/gift2.jpg",
+        "eventId": 1622551234568,
+        "percent": "40%"
+    },
+    {
+        "id": 1622559876545,
+        "selectedType": "gift",
+        "receiveStatus": "done",
+        "giftName": "대형 피자",
+        "giftDescription": "친구들과 모두 나눠 먹을 수 있는 기적의 대형 피자! '피자는 나눌수록 커진다'는 명언이 이 피자에 적용됩니다.",
+        "giftAmount": 20000,
+        "imageUrl": "https://example.com/images/gift3.jpg",
+        "eventId": 1622551234569,
+        "percent": null
+    }
+]
