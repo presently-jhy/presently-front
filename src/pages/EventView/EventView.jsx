@@ -1,3 +1,5 @@
+// src/pages/EventView/EventView.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -8,6 +10,7 @@ import styles from './EventView.module.css';
 import shareIcon from './shareIcon.svg';
 import defaultEventImg from './defaultEventImg.png';
 import editButtonImg from './editButton.png';
+import { ENDPOINTS } from '../../api/config';
 
 const giftItemVariants = {
     initial: { opacity: 0, scale: 0.95 },
@@ -15,7 +18,7 @@ const giftItemVariants = {
     exit: { opacity: 0, scale: 1.05, transition: { duration: 0.5 } },
 };
 
-const EventView = () => {
+function EventView() {
     const navigate = useNavigate();
     const location = useLocation();
     const eventData = location.state || {};
@@ -26,93 +29,105 @@ const EventView = () => {
     const [selectedGift, setSelectedGift] = useState(null);
     const [userMode, setUserMode] = useState('owner');
 
-    // 선물 데이터를 localStorage 또는 정적 JSON에서 불러오기
+    // 1) Mock 서버에서 해당 이벤트의 선물 목록 가져오기
     useEffect(() => {
-        if (eventData && eventData.id) {
-            const storedGifts = JSON.parse(localStorage.getItem('gifts'));
-            if (storedGifts && storedGifts.length > 0) {
-                const eventGifts = storedGifts.filter((gift) => gift.eventId === eventData.id);
-                setGifts(eventGifts);
-            } else {
-                fetch('/data/gifts.json')
-                    .then((res) => res.json())
-                    .then((allGifts) => {
-                        const eventGifts = allGifts.filter((gift) => gift.eventId === eventData.id);
-                        setGifts(eventGifts);
-                    })
-                    .catch((err) => {
-                        console.error('선물 데이터 로드 실패:', err);
-                        setGifts([]);
-                    });
-            }
-        }
+        if (!eventData.id) return;
+        fetch(`${ENDPOINTS.getGifts}?eventId=${eventData.id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                // feedbacks 빈 배열 보장
+                setGifts(data.map((g) => ({ ...g, feedbacks: g.feedbacks || [] })));
+            })
+            .catch((err) => {
+                console.error('선물 불러오기 실패:', err);
+                setGifts([]);
+            });
     }, [eventData]);
 
-    // 선물의 펀딩 달성률이 100%이면 애니메이션 후 자동 제거
+    // 2) (기존) 펀딩 100% 달성 시 receiveStatus -> 'done'
     useEffect(() => {
-        gifts.forEach((gift) => {
-            const percentValue = typeof gift.percent === 'string' ? parseInt(gift.percent, 10) : gift.percent;
-            if (percentValue === 100) {
-                setTimeout(() => {
-                    setGifts((prevGifts) => prevGifts.filter((g) => g.id !== gift.id));
-                }, 1000);
+        const stored = JSON.parse(localStorage.getItem('gifts')) || [];
+        let changed = false;
+        const updatedAll = stored.map((g) => {
+            const pct = typeof g.percent === 'string' ? parseInt(g.percent, 10) : g.percent;
+            if (g.selectedType === 'fund' && g.receiveStatus === 'want' && pct >= 100) {
+                changed = true;
+                return { ...g, receiveStatus: 'done' };
             }
+            return g;
         });
-    }, [gifts]);
-
-    const currentGiftList = gifts.filter((gift) => {
-        if (giftTab === 'want') return gift.receiveStatus === 'want';
-        if (giftTab === 'notwant') return gift.receiveStatus === 'unwant';
-        if (giftTab === 'received') return gift.receiveStatus === 'done';
-        return true;
-    });
+        if (changed) {
+            localStorage.setItem('gifts', JSON.stringify(updatedAll));
+            setGifts(
+                updatedAll
+                    .filter((g) => g.eventId === eventData.id)
+                    .map((g) => ({ ...g, feedbacks: g.feedbacks || [] }))
+            );
+        }
+    }, [gifts, eventData.id]);
 
     const handleUserModeToggle = () => {
         setUserMode((prev) => (prev === 'owner' ? 'giver' : 'owner'));
+        setSelectedGift(null);
     };
-
-    const handleAdd = () => {
-        navigate('/giftenroll', { state: eventData });
-    };
-
-    // 수정 기능: 수정 버튼 클릭 시 eventData에 id가 없으면 localStorage에서 찾아 전달하도록 함
+    const handleAdd = () => navigate('/giftenroll', { state: eventData });
     const handleEdit = () => {
         if (!eventData.id) {
-            // 만약 eventData에 id가 없다면 localStorage에서 해당 이벤트를 찾습니다.
-            const storedEvents = JSON.parse(localStorage.getItem('events')) || [];
-            const foundEvent = storedEvents.find(
-                (evt) => evt.eventName === eventData.eventName && evt.eventDate === eventData.eventDate
+            const stored = JSON.parse(localStorage.getItem('events')) || [];
+            const found = stored.find(
+                (e) => e.eventName === eventData.eventName && e.eventDate === eventData.eventDate
             );
-            if (foundEvent) {
-                // 수정 모드를 명시하기 위해 추가 플래그(mode: 'edit')를 넣어도 좋습니다.
-                navigate('/addEventLog', { state: { ...foundEvent, mode: 'edit' } });
-                return;
+            if (found) {
+                navigate('/addEventLog', { state: { ...found, mode: 'edit' } });
             } else {
                 alert('수정할 이벤트 데이터를 찾을 수 없습니다.');
-                return;
             }
+        } else {
+            navigate('/addEventLog', { state: { ...eventData, mode: 'edit' } });
         }
-        // eventData에 id가 이미 있다면 그대로 전달
-        navigate('/addEventLog', { state: { ...eventData, mode: 'edit' } });
     };
-
-    const handleGiftAction = () => {
-        if (!selectedGift) return;
-        const giftToRemove = selectedGift;
-        setGifts((prevGifts) => prevGifts.filter((g) => g.id !== giftToRemove.id));
-        setSelectedGift(null);
-        setTimeout(() => {
-            navigate('/fundsend', { state: { eventData, gift: giftToRemove } });
-        }, 800);
-    };
-
     const handleDeleteGift = (giftId, e) => {
         e.stopPropagation();
-        const allGifts = JSON.parse(localStorage.getItem('gifts')) || [];
-        const updatedGifts = allGifts.filter((gift) => gift.id !== giftId);
-        localStorage.setItem('gifts', JSON.stringify(updatedGifts));
-        setGifts(updatedGifts.filter((gift) => gift.eventId === eventData.id));
+        const all = JSON.parse(localStorage.getItem('gifts')) || [];
+        const filtered = all.filter((g) => g.id !== giftId);
+        localStorage.setItem('gifts', JSON.stringify(filtered));
+        setGifts(filtered.filter((g) => g.eventId === eventData.id));
     };
+    const handleGiftAction = () => {
+        if (!selectedGift) return;
+        const toSend = selectedGift;
+        setGifts((prev) => prev.filter((g) => g.id !== toSend.id));
+        setSelectedGift(null);
+        setTimeout(() => {
+            navigate('/fundsend', { state: { eventData, gift: toSend } });
+        }, 800);
+    };
+    const handleAcceptFeedback = (feedbackId) => {
+        const all = JSON.parse(localStorage.getItem('gifts')) || [];
+        const updatedAll = all.map((g) => {
+            if (g.id === selectedGift.id) {
+                return {
+                    ...g,
+                    feedbacks: (g.feedbacks || []).filter((fb) => fb.id !== feedbackId),
+                };
+            }
+            return g;
+        });
+        localStorage.setItem('gifts', JSON.stringify(updatedAll));
+        const eventGifts = updatedAll
+            .filter((g) => g.eventId === eventData.id)
+            .map((g) => ({ ...g, feedbacks: g.feedbacks || [] }));
+        setGifts(eventGifts);
+        setSelectedGift((prev) => prev && { ...prev, feedbacks: prev.feedbacks.filter((fb) => fb.id !== feedbackId) });
+    };
+    const handleRejectFeedback = handleAcceptFeedback;
+
+    const currentList = gifts.filter((g) => {
+        if (giftTab === 'want') return g.receiveStatus === 'want';
+        if (giftTab === 'notwant') return g.receiveStatus === 'unwant';
+        if (giftTab === 'received') return g.receiveStatus === 'done';
+        return false;
+    });
 
     return (
         <div className={styles.container}>
@@ -125,7 +140,7 @@ const EventView = () => {
             </div>
 
             <div className={styles.eventInfo}>
-                <img src={eventData.eventImg || defaultEventImg} alt="이벤트 이미지" className={styles.eventImage} />
+                <img src={eventData.eventImg || defaultEventImg} alt="이벤트" className={styles.eventImage} />
                 <div className={styles.eventTextBox}>
                     <div className={styles.hostName}>{eventData.hostName || '주최자'}</div>
                     <div className={styles.eventDate}>{eventData.eventDate || '날짜 정보 없음'}</div>
@@ -134,13 +149,14 @@ const EventView = () => {
                         {eventData.eventDescription || '이벤트 설명이 여기에 표시됩니다.'}
                     </div>
                 </div>
+
                 {userMode === 'owner' && (
                     <div className={styles.buttonGroup}>
                         <button className={styles.addButton} onClick={handleAdd}>
                             +
                         </button>
                         <button className={styles.editButton} onClick={handleEdit}>
-                            <img src={editButtonImg} alt="이벤트 수정" className={styles.editButtonImg} />
+                            <img src={editButtonImg} alt="이벤트 수정" />
                         </button>
                     </div>
                 )}
@@ -161,7 +177,7 @@ const EventView = () => {
                 </div>
             </div>
 
-            {mainTab === 'gift' && (
+            {mainTab === 'gift' ? (
                 <>
                     <div className={styles.subTabMenu}>
                         {['want', 'notwant', 'received'].map((tabType) => (
@@ -176,8 +192,8 @@ const EventView = () => {
                     </div>
                     <div className={styles.itemList}>
                         <AnimatePresence>
-                            {currentGiftList.length > 0 ? (
-                                currentGiftList.map((item) => (
+                            {currentList.length > 0 ? (
+                                currentList.map((item) => (
                                     <motion.div
                                         key={item.id}
                                         className={styles.giftItemWrapper}
@@ -192,10 +208,10 @@ const EventView = () => {
                                             title={item.giftName}
                                             description={item.giftDescription}
                                             image={item.imageUrl}
-                                            percent={item.percent}
+                                            percent={item.selectedType === 'fund' ? item.percent : null}
                                             onClick={() => setSelectedGift(item)}
                                         />
-                                        {userMode === 'owner' && (
+                                        {userMode === 'owner' && giftTab !== 'received' && (
                                             <button
                                                 className={styles.deleteButton}
                                                 onClick={(e) => handleDeleteGift(item.id, e)}
@@ -211,19 +227,22 @@ const EventView = () => {
                         </AnimatePresence>
                     </div>
                 </>
+            ) : (
+                <div className={styles.recordArea}>이벤트 기록이 여기에 표시됩니다.</div>
             )}
-
-            {mainTab === 'record' && <div className={styles.recordArea}>이벤트 기록이 여기에 표시됩니다.</div>}
 
             {selectedGift && (
                 <GiftPreview
                     gift={selectedGift}
+                    feedbacks={selectedGift.feedbacks}
+                    onAccept={handleAcceptFeedback}
+                    onReject={handleRejectFeedback}
                     onClose={() => setSelectedGift(null)}
                     onGiftAction={userMode === 'giver' ? handleGiftAction : null}
                 />
             )}
         </div>
     );
-};
+}
 
 export default EventView;

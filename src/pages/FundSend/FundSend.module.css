@@ -92,71 +92,33 @@
 .amountContainer {
     display: flex;
     align-items: center;
+    margin-bottom: 1rem;
 }
 
-/* 인라인 입력창 */
+/* 금액 입력 인풋 (원본명: .amountInlineInput) */
 .amountInlineInput {
-    width: 5rem;
-    margin: 0 0.25rem;
-    padding: 0.25rem 0.5rem;
-    font-size: var(--fs-body-small);
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    /* 기본 input 스타일을 지우고 통일감 있게 */
+    appearance: none;
+    border: 1px solid var(--purple-dark);
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 20px;
+    width: 6rem;
     text-align: right;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.amountInlineInput:focus {
     outline: none;
+    border-color: var(--purple);
+    box-shadow: 0 0 0 3px rgba(125, 87, 177, 0.2);
 }
 
+/* "원 보냅니다." 텍스트 */
 .currency {
-    font-size: var(--fs-body-small);
-}
-
-/* 슬라이더 모달 (토글 시 나타나는 오버레이) */
-.sliderModal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.sliderModalContent {
-    background: #fff;
-    padding: 2rem;
-    border-radius: 16px;
-    text-align: center;
-    width: 90%;
-    max-width: 500px;
-}
-
-.sliderValue {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-top: 1rem;
+    margin-left: 0.5rem;
+    font-size: 1rem;
     color: #333;
 }
-
-.closeDialButton {
-    margin-top: 1.5rem;
-    background: #664fab;
-    color: #fff;
-    border: none;
-    border-radius: 9999px;
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.closeDialButton:hover {
-    background: #563d91;
-}
-
-/* 방명록 입력창 */
 .messageTextarea {
     width: 100%;
     max-width: 340px;

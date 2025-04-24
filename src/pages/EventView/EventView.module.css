@@ -119,8 +119,8 @@
 }
 
 .editButtonImg {
-    width: 20px;
-    height: 20px;
+    width: 0.5rem;
+    height: 0.5rem;
     object-fit: contain;
 }
 

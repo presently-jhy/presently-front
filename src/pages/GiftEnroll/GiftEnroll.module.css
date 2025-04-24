@@ -127,6 +127,7 @@
     position: absolute;
     bottom: 0;
     right: 28px;
+    margin-right: 75px;
     cursor: pointer;
 }
 

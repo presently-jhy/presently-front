@@ -13,7 +13,6 @@ import styles from './GiftItem.module.css';
     }
 */
 const GiftItem = ({ type, title, description, image, percent, onClick }) => {
-    // 펀딩이면 보라색, 선물이면 분홍색
     const isFund = type === '펀딩';
     const isGift = type === '선물';
 
@@ -31,25 +30,17 @@ const GiftItem = ({ type, title, description, image, percent, onClick }) => {
             tabIndex={0}
             onKeyPress={handleKeyPress}
         >
-            {/* 왼쪽 60×60 이미지 */}
             <img src={image} alt={`${title} 이미지`} className={styles.giftImage} />
-
-            {/* 오른쪽 텍스트 영역 */}
             <div className={styles.textWrap}>
                 <div className={styles.topLine}>
-                    {/* 라벨 */}
                     <span
                         className={`${styles.typeBadge} ${isFund ? styles.fundBadge : isGift ? styles.giftBadge : ''}`}
                     >
                         {type}
                     </span>
-                    {/* 제목 */}
                     <span className={styles.itemTitle}>{title}</span>
-                    {/* 펀딩률 (있으면) */}
                     {percent && <span className={styles.fundingPercent}>{percent}</span>}
                 </div>
-
-                {/* 설명 (길면 말줄임 처리) */}
                 <p className={styles.itemDescription}>{description}</p>
             </div>
         </div>

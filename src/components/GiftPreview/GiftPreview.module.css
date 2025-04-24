@@ -1,10 +1,19 @@
+:root {
+    --purple-start: #a874ff;
+    --purple-end: #7d57b1;
+    --purple-dark: #664fab;
+    --gray-overlay: rgba(0, 0, 0, 0.3);
+    --gray-border: #ededed;
+    --white: #fff;
+    --radius-lg: 1rem;
+    --shadow-modal: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
 .modalOverlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    inset: 0;
+    background: var(--gray-overlay);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,107 +21,134 @@
 }
 
 .modalContent {
-    width: 90%;
-    max-width: 21.875rem; /* 350px */
-    background: #fff;
-    border-radius: 1rem;
-    padding: 1.25rem;
     position: relative;
+    width: 90%;
+    max-width: 360px;
+    padding: 1.5rem;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 3px solid transparent;
+    border-image: linear-gradient(135deg, var(--purple-start), var(--purple-end)) 1;
+    box-shadow: var(--shadow-modal);
     display: flex;
     flex-direction: column;
+    animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 .closeButton {
     position: absolute;
     top: 1rem;
     right: 1rem;
-    font-size: 1.375rem;
-    line-height: 1;
+    font-size: 1.5rem;
+    color: #999;
     background: none;
     border: none;
     cursor: pointer;
+    transition: color 0.2s;
+}
+.closeButton:hover {
+    color: var(--purple-dark);
 }
 
 .imageCircleWrap {
-    display: flex;
-    justify-content: center;
     position: relative;
-    margin: 0.75rem 0;
+    width: 180px;
+    height: 180px;
+    margin: 0 auto 1rem;
 }
 
 .progressCircle {
-    width: 11.25rem; /* 180px */
-    height: 11.25rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
-    background: #ededed;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+    background: var(--gray-border);
+    transition: background 0.3s ease;
+    z-index: 0;
 }
 
 .previewImage {
-    width: 6.25rem; /* 100px */
-    height: 6.25rem;
-    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%; /* progressCircle 안에서 60% 크기로 딱 들어맞음 */
+    height: 60%;
     border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1;
 }
 
 .progressText {
     position: absolute;
-    font-size: 1.125rem;
-    font-weight: var(--fw-semi-bold);
-    color: #fff;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    z-index: 2;
 }
 
 .titleRow {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    margin-bottom: 0.5rem;
+    align-items: baseline;
+    margin-bottom: 0.75rem;
 }
 
 .giftTitle {
-    font-size: 1rem;
-    font-weight: var(--fw-medium);
-    color: #000;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #333;
 }
 
 .giftPrice {
-    font-size: 0.875rem;
-    font-weight: var(--fw-medium);
-    color: #333;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--purple-dark);
 }
 
 .giftDescription {
     font-size: 0.875rem;
-    color: #666;
-    margin-bottom: 1rem;
     line-height: 1.4;
-}
-
-.detailButton {
-    font-size: 0.875rem;
-    color: #666;
-    background: none;
-    border: none;
-    margin-bottom: 0.5rem;
-    cursor: pointer;
-    text-decoration: underline;
-    align-self: center;
+    color: #555;
+    margin-bottom: 1.5rem;
 }
 
 .actionButton {
-    font-size: 0.875rem;
-    font-weight: var(--fw-medium);
-    color: #fff;
-    background: linear-gradient(to right, #a874ff, #b783ff);
-    border-radius: 0.5rem;
+    width: 100%;
     padding: 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
     text-align: center;
-    cursor: pointer;
     border: none;
+    border-radius: 0.75rem;
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    color: var(--white);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+.actionButton:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, var(--purple-end), var(--purple-dark));
+}
+
+.feedbackSection {
+    margin-top: 1.25rem; /* giftPreview under 에 바로 spacing */
 }
