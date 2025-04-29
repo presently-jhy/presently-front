@@ -4,7 +4,6 @@ import styles from './Dashboard.module.css';
 import Eventbox from '../../components/eventbox/Eventbox';
 import userButton from './userButton.png';
 import sortEventDate from './sortEventDate.png';
-import { ENDPOINTS } from '../../api/config';
 
 const Dashboard = () => {
     const [events, setEvents] = useState([]);
@@ -12,22 +11,35 @@ const Dashboard = () => {
     const currentUserId = 'user123';
 
     useEffect(() => {
-        // Mock 서버에서 이벤트 목록 가져오기
-        fetch(ENDPOINTS.getEvents)
-            .then((res) => res.json())
-            .then((data) => setEvents(data))
-            .catch((err) => {
-                console.error('이벤트 불러오기 실패:', err);
-                setEvents([]);
-            });
+        const storedEvents = JSON.parse(localStorage.getItem('events'));
+        if (storedEvents && storedEvents.length > 0) {
+            setEvents(storedEvents);
+        } else {
+            fetch('/data/events.json')
+                .then((res) => res.json())
+                .then((data) => setEvents(data))
+                .catch((err) => {
+                    console.error('이벤트 불러오기 실패:', err);
+                    setEvents([]);
+                });
+        }
     }, []);
 
     const sortByNewest = () => {
-        const sorted = [...events].sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate));
-        setEvents(sorted);
+        const sortedEvents = [...events].sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate));
+        setEvents(sortedEvents);
     };
 
-    // ... 이하 handleDelete, handleEventClick 그대로 ...
+    const handleDelete = (indexToDelete, e) => {
+        e.stopPropagation();
+        const updatedEvents = events.filter((_, index) => index !== indexToDelete);
+        setEvents(updatedEvents);
+        localStorage.setItem('events', JSON.stringify(updatedEvents));
+    };
+
+    const handleEventClick = (event) => {
+        navigate('/eventview', { state: event });
+    };
 
     return (
         <div className={styles.dashboardContainer}>
@@ -46,25 +58,18 @@ const Dashboard = () => {
             <div className={styles.eventList}>
                 {events.map((event, index) => {
                     const isOwner = event.ownerId === currentUserId;
-                    const viewCount = event.eventView || 0;
-                    const presentCount = event.eventPresent || 0;
+                    // JSON에 저장된 조회수와 받은 선물 개수를 그대로 사용 (값이 없으면 0)
+                    const computedEventView = event.eventView || 0;
+                    const receivedGiftCount = event.eventPresent || 0;
+
                     return (
-                        <div
-                            key={index}
-                            onClick={() => navigate('/eventview', { state: event })}
-                            className={styles.eventLinkWrapper}
-                        >
+                        <div key={index} onClick={() => handleEventClick(event)} className={styles.eventLinkWrapper}>
                             <Eventbox
                                 {...event}
-                                eventView={viewCount}
-                                eventPresent={presentCount}
+                                eventView={computedEventView}
+                                eventPresent={receivedGiftCount}
                                 isOwner={isOwner}
-                                onDelete={(e) => {
-                                    e.stopPropagation();
-                                    const updated = events.filter((_, i) => i !== index);
-                                    setEvents(updated);
-                                    localStorage.setItem('events', JSON.stringify(updated));
-                                }}
+                                onDelete={(e) => handleDelete(index, e)}
                             />
                         </div>
                     );

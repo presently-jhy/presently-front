@@ -119,8 +119,8 @@
 }
 
 .editButtonImg {
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 1.4rem;
+    height: 1.4rem;
     object-fit: contain;
 }
 
@@ -204,10 +204,35 @@
     cursor: pointer;
 }
 
-/* 레코드 영역 (이벤트 기록) */
-.recordArea {
-    padding: 1rem;
-    text-align: center;
+/* =========================
+   Empty State (공통 스타일)
+   ========================= */
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1rem;
+    margin: 1rem;
+    background: var(--background-light);
+    border-radius: var(--radius-lg);
+    color: #999;
+}
+.emptyState .icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.75rem;
+}
+.emptyState .text {
     font-size: var(--fs-body);
-    color: #333;
+    text-align: center;
+    line-height: 1.4;
+    max-width: 240px;
+}
+
+/* ============
+     Record Area
+     ============ */
+.recordArea {
+    flex: 1;
+    padding: 1rem;
 }

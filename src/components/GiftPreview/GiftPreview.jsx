@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './GiftPreview.module.css';
 import GiftFeedback from '../GiftFeedback/GiftFeedback';
-import { ENDPOINTS } from '../../api/config';
 
 function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGiftAction }) {
     if (!gift) return null;
@@ -19,8 +18,6 @@ function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGift
 
     const isFund = type === 'fund' || type === '펀딩';
     const [anim, setAnim] = useState(isFund ? 0 : 0);
-    // 서버에서 가져온 피드백
-    const [remoteFeedbacks, setRemoteFeedbacks] = useState(feedbacks);
 
     // 진행 퍼센트 애니메이션
     useEffect(() => {
@@ -34,16 +31,6 @@ function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGift
         }
         requestAnimationFrame(frame);
     }, [isFund, percent]);
-
-    // Mock 서버에서 최신 피드백 불러오기
-    useEffect(() => {
-        fetch(`${ENDPOINTS.getFeedbacks}?giftId=${gift.id}`)
-            .then((res) => res.json())
-            .then((data) => setRemoteFeedbacks(data))
-            .catch(() => {
-                /* 실패 시 기존 feedbacks 유지 */
-            });
-    }, [gift.id]);
 
     const angle = anim * 3.6;
     const display = isFund
@@ -83,10 +70,16 @@ function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGift
                     </button>
                 )}
 
-                {remoteFeedbacks.length > 0 && (
+                {feedbacks.length > 0 && (
                     <div className={styles.feedbackSection}>
-                        {remoteFeedbacks.map((fb) => (
-                            <GiftFeedback key={fb.id} feedback={fb} onAccept={onAccept} onReject={onReject} />
+                        {feedbacks.map((fb) => (
+                            <GiftFeedback
+                                key={fb.id}
+                                feedback={fb}
+                                type={type}
+                                onAccept={onAccept}
+                                onReject={onReject}
+                            />
                         ))}
                     </div>
                 )}

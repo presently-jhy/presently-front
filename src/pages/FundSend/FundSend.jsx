@@ -2,12 +2,10 @@
 
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import styles from './FundSend.module.css';
 import arrowIcon from './arrowIcon.png';
 import watchImg from './watch.png';
 
-// 기본 이벤트 데이터 (전달받은 데이터가 없을 경우...)
 const defaultEventData = {
     id: 0,
     eventTitle: '애플워치 울트라',
@@ -21,17 +19,15 @@ const defaultEventData = {
     nickname: '',
 };
 
-function FundSend() {
+export default function FundSend() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // 전달받은 state 분해
-    const passedState = location.state || {};
-    const initialEventData = passedState.eventData || passedState || defaultEventData;
-    const passedGift = passedState.gift || null;
+    const passed = location.state || {};
+    const initialEventData = passed.eventData || passed || defaultEventData;
+    const passedGift = passed.gift || null;
     const isFundMode = passedGift ? passedGift.selectedType === 'fund' : initialEventData.eventType === 'fund';
 
-    // 상태
     const [eventData] = useState(initialEventData);
     const [giftData] = useState(passedGift);
     const [amount, setAmount] = useState('');
@@ -57,42 +53,57 @@ function FundSend() {
             }
         }
 
-        // 1) gifts 업데이트
-        if (isFundMode && giftData) {
+        // update gifts in localStorage
+        if (giftData) {
             const stored = JSON.parse(localStorage.getItem('gifts')) || [];
             const updated = stored.map((g) => {
-                if (g.id === giftData.id) {
+                if (g.id !== giftData.id) return g;
+                if (isFundMode) {
+                    // 펀드: feedback 추가
                     const newCur = (g.currentAmount || 0) + num;
                     const tgt = g.targetAmount || 1000000;
-                    const pct = Math.min(100, (newCur / tgt) * 100).toFixed(0) + '%';
+                    const newPct = Math.min(100, (newCur / tgt) * 100).toFixed(0) + '%';
                     const fb = { id: Date.now(), amount: num, message: message.trim() };
-                    return { ...g, currentAmount: newCur, percent: pct, feedbacks: [...(g.feedbacks || []), fb] };
+                    return {
+                        ...g,
+                        currentAmount: newCur,
+                        percent: newPct,
+                        feedbacks: [...(g.feedbacks || []), fb],
+                    };
+                } else {
+                    // 선물: feedback 추가 without amount
+                    const fb = { id: Date.now(), message: message.trim() };
+                    return {
+                        ...g,
+                        feedbacks: [...(g.feedbacks || []), fb],
+                    };
                 }
-                return g;
             });
             localStorage.setItem('gifts', JSON.stringify(updated));
         }
 
-        // 2) events 업데이트
+        // update events in localStorage
         const evts = JSON.parse(localStorage.getItem('events')) || [];
         const evtsUpd = evts.map((evt) => {
-            if (evt.id === eventData.id) {
-                const view = (evt.eventView || 0) + 1;
-                const nick = nickname.trim() || evt.nickname;
-                const pres = isFundMode ? (evt.eventPresent || 0) + num : (evt.eventPresent || 0) + 1;
-                return { ...evt, eventView: view, eventPresent: pres, nickname: nick };
-            }
-            return evt;
+            if (evt.id !== eventData.id) return evt;
+            const newView = (evt.eventView || 0) + 1;
+            const nick = nickname.trim() || evt.nickname;
+            const pres = isFundMode ? (evt.eventPresent || 0) + num : (evt.eventPresent || 0) + 1;
+            return {
+                ...evt,
+                eventView: newView,
+                eventPresent: pres,
+                nickname: nick,
+            };
         });
         localStorage.setItem('events', JSON.stringify(evtsUpd));
 
-        // 3) EventView로 돌아가기 (모달 자동 오픈 가능)
-        navigate('/eventview', { state: { eventData, gift: giftData } });
+        // back to EventView
+        navigate('/eventview', { state: { ...eventData } });
     };
 
     return (
         <div className={`${styles.container} ${isFundMode ? styles.fundMode : styles.giftMode}`}>
-            {/* 헤더 */}
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
                     <img src={arrowIcon} alt="뒤로가기" />
@@ -100,47 +111,37 @@ function FundSend() {
                 <h2 className={styles.pageTitle}>{eventData.eventName}</h2>
             </header>
 
-            {/* 이벤트 정보 */}
             <div className={styles.eventInfo}>
                 <h4 className={styles.eventTitle}>{eventData.eventTitle}</h4>
                 <p className={styles.eventDate}>{eventData.eventDate}</p>
             </div>
 
-            {/* 이미지 */}
             <div className={styles.imageWrapper}>
                 <img src={eventData.eventImg} alt="이벤트 이미지" className={styles.eventImg} />
             </div>
 
-            {/* 금액 입력(PC: 키보드, Mobile: 숫자 키패드) */}
             {isFundMode && (
                 <div className={styles.amountContainer}>
                     <input
-                        type="text"
+                        type="number"
                         className={styles.amountInput}
-                        placeholder="10,000"
+                        placeholder="금액 입력"
                         value={amount}
-                        onChange={(e) => {
-                            // 숫자만 허용, 천 단위 콤마 없이 내부 저장
-                            const raw = e.target.value.replace(/[^0-9]/g, '');
-                            setAmount(raw);
-                        }}
+                        onChange={(e) => setAmount(e.target.value.replace(/\D/g, ''))}
                         inputMode="numeric"
-                        pattern="[0-9]*"
                     />
                     <span className={styles.currency}>원 보냅니다.</span>
                 </div>
             )}
 
-            {/* 방명록 */}
             <textarea
                 className={styles.messageTextarea}
                 placeholder="방명록 작성하기"
+                rows={4}
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                rows={4}
             />
 
-            {/* 닉네임 */}
             <div className={styles.nicknameContainer}>
                 <input
                     type="text"
@@ -152,20 +153,11 @@ function FundSend() {
                 <span className={styles.nicknameSuffix}>이/가</span>
             </div>
 
-            {/* 에러 */}
             {error && <div className={styles.errorMessage}>{error}</div>}
 
-            {/* 제출 */}
-            <motion.button
-                className={styles.submitButton}
-                onClick={handleSubmit}
-                whileTap={{ scale: 0.95 }}
-                whileHover={{ scale: 1.05 }}
-            >
+            <button className={styles.submitButton} onClick={handleSubmit}>
                 {isFundMode ? '펀드 보내기' : '선물 보내기'}
-            </motion.button>
+            </button>
         </div>
     );
 }
-
-export default FundSend;

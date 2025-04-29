@@ -10,7 +10,6 @@ import styles from './EventView.module.css';
 import shareIcon from './shareIcon.svg';
 import defaultEventImg from './defaultEventImg.png';
 import editButtonImg from './editButton.png';
-import { ENDPOINTS } from '../../api/config';
 
 const giftItemVariants = {
     initial: { opacity: 0, scale: 0.95 },
@@ -18,7 +17,7 @@ const giftItemVariants = {
     exit: { opacity: 0, scale: 1.05, transition: { duration: 0.5 } },
 };
 
-function EventView() {
+export default function EventView() {
     const navigate = useNavigate();
     const location = useLocation();
     const eventData = location.state || {};
@@ -29,26 +28,21 @@ function EventView() {
     const [selectedGift, setSelectedGift] = useState(null);
     const [userMode, setUserMode] = useState('owner');
 
-    // 1) Mock 서버에서 해당 이벤트의 선물 목록 가져오기
+    // 1) 로컬스토리지에서 이벤트별 선물 및 피드백 불러오기
     useEffect(() => {
         if (!eventData.id) return;
-        fetch(`${ENDPOINTS.getGifts}?eventId=${eventData.id}`)
-            .then((res) => res.json())
-            .then((data) => {
-                // feedbacks 빈 배열 보장
-                setGifts(data.map((g) => ({ ...g, feedbacks: g.feedbacks || [] })));
-            })
-            .catch((err) => {
-                console.error('선물 불러오기 실패:', err);
-                setGifts([]);
-            });
+        const all = JSON.parse(localStorage.getItem('gifts')) || [];
+        const eventGifts = all
+            .filter((g) => g.eventId === eventData.id)
+            .map((g) => ({ ...g, feedbacks: g.feedbacks || [] }));
+        setGifts(eventGifts);
     }, [eventData]);
 
-    // 2) (기존) 펀딩 100% 달성 시 receiveStatus -> 'done'
+    // 2) 펀딩 100% 달성 시 'want' → 'done'
     useEffect(() => {
         const stored = JSON.parse(localStorage.getItem('gifts')) || [];
         let changed = false;
-        const updatedAll = stored.map((g) => {
+        const updated = stored.map((g) => {
             const pct = typeof g.percent === 'string' ? parseInt(g.percent, 10) : g.percent;
             if (g.selectedType === 'fund' && g.receiveStatus === 'want' && pct >= 100) {
                 changed = true;
@@ -57,11 +51,9 @@ function EventView() {
             return g;
         });
         if (changed) {
-            localStorage.setItem('gifts', JSON.stringify(updatedAll));
+            localStorage.setItem('gifts', JSON.stringify(updated));
             setGifts(
-                updatedAll
-                    .filter((g) => g.eventId === eventData.id)
-                    .map((g) => ({ ...g, feedbacks: g.feedbacks || [] }))
+                updated.filter((g) => g.eventId === eventData.id).map((g) => ({ ...g, feedbacks: g.feedbacks || [] }))
             );
         }
     }, [gifts, eventData.id]);
@@ -70,7 +62,9 @@ function EventView() {
         setUserMode((prev) => (prev === 'owner' ? 'giver' : 'owner'));
         setSelectedGift(null);
     };
+
     const handleAdd = () => navigate('/giftenroll', { state: eventData });
+
     const handleEdit = () => {
         if (!eventData.id) {
             const stored = JSON.parse(localStorage.getItem('events')) || [];
@@ -86,13 +80,15 @@ function EventView() {
             navigate('/addEventLog', { state: { ...eventData, mode: 'edit' } });
         }
     };
+
     const handleDeleteGift = (giftId, e) => {
         e.stopPropagation();
         const all = JSON.parse(localStorage.getItem('gifts')) || [];
-        const filtered = all.filter((g) => g.id !== giftId);
-        localStorage.setItem('gifts', JSON.stringify(filtered));
-        setGifts(filtered.filter((g) => g.eventId === eventData.id));
+        const updatedAll = all.filter((g) => g.id !== giftId);
+        localStorage.setItem('gifts', JSON.stringify(updatedAll));
+        setGifts(updatedAll.filter((g) => g.eventId === eventData.id));
     };
+
     const handleGiftAction = () => {
         if (!selectedGift) return;
         const toSend = selectedGift;
@@ -102,25 +98,60 @@ function EventView() {
             navigate('/fundsend', { state: { eventData, gift: toSend } });
         }, 800);
     };
+
+    // 3) 피드백 수락/완료 처리
     const handleAcceptFeedback = (feedbackId) => {
         const all = JSON.parse(localStorage.getItem('gifts')) || [];
         const updatedAll = all.map((g) => {
-            if (g.id === selectedGift.id) {
+            if (g.id !== selectedGift.id) return g;
+            // 해당 feedback 찾기
+            const fb = (g.feedbacks || []).find((x) => x.id === feedbackId);
+            if (g.selectedType === 'fund' && fb) {
+                const newCur = (g.currentAmount || 0) + fb.amount;
+                const tgt = g.targetAmount || 1000000;
+                const newPct = Math.min(100, (newCur / tgt) * 100).toFixed(0) + '%';
                 return {
                     ...g,
-                    feedbacks: (g.feedbacks || []).filter((fb) => fb.id !== feedbackId),
+                    currentAmount: newCur,
+                    percent: newPct,
+                    feedbacks: g.feedbacks.filter((x) => x.id !== feedbackId),
+                };
+            } else {
+                // gift: 'want' → 'done'
+                return {
+                    ...g,
+                    receiveStatus: 'done',
+                    feedbacks: [],
                 };
             }
-            return g;
         });
         localStorage.setItem('gifts', JSON.stringify(updatedAll));
-        const eventGifts = updatedAll
-            .filter((g) => g.eventId === eventData.id)
-            .map((g) => ({ ...g, feedbacks: g.feedbacks || [] }));
-        setGifts(eventGifts);
-        setSelectedGift((prev) => prev && { ...prev, feedbacks: prev.feedbacks.filter((fb) => fb.id !== feedbackId) });
+        setGifts(
+            updatedAll.filter((g) => g.eventId === eventData.id).map((g) => ({ ...g, feedbacks: g.feedbacks || [] }))
+        );
+        setSelectedGift((prev) => {
+            if (!prev) return null;
+            return { ...updatedAll.find((g) => g.id === prev.id) };
+        });
     };
-    const handleRejectFeedback = handleAcceptFeedback;
+    const handleRejectFeedback = (feedbackId) => {
+        const all = JSON.parse(localStorage.getItem('gifts')) || [];
+        const updatedAll = all.map((g) => {
+            if (g.id !== selectedGift.id) return g;
+            return {
+                ...g,
+                feedbacks: (g.feedbacks || []).filter((f) => f.id !== feedbackId),
+            };
+        });
+        localStorage.setItem('gifts', JSON.stringify(updatedAll));
+        setGifts(
+            updatedAll.filter((g) => g.eventId === eventData.id).map((g) => ({ ...g, feedbacks: g.feedbacks || [] }))
+        );
+        setSelectedGift((prev) => {
+            if (!prev) return null;
+            return { ...updatedAll.find((g) => g.id === prev.id) };
+        });
+    };
 
     const currentList = gifts.filter((g) => {
         if (giftTab === 'want') return g.receiveStatus === 'want';
@@ -156,7 +187,7 @@ function EventView() {
                             +
                         </button>
                         <button className={styles.editButton} onClick={handleEdit}>
-                            <img src={editButtonImg} alt="이벤트 수정" />
+                            <img src={editButtonImg} alt="이벤트 수정" className={styles.editButtonImg} />
                         </button>
                     </div>
                 )}
@@ -190,6 +221,7 @@ function EventView() {
                             </div>
                         ))}
                     </div>
+
                     <div className={styles.itemList}>
                         <AnimatePresence>
                             {currentList.length > 0 ? (
@@ -222,13 +254,26 @@ function EventView() {
                                     </motion.div>
                                 ))
                             ) : (
-                                <p>등록된 선물이 없습니다.</p>
+                                <div className={styles.emptyState}>
+                                    <div className={styles.icon}>🎁</div>
+                                    <div className={styles.text}>
+                                        아직 등록된 선물이 없어요.
+                                        <br />⊕ 버튼으로 새로 추가해 보세요!
+                                    </div>
+                                </div>
                             )}
                         </AnimatePresence>
                     </div>
                 </>
             ) : (
-                <div className={styles.recordArea}>이벤트 기록이 여기에 표시됩니다.</div>
+                <div className={`${styles.recordArea} ${styles.emptyState}`}>
+                    <div className={styles.icon}>📝</div>
+                    <div className={styles.text}>
+                        아직 남긴 기록이 없어요.
+                        <br />
+                        이벤트를 즐기고 기록해 보세요!
+                    </div>
+                </div>
             )}
 
             {selectedGift && (
@@ -244,5 +289,3 @@ function EventView() {
         </div>
     );
 }
-
-export default EventView;
