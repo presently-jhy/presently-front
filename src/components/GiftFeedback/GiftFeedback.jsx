@@ -1,29 +1,43 @@
+// src/components/GiftFeedback/GiftFeedback.jsx
+
 import React from 'react';
 import styles from './GiftFeedback.module.css';
 
-const GiftFeedback = ({ feedback, type, onAccept, onReject }) => {
+export default function GiftFeedback({
+    feedback,
+    type, // 'fund' or 'gift'
+    onAccept,
+    onReject,
+}) {
     if (!feedback) return null;
+
+    const isFund = type === 'fund' || type === '펀딩';
+    const { id, nickname, message, amount, status } = feedback;
+
+    // 포맷된 금액 (펀드일 때만)
+    const formattedAmount = isFund && amount ? `${amount.toLocaleString('ko-KR')}원` : null;
 
     return (
         <div className={styles.container}>
+            {/* 닉네임 표시 */}
             <div className={styles.details}>
-                {/* fund 타입일 때만 금액 표시 */}
-                {type === 'fund' && feedback.amount != null && (
-                    <div className={styles.amount}>{feedback.amount.toLocaleString('ko-KR')}원</div>
-                )}
-                {feedback.message && <div className={styles.message}>{feedback.message}</div>}
+                <div className={styles.nick}>{nickname}님</div>
+                {formattedAmount && <div className={styles.amount}>{formattedAmount}</div>}
+                {message && <div className={styles.message}>{message}</div>}
             </div>
-            <div className={styles.actions}>
-                <button className={styles.acceptButton} onClick={() => onAccept(feedback.id)}>
-                    {/* fund는 '수락', gift는 '완료' */}
-                    {type === 'fund' ? '수락' : '완료'}
-                </button>
-                <button className={styles.rejectButton} onClick={() => onReject(feedback.id)}>
-                    거절
-                </button>
-            </div>
+
+            {status === 'pending' ? (
+                <div className={styles.actions}>
+                    <button className={styles.acceptButton} onClick={() => onAccept(id)}>
+                        수락
+                    </button>
+                    <button className={styles.rejectButton} onClick={() => onReject(id)}>
+                        거절
+                    </button>
+                </div>
+            ) : (
+                <div className={styles.statusBadge}>{status === 'accepted' ? '완료' : '거절됨'}</div>
+            )}
         </div>
     );
-};
-
-export default GiftFeedback;
+}

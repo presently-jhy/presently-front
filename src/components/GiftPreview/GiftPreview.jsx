@@ -1,8 +1,9 @@
+// src/components/GiftPreview/GiftPreview.jsx
 import React, { useState, useEffect } from 'react';
 import styles from './GiftPreview.module.css';
 import GiftFeedback from '../GiftFeedback/GiftFeedback';
 
-function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGiftAction }) {
+export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGiftAction }) {
     if (!gift) return null;
 
     const {
@@ -19,7 +20,6 @@ function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGift
     const isFund = type === 'fund' || type === '펀딩';
     const [anim, setAnim] = useState(isFund ? 0 : 0);
 
-    // 진행 퍼센트 애니메이션
     useEffect(() => {
         if (!isFund) return;
         const start = performance.now();
@@ -76,7 +76,7 @@ function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGift
                             <GiftFeedback
                                 key={fb.id}
                                 feedback={fb}
-                                type={type}
+                                type={type} // ← 여기 추가
                                 onAccept={onAccept}
                                 onReject={onReject}
                             />
@@ -87,5 +87,3 @@ function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGift
         </div>
     );
 }
-
-export default GiftPreview;

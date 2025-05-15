@@ -1,0 +1,27 @@
+/* src/components/Breadcrumb/Breadcrumb.module.css */
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.segment {
+    display: flex;
+    align-items: center;
+}
+
+.segment a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.segment a:hover {
+    text-decoration: underline;
+}
+
+.separator {
+    margin: 0 0.5rem;
+    color: #ccc;
+}

@@ -25,11 +25,10 @@ export default function FundSend() {
 
     const passed = location.state || {};
     const initialEventData = passed.eventData || passed || defaultEventData;
-    const passedGift = passed.gift || null;
-    const isFundMode = passedGift ? passedGift.selectedType === 'fund' : initialEventData.eventType === 'fund';
+    const giftData = passed.gift || null;
+    const isFundMode = giftData ? giftData.selectedType === 'fund' : initialEventData.eventType === 'fund';
 
     const [eventData] = useState(initialEventData);
-    const [giftData] = useState(passedGift);
     const [amount, setAmount] = useState('');
     const [nickname, setNickname] = useState('');
     const [message, setMessage] = useState('');
@@ -53,36 +52,36 @@ export default function FundSend() {
             }
         }
 
-        // update gifts in localStorage
         if (giftData) {
             const stored = JSON.parse(localStorage.getItem('gifts')) || [];
             const updated = stored.map((g) => {
                 if (g.id !== giftData.id) return g;
+                const baseFb = {
+                    id: Date.now(),
+                    message: message.trim(),
+                    nickname: nickname.trim(),
+                    status: 'pending',
+                };
                 if (isFundMode) {
-                    // 펀드: feedback 추가
                     const newCur = (g.currentAmount || 0) + num;
                     const tgt = g.targetAmount || 1000000;
                     const newPct = Math.min(100, (newCur / tgt) * 100).toFixed(0) + '%';
-                    const fb = { id: Date.now(), amount: num, message: message.trim() };
                     return {
                         ...g,
                         currentAmount: newCur,
                         percent: newPct,
-                        feedbacks: [...(g.feedbacks || []), fb],
+                        feedbacks: [...(g.feedbacks || []), { ...baseFb, amount: num }],
                     };
                 } else {
-                    // 선물: feedback 추가 without amount
-                    const fb = { id: Date.now(), message: message.trim() };
                     return {
                         ...g,
-                        feedbacks: [...(g.feedbacks || []), fb],
+                        feedbacks: [...(g.feedbacks || []), baseFb],
                     };
                 }
             });
             localStorage.setItem('gifts', JSON.stringify(updated));
         }
 
-        // update events in localStorage
         const evts = JSON.parse(localStorage.getItem('events')) || [];
         const evtsUpd = evts.map((evt) => {
             if (evt.id !== eventData.id) return evt;
@@ -98,8 +97,7 @@ export default function FundSend() {
         });
         localStorage.setItem('events', JSON.stringify(evtsUpd));
 
-        // back to EventView
-        navigate('/eventview', { state: { ...eventData } });
+        navigate('/eventview', { state: eventData });
     };
 
     return (
