@@ -1,4 +1,5 @@
 // src/components/GiftPreview/GiftPreview.jsx
+
 import React, { useState, useEffect } from 'react';
 import styles from './GiftPreview.module.css';
 import GiftFeedback from '../GiftFeedback/GiftFeedback';
@@ -76,7 +77,7 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
                             <GiftFeedback
                                 key={fb.id}
                                 feedback={fb}
-                                type={type} // ← 여기 추가
+                                type={type}
                                 onAccept={onAccept}
                                 onReject={onReject}
                             />

@@ -1,3 +1,5 @@
+/* src/pages/FundSend/FundSend.module.css */
+
 .container {
     width: 100%;
     max-width: 480px;
@@ -13,7 +15,6 @@
     background-color: #664fab;
     color: #fff;
 }
-
 .giftMode {
     background-color: #f8f9fa;
     color: #664fab;
@@ -23,7 +24,6 @@
     display: flex;
     align-items: center;
     margin: 30px 0 16px;
-    justify-content: flex-start;
 }
 
 .backButton {
@@ -32,36 +32,28 @@
     cursor: pointer;
     margin-right: 1rem;
 }
-
 .backButton img {
     width: 24px;
     height: 24px;
-    object-fit: contain;
 }
 
 .pageTitle {
     font-size: var(--fs-h2);
     font-weight: var(--fw-h2);
     line-height: var(--lh-h2);
-    color: #000;
-    margin-left: 1rem;
 }
 
 .eventInfo {
     text-align: center;
     margin: 0.5rem 0 1rem;
 }
-
 .eventTitle {
     font-size: var(--fs-h4);
     font-weight: var(--fw-h4);
-    color: #000;
     margin-bottom: 0.25rem;
 }
-
 .eventDate {
     font-size: var(--fs-body-small);
-    color: #000;
 }
 
 .imageWrapper {
@@ -69,7 +61,6 @@
     justify-content: center;
     margin: 1.5rem auto;
 }
-
 .eventImg {
     width: 140px;
     height: 140px;
@@ -77,48 +68,45 @@
     border-radius: 50%;
 }
 
-.topContent {
-    font-size: var(--fs-h3);
-    font-weight: var(--fw-h3);
-    line-height: var(--lh-h3);
-    margin-bottom: 1.25rem;
-    text-align: left;
-}
-
-.eventDescription {
-    margin-bottom: 0.5rem;
-}
-
+/* ─── 펀드 금액 입력 영역 ─── */
 .amountContainer {
     display: flex;
-    align-items: center;
+    flex-direction: column;
     margin-bottom: 1rem;
 }
-
-/* 금액 입력 인풋 (원본명: .amountInlineInput) */
-.amountInlineInput {
-    /* 기본 input 스타일을 지우고 통일감 있게 */
-    appearance: none;
-    border: 1px solid var(--purple-dark);
-    padding: 0.5rem 0.75rem;
+.amountLabel {
     font-size: 1rem;
-    border-radius: 20px;
-    width: 6rem;
-    text-align: right;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 0.5rem;
+    color: inherit;
 }
-.amountInlineInput:focus {
+.inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 24px;
+    padding: 0.5rem 1rem;
+}
+.amountInput {
+    flex: 1;
+    border: none;
     outline: none;
-    border-color: var(--purple);
-    box-shadow: 0 0 0 3px rgba(125, 87, 177, 0.2);
+    background: transparent;
+    font-size: 1.125rem;
+    color: #000;
 }
-
-/* "원 보냅니다." 텍스트 */
 .currency {
     margin-left: 0.5rem;
-    font-size: 1rem;
+    font-size: 1.125rem;
     color: #333;
 }
+.hint {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* ─── 메시지, 닉네임 ─── */
 .messageTextarea {
     width: 100%;
     max-width: 340px;
@@ -131,14 +119,12 @@
     resize: none;
     outline: none;
 }
-
 .nicknameContainer {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     margin: 0.75rem 0 30px;
 }
-
 .nicknameInput {
     width: 140px;
     font-size: var(--fs-h3);
@@ -148,13 +134,19 @@
     border-radius: 8px;
     border: 1px solid #fff;
 }
-
 .nicknameSuffix {
     margin-left: 0.25rem;
     font-size: var(--fs-h3);
     font-weight: var(--fw-h3);
 }
 
+/* ─── 제출 버튼 & 에러 ─── */
+.errorMessage {
+    color: #ff4d4f;
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
 .submitButton {
     width: 200px;
     padding: 0.875rem;
@@ -166,26 +158,16 @@
     border: none;
     align-self: center;
 }
-
 .fundMode .submitButton {
     background-color: #fff;
     color: #664fab;
 }
-
 .giftMode .submitButton {
     background: linear-gradient(to right, #7d57b1, #594aa8);
     color: #fff;
 }
-
 .submitButton:hover,
 .submitButton:focus {
     opacity: 0.85;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
-}
-
-.errorMessage {
-    color: #ff4d4f;
-    font-size: 0.9rem;
-    text-align: center;
-    margin-bottom: 1rem;
 }

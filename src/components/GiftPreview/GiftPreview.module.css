@@ -1,29 +1,35 @@
+/* src/components/GiftPreview/GiftPreview.module.css */
+
 :root {
     --purple-start: #a874ff;
     --purple-end: #7d57b1;
     --purple-dark: #664fab;
-    --gray-overlay: rgba(0, 0, 0, 0.3);
+    --gray-overlay: rgba(0, 0, 0, 0.4);
     --gray-border: #ededed;
     --white: #fff;
     --radius-lg: 1rem;
     --shadow-modal: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
+/* 배경을 반투명 검정으로만 유지, 블러 제거 */
 .modalOverlay {
     position: fixed;
     inset: 0;
     background: var(--gray-overlay);
-    backdrop-filter: blur(4px);
+    /* backdrop-filter: blur(4px);  ← 제거 */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999;
+    padding: 1rem; /* 화면 상하좌우 여백 확보 */
 }
 
+/* 모바일 기준 가로폭 90%, 세로 최대 80% */
 .modalContent {
     position: relative;
     width: 90%;
     max-width: 360px;
+    max-height: 80vh;
     padding: 1.5rem;
     background: var(--white);
     border-radius: var(--radius-lg);
@@ -32,6 +38,7 @@
     box-shadow: var(--shadow-modal);
     display: flex;
     flex-direction: column;
+    overflow-y: auto; /* 내용이 길면 스크롤 */
     animation: popIn 0.3s ease-out;
 }
 
@@ -61,10 +68,11 @@
     color: var(--purple-dark);
 }
 
+/* 원형 프로그레스 + 이미지 */
 .imageCircleWrap {
     position: relative;
-    width: 180px;
-    height: 180px;
+    width: 160px; /* 모바일에서 살짝 더 줄임 */
+    height: 160px;
     margin: 0 auto 1rem;
 }
 
@@ -85,7 +93,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 60%; /* progressCircle 안에서 60% 크기로 딱 들어맞음 */
+    width: 60%;
     height: 60%;
     border-radius: 50%;
     object-fit: cover;
@@ -98,7 +106,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: 600;
     color: #fff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
@@ -125,10 +133,10 @@
 }
 
 .giftDescription {
-    font-size: 0.875rem;
+    font-size: 0.9rem;
     line-height: 1.4;
     color: #555;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .actionButton {
@@ -150,5 +158,5 @@
 }
 
 .feedbackSection {
-    margin-top: 1.25rem; /* giftPreview under 에 바로 spacing */
+    margin-top: 1rem;
 }

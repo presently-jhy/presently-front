@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from './breadCrumb.module.css';
+import styles from './Breadcrumb.module.css';
 
-const breadCrumb = ({ paths }) => (
+const Breadcrumb = ({ paths }) => (
     <nav aria-label="breadcrumb" className={styles.breadcrumb}>
         {paths.map((p, idx) => (
             <span key={idx} className={styles.segment}>
@@ -12,4 +12,4 @@ const breadCrumb = ({ paths }) => (
         ))}
     </nav>
 );
-export default breadCrumb;
+export default Breadcrumb;
