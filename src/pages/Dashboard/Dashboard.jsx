@@ -1,3 +1,4 @@
+// src/pages/Dashboard.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Dashboard.module.css";
@@ -5,12 +6,12 @@ import Eventbox from "../../components/eventbox/Eventbox";
 import userButton from "./userButton.png";
 import sortEventDate from "./sortEventDate.png";
 import { useAuth } from "../../context/AuthContext";
-import { supabase } from "../../lib/supabaseClient"; // 경로 수정 주의
+import { supabase } from "../../lib/supabaseClient";
 
 const Dashboard = () => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate();
-  const { user, checking } = useAuth();
+  const { user, accessToken, checking } = useAuth();
 
   useEffect(() => {
     if (!checking && user) {
@@ -22,19 +23,42 @@ const Dashboard = () => {
   }, [user, checking, navigate]);
 
   useEffect(() => {
-    const storedEvents = JSON.parse(localStorage.getItem("events"));
-    if (storedEvents && storedEvents.length > 0) {
-      setEvents(storedEvents);
-    } else {
-      fetch("/data/events.json")
-        .then((res) => res.json())
-        .then((data) => setEvents(data))
-        .catch((err) => {
-          console.error("이벤트 불러오기 실패:", err);
-          setEvents([]);
-        });
-    }
-  }, []);
+    const fetchUserEvents = async () => {
+      if (!checking && user && accessToken) {
+        try {
+          const res = await fetch("https://rewftufssxzqgdqrsqlz.functions.supabase.co/get-user-events", {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          });
+
+          if (res.ok) {
+            const data = await res.json();
+
+            const mappedEvents = data.map((event) => ({
+              id: event.id,
+              eventName: event.title,
+              eventDescription: event.description,
+              eventDate: event.event_datetime?.split("T")[0],
+              eventImg: event.image_url,
+              eventView: event.event_view,
+              eventPresent: event.event_present,
+              eventCategory: event.event_category,
+              ownerId: event.creator_id,
+            }));
+
+            setEvents(mappedEvents);
+          } else {
+            console.error("이벤트 불러오기 실패:", await res.text());
+          }
+        } catch (error) {
+          console.error("이벤트 요청 에러:", error);
+        }
+      }
+    };
+
+    fetchUserEvents();
+  }, [user, accessToken, checking]);
 
   const sortByNewest = () => {
     const sortedEvents = [...events].sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate));
@@ -67,7 +91,6 @@ const Dashboard = () => {
         <Link to="/setting" className={styles.userButton}>
           <img src={userButton} alt="User Page" />
         </Link>
-        {/* ✅ 로그아웃 버튼 */}
         <span onClick={handleLogout} style={{ cursor: "pointer", marginLeft: "16px", fontWeight: "bold" }}>
           로그아웃
         </span>
