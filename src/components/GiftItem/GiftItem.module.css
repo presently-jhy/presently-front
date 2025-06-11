@@ -1,7 +1,10 @@
+/* src/components/GiftItem/GiftItem.module.css */
+
 .giftItemContainer {
+    position: relative; /* 우측 그룹을 위한 기준 */
     display: flex;
     align-items: center;
-    padding: 0.75rem;
+    padding: 0.75rem 1rem; /* 오른쪽 여백 확보 */
     border-radius: 0.75rem;
     background: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -9,11 +12,13 @@
     cursor: pointer;
     transition: transform 0.1s, box-shadow 0.2s;
 }
+
 .giftItemContainer:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* 왼쪽: 이미지 */
 .giftImage {
     width: 60px;
     height: 60px;
@@ -22,11 +27,13 @@
     flex-shrink: 0;
 }
 
+/* 중앙: 텍스트 영역 */
 .textWrap {
     margin-left: 0.75rem;
-    flex: 1;
+    flex: 1; /* 가능한 영역을 모두 차지 */
 }
 
+/* 상단: 타입 배지 + 제목 */
 .topLine {
     display: flex;
     align-items: center;
@@ -40,27 +47,23 @@
     border-radius: 0.5rem;
     color: #fff;
 }
+
 .fundBadge {
     background: #7d57b1;
 }
+
 .giftBadge {
     background: #ff6b81;
 }
 
 .itemTitle {
+    flex: 1; /* 길어지면 줄임표 */
     font-size: 1rem;
     font-weight: 500;
     color: #333;
-    flex: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.fundingPercent {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #7d57b1;
 }
 
 .itemDescription {
@@ -71,4 +74,49 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+}
+
+/* 오른쪽 그룹: 미니 원형 프로그래션 + 삭제 버튼 */
+.rightGroup {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 0.75rem; /* 중앙 텍스트와 간격 */
+    flex-shrink: 0; /* 축소되지 않도록 */
+}
+
+/* 미니 원형 프로그래션 */
+.miniProgressCircle {
+    width: 1.5rem; /* 삭제 버튼 크기와 동일 */
+    height: 1.5rem;
+    border-radius: 50%;
+    background: #ededed; /* 기본 배경 (0%일 때) */
+}
+
+/* 삭제 버튼 */
+.deleteButton {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.03);
+    color: rgba(0, 0, 0, 0.6);
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.deleteButton:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+.deleteButton:active {
+    background: rgba(0, 0, 0, 0.12);
+    transform: scale(0.92);
 }

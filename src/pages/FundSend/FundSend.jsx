@@ -1,6 +1,6 @@
 // src/pages/FundSend/FundSend.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './FundSend.module.css';
 import arrowIcon from './arrowIcon.png';
@@ -17,6 +17,7 @@ const defaultEventData = {
     eventView: 0,
     eventPresent: 0,
     nickname: '',
+    targetAmount: 1000000, // 기본 최대 펀딩 목표
 };
 
 export default function FundSend() {
@@ -25,20 +26,34 @@ export default function FundSend() {
 
     const passed = location.state || {};
     const initialEventData = passed.eventData || passed || defaultEventData;
-    const passedGift = passed.gift || null;
-    const isFundMode = passedGift ? passedGift.selectedType === 'fund' : initialEventData.eventType === 'fund';
+    const giftData = passed.gift || null;
+    const isFundMode = giftData ? giftData.selectedType === 'fund' : initialEventData.eventType === 'fund';
 
     const [eventData] = useState(initialEventData);
-    const [giftData] = useState(passedGift);
-    const [amount, setAmount] = useState('');
+    const [amount, setAmount] = useState(''); // 원 단위 숫자만 저장
     const [nickname, setNickname] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+
+    // 쉼표 찍힌 표시값
+    const formattedAmount = useMemo(() => {
+        if (!amount) return '';
+        const num = Number(amount);
+        return isNaN(num) ? '' : num.toLocaleString();
+    }, [amount]);
+
+    const handleAmountChange = (e) => {
+        // 숫자만 남기기
+        const raw = e.target.value.replace(/[^\d]/g, '');
+        setAmount(raw);
+        setError('');
+    };
 
     const handleBack = () => window.history.back();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
         if (!nickname.trim()) {
             setError('닉네임을 입력해 주세요.');
             return;
@@ -46,60 +61,53 @@ export default function FundSend() {
 
         let num = 0;
         if (isFundMode) {
-            num = Number(amount.replace(/,/g, ''));
-            if (!num || num <= 0) {
-                setError('보낼 금액을 올바르게 입력해 주세요.');
+            num = Number(amount);
+            if (!num || num < 1000) {
+                setError('1,000원 이상 입력해 주세요.');
+                return;
+            }
+            if (eventData.targetAmount && num > eventData.targetAmount) {
+                setError(`최대 ${eventData.targetAmount.toLocaleString()}원 이하로 입력해 주세요.`);
                 return;
             }
         }
 
-        // update gifts in localStorage
+        // 1) 피드백만 쌓기 (currentAmount/percent 누적은 수락 시 처리)
         if (giftData) {
             const stored = JSON.parse(localStorage.getItem('gifts')) || [];
-            const updated = stored.map((g) => {
+            const updatedGifts = stored.map((g) => {
                 if (g.id !== giftData.id) return g;
-                if (isFundMode) {
-                    // 펀드: feedback 추가
-                    const newCur = (g.currentAmount || 0) + num;
-                    const tgt = g.targetAmount || 1000000;
-                    const newPct = Math.min(100, (newCur / tgt) * 100).toFixed(0) + '%';
-                    const fb = { id: Date.now(), amount: num, message: message.trim() };
-                    return {
-                        ...g,
-                        currentAmount: newCur,
-                        percent: newPct,
-                        feedbacks: [...(g.feedbacks || []), fb],
-                    };
-                } else {
-                    // 선물: feedback 추가 without amount
-                    const fb = { id: Date.now(), message: message.trim() };
-                    return {
-                        ...g,
-                        feedbacks: [...(g.feedbacks || []), fb],
-                    };
-                }
+                const fb = {
+                    id: Date.now(),
+                    message: message.trim(),
+                    nickname: nickname.trim(),
+                    status: 'pending',
+                    ...(isFundMode && { amount: num }),
+                };
+                return {
+                    ...g,
+                    feedbacks: [...(g.feedbacks || []), fb],
+                };
             });
-            localStorage.setItem('gifts', JSON.stringify(updated));
+            localStorage.setItem('gifts', JSON.stringify(updatedGifts));
         }
 
-        // update events in localStorage
+        // 2) 이벤트 뷰 카운트만 +1 (펀드 present 증가도 수락 시 처리)
         const evts = JSON.parse(localStorage.getItem('events')) || [];
-        const evtsUpd = evts.map((evt) => {
+        const updatedEvents = evts.map((evt) => {
             if (evt.id !== eventData.id) return evt;
             const newView = (evt.eventView || 0) + 1;
-            const nick = nickname.trim() || evt.nickname;
-            const pres = isFundMode ? (evt.eventPresent || 0) + num : (evt.eventPresent || 0) + 1;
+            const newPresent = isFundMode ? evt.eventPresent || 0 : (evt.eventPresent || 0) + 1;
             return {
                 ...evt,
                 eventView: newView,
-                eventPresent: pres,
-                nickname: nick,
+                eventPresent: newPresent,
+                nickname: nickname.trim() || evt.nickname,
             };
         });
-        localStorage.setItem('events', JSON.stringify(evtsUpd));
+        localStorage.setItem('events', JSON.stringify(updatedEvents));
 
-        // back to EventView
-        navigate('/eventview', { state: { ...eventData } });
+        navigate('/eventview', { state: eventData });
     };
 
     return (
@@ -122,15 +130,24 @@ export default function FundSend() {
 
             {isFundMode && (
                 <div className={styles.amountContainer}>
-                    <input
-                        type="number"
-                        className={styles.amountInput}
-                        placeholder="금액 입력"
-                        value={amount}
-                        onChange={(e) => setAmount(e.target.value.replace(/\D/g, ''))}
-                        inputMode="numeric"
-                    />
-                    <span className={styles.currency}>원 보냅니다.</span>
+                    <label htmlFor="amountInput" className={styles.amountLabel}>
+                        금액
+                    </label>
+                    <div className={styles.inputWrapper}>
+                        <input
+                            id="amountInput"
+                            type="text"
+                            className={styles.amountInput}
+                            placeholder="0"
+                            value={formattedAmount}
+                            onChange={handleAmountChange}
+                            inputMode="numeric"
+                        />
+                        <span className={styles.currency}>원</span>
+                    </div>
+                    <div className={styles.hint}>
+                        최소 1,000원 이상, 최대 {eventData.targetAmount?.toLocaleString() || '제한 없음'}원
+                    </div>
                 </div>
             )}
 
