@@ -408,11 +408,7 @@ export default function EventView() {
                                                 <summary>피드백 {item.acceptedFeedbacks.length}개 보기</summary>
                                                 <div className={styles.feedbackHistory}>
                                                     {item.acceptedFeedbacks.map((fb) => (
-                                                        <GiftFeedback
-                                                            key={fb.id}
-                                                            feedback={fb}
-                                                            type={item.selectedType}
-                                                        />
+                                                        <GiftFeedback key={fb.id} feedback={fb} type="received" />
                                                     ))}
                                                 </div>
                                             </details>

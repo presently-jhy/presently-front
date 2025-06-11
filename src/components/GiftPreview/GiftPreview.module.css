@@ -1,30 +1,17 @@
 /* src/components/GiftPreview/GiftPreview.module.css */
+@import '../../global.css';
 
-:root {
-    --purple-start: #a874ff;
-    --purple-end: #7d57b1;
-    --purple-dark: #664fab;
-    --gray-overlay: rgba(0, 0, 0, 0.4);
-    --gray-border: #ededed;
-    --white: #fff;
-    --radius-lg: 1rem;
-    --shadow-modal: 0 8px 24px rgba(0, 0, 0, 0.2);
-}
-
-/* 배경을 반투명 검정으로만 유지, 블러 제거 */
 .modalOverlay {
     position: fixed;
     inset: 0;
-    background: var(--gray-overlay);
-    /* backdrop-filter: blur(4px);  ← 제거 */
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 999;
-    padding: 1rem; /* 화면 상하좌우 여백 확보 */
+    padding: 1rem;
 }
 
-/* 모바일 기준 가로폭 90%, 세로 최대 80% */
 .modalContent {
     position: relative;
     width: 90%;
@@ -35,10 +22,10 @@
     border-radius: var(--radius-lg);
     border: 3px solid transparent;
     border-image: linear-gradient(135deg, var(--purple-start), var(--purple-end)) 1;
-    box-shadow: var(--shadow-modal);
+    box-shadow: var(--shadow-dark);
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* 내용이 길면 스크롤 */
+    overflow-y: auto;
     animation: popIn 0.3s ease-out;
 }
 
@@ -68,10 +55,9 @@
     color: var(--purple-dark);
 }
 
-/* 원형 프로그레스 + 이미지 */
 .imageCircleWrap {
     position: relative;
-    width: 160px; /* 모바일에서 살짝 더 줄임 */
+    width: 160px;
     height: 160px;
     margin: 0 auto 1rem;
 }
@@ -83,7 +69,7 @@
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background: var(--gray-border);
+    background: var(--border-gray);
     transition: background 0.3s ease;
     z-index: 0;
 }
@@ -97,7 +83,7 @@
     height: 60%;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
     z-index: 1;
 }
 
@@ -106,9 +92,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #fff;
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-button);
+    color: var(--white);
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     z-index: 2;
 }
@@ -121,19 +107,19 @@
 }
 
 .giftTitle {
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #333;
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-h4);
+    color: var(--text-dark);
 }
 
 .giftPrice {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: var(--fs-body);
+    font-weight: var(--fw-body-small);
     color: var(--purple-dark);
 }
 
 .giftDescription {
-    font-size: 0.9rem;
+    font-size: var(--fs-body-small);
     line-height: 1.4;
     color: #555;
     margin-bottom: 1rem;
@@ -142,11 +128,11 @@
 .actionButton {
     width: 100%;
     padding: 0.75rem 0;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: var(--fs-body);
+    font-weight: var(--fw-button);
     text-align: center;
     border: none;
-    border-radius: 0.75rem;
+    border-radius: var(--radius-md);
     background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
     color: var(--white);
     cursor: pointer;

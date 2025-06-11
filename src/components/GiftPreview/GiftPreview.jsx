@@ -1,16 +1,14 @@
 // src/components/GiftPreview/GiftPreview.jsx
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './GiftPreview.module.css';
 import GiftFeedback from '../GiftFeedback/GiftFeedback';
 
 export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGiftAction }) {
     if (!gift) return null;
-
     const {
         selectedType: type,
         giftName: title,
-        giftDescription: description,
+        giftDescription: desc,
         imageUrl,
         targetAmount = 0,
         currentAmount = 0,
@@ -19,18 +17,23 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
     } = gift;
 
     const isFund = type === 'fund' || type === '펀딩';
-    const [anim, setAnim] = useState(isFund ? 0 : 0);
+    const [anim, setAnim] = useState(0);
+    const rafRef = useRef();
 
     useEffect(() => {
         if (!isFund) return;
-        const start = performance.now();
+        let start;
         const total = parseInt(percent.replace('%', ''), 10) || 0;
         function frame(now) {
+            if (!start) start = now;
             const progress = Math.min(1, (now - start) / 700);
             setAnim(Math.round(total * progress));
-            if (progress < 1) requestAnimationFrame(frame);
+            if (progress < 1) {
+                rafRef.current = requestAnimationFrame(frame);
+            }
         }
-        requestAnimationFrame(frame);
+        rafRef.current = requestAnimationFrame(frame);
+        return () => cancelAnimationFrame(rafRef.current);
     }, [isFund, percent]);
 
     const angle = anim * 3.6;
@@ -39,9 +42,9 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
         : `${price.toLocaleString()}원`;
 
     return (
-        <div className={styles.modalOverlay}>
+        <div className={styles.modalOverlay} role="dialog" aria-modal="true">
             <div className={styles.modalContent}>
-                <button className={styles.closeButton} onClick={onClose}>
+                <button className={styles.closeButton} onClick={onClose} aria-label="닫기">
                     &times;
                 </button>
 
@@ -50,8 +53,11 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
                         className={styles.progressCircle}
                         style={{
                             background: isFund
-                                ? `conic-gradient(var(--purple-start) ${angle}deg, var(--gray-border) 0deg)`
-                                : 'var(--gray-border)',
+                                ? `conic-gradient(
+                    var(--purple-start) ${angle}deg,
+                    var(--border-gray) ${angle}deg
+                  )`
+                                : 'var(--border-gray)',
                         }}
                     />
                     <img src={imageUrl} alt={title} className={styles.previewImage} />
@@ -63,7 +69,7 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
                     <span className={styles.giftPrice}>{display}</span>
                 </div>
 
-                <p className={styles.giftDescription}>{description}</p>
+                <p className={styles.giftDescription}>{desc}</p>
 
                 {onGiftAction && (
                     <button className={styles.actionButton} onClick={onGiftAction}>
