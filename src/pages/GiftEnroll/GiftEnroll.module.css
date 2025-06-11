@@ -1,0 +1,275 @@
+@import '../../global.css';
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-primary);
+}
+
+/* 헤더 */
+.header {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 24px;
+}
+
+.backButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 80px;
+}
+
+.backButton img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.title {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-h2);
+    line-height: var(--lh-h2);
+}
+
+/* 이벤트 이름 */
+.eventName {
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-h4);
+    line-height: var(--lh-h4);
+    color: #aaa;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* 펀드/선물 탭 */
+.tabContainer {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.tabButton {
+    width: 96px;
+    height: 32px;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #664fab;
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    border: 1px solid #664fab;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.tabButton:hover {
+    transform: translateY(-1px);
+}
+
+.activeTab {
+    background-color: #664fab;
+    color: #fff;
+}
+
+/* 받고 싶은 / 받기 싫은 / 받은 */
+.receiveContainer {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.receiveButton {
+    width: 78px;
+    height: 26px;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #664fab;
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    border: 1px solid #664fab;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+}
+
+.receiveButton:hover {
+    transform: translateY(-1px);
+}
+
+.receiveActive {
+    background-color: #664fab;
+    color: #fff;
+}
+
+/* 이미지 업로드 */
+.imageContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.exampleImage {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #eee;
+}
+
+.cameraLabel {
+    position: absolute;
+    bottom: 0;
+    right: 28px;
+    margin-right: 75px;
+    cursor: pointer;
+}
+
+.cameraIcon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    margin-right: 80px;
+    margin-bottom: 2px;
+}
+
+.imageInput {
+    display: none;
+}
+
+/* 폼 레이아웃 */
+.form {
+    display: flex;
+    flex-direction: column;
+    max-width: 340px;
+    margin: 0 auto;
+}
+
+.inputGroup {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 8px;
+}
+
+.textInput {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: #333;
+    width: 316px;
+}
+
+.textInput::placeholder {
+    color: #999;
+}
+
+.textArea {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-body-small);
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none;
+    color: #333;
+    width: 316px;
+}
+
+.textArea::placeholder {
+    color: #999;
+}
+
+.charCount {
+    font-size: 0.8rem;
+    color: #999;
+    position: absolute;
+    bottom: 8px;
+    right: 12px;
+}
+
+/* 금액 표시 영역 */
+.amountDisplay {
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.commaAmount {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.korAmount {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* 모바일: native number input 스타일 */
+.amountInputContainer {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.amountInput {
+    width: 100%;
+    max-width: 340px;
+    padding: 12px;
+    font-size: var(--fs-body-small);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* 숫자 키패드 (PC 전용) */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 12px;
+    width: 100%;
+    max-width: 340px;
+    margin: 0 auto 12px auto;
+}
+
+.keypadButton {
+    width: 100%;
+    padding: 16px 0;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.keypadButton:hover {
+    background-color: #e2e2e2;
+}
+
+/* 완료 버튼 */
+.submitButton {
+    background: linear-gradient(to right, #7d57b1, #594aa8);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 9999px;
+    font-size: var(--fs-button);
+    font-weight: var(--fw-button);
+    cursor: pointer;
+    transition: background 0.3s ease;
+    align-self: center;
+    width: 200px;
+    text-align: center;
+    margin-top: 12px;
+}
+
+.submitButton:hover {
+    opacity: 0.9;
+}

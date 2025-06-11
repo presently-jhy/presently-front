@@ -1,0 +1,117 @@
+/* src/components/GiftFeedback/GiftFeedback.module.css */
+@import '../../global.css';
+
+/* 기본 피드백 카드 */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg-lighter);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 1rem;
+}
+.details {
+    display: flex;
+    flex-direction: column;
+}
+.nick {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-h4);
+    color: var(--text-dark);
+    margin-bottom: 0.25rem;
+}
+.amount {
+    font-size: var(--fs-body);
+    font-weight: var(--fw-body-small);
+    color: var(--purple-dark);
+    margin-bottom: 0.25rem;
+}
+.message {
+    font-size: var(--fs-body-small);
+    color: #555;
+}
+.actions {
+    display: flex;
+    gap: 0.5rem;
+}
+.acceptButton,
+.rejectButton {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-body-small);
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.acceptButton {
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    color: var(--white);
+}
+.acceptButton:hover {
+    transform: scale(1.05);
+}
+.rejectButton {
+    background: var(--bg-lighter);
+    color: var(--text-dark);
+}
+.statusBadge {
+    padding: 0.25rem 0.6rem;
+    background: var(--purple-dark);
+    color: var(--white);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-body-small);
+}
+
+/* 받은 탭 전용 히스토리 카드 (모던 스타일) */
+.historyContainer {
+    display: flex;
+    align-items: flex-start;
+    background: linear-gradient(90deg, var(--bg-lighter) 0%, var(--bg-light) 100%);
+    border-left: 4px solid var(--purple-dark);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--shadow-light);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.historyContainer:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+.avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+    box-shadow: var(--shadow-light);
+}
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+}
+.nick {
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-h4);
+    color: var(--purple-dark);
+}
+.amount {
+    font-size: var(--fs-body);
+    font-weight: var(--fw-body-small);
+    color: var(--text-dark);
+}
+.message {
+    font-size: var(--fs-body-small);
+    color: #555;
+    line-height: 1.4;
+}
+.timestamp {
+    font-size: var(--fs-caption);
+    color: #888;
+    margin-top: 0.5rem;
+    align-self: flex-end;
+}

@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1622551234567,
+        "eventName": "엄혜영의 생일 파티",
+        "eventTitle": "돈좀주소",
+        "eventDate": "2025-04-30",
+        "eventImg": "https://example.com/images/event1.jpg",
+        "eventType": "gift",
+        "eventDescription": "은근 속이 좁다!",
+        "eventView": 42,
+        "eventPresent": 3,
+        "hostName": "엄...준식"
+    },
+    {
+        "id": 1622551234568,
+        "eventName": "결혼기념일 스페셜",
+        "eventTitle": "사랑과 웃음, 그리고 약간의 다툼의 10년",
+        "eventDate": "2025-05-01",
+        "eventImg": "https://example.com/images/event2.jpg",
+        "eventType": "fund",
+        "eventDescription": "10년간의 사랑, 때론 싸움, 그러나 결국 우리 둘은 우주여행을 꿈꾸는 사이! 웃음과 눈물이 공존하는 결혼 10주년 기념 대잔치입니다.",
+        "eventView": 100,
+        "eventPresent": 500000,
+        "hostName": "김철수 & 이영희"
+    },
+    {
+        "id": 1622551234569,
+        "eventName": "고슴도치 모임",
+        "eventTitle": "뾰족뾰족 파티 - 가시 대신 마음을 나누자",
+        "eventDate": "2025-06-20",
+        "eventImg": "https://example.com/images/event3.jpg",
+        "eventType": "gift",
+        "eventDescription": "고슴도치들이 모여서, 가시 대신 서로의 온기를 나누며 스파게티를 즐기는 특별한 날! ‘뾰족’한 매력으로 모두의 관심을 모읍니다.",
+        "eventView": 7,
+        "eventPresent": 1,
+        "hostName": "멋진 고슴도치"
+    }
+]

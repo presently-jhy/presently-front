@@ -1,0 +1,115 @@
+/* src/components/AmountDial/AmountDial.module.css */
+:root {
+    --purple-start: #a874ff;
+    --purple-end: #7d57b1;
+    --purple-dark: #664fab;
+    --gray-border: #ededed;
+    --white: #fff;
+    --radius-lg: 0.75rem;
+}
+
+.container {
+    width: 100%;
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.display {
+    text-align: center;
+    cursor: pointer;
+}
+.valueText {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--purple-dark);
+}
+.unit {
+    font-size: 1rem;
+    color: #555;
+}
+
+.editWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+.editInput {
+    width: 4rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-align: right;
+    border: none;
+    border-bottom: 2px solid var(--purple-dark);
+    background: transparent;
+}
+.confirmButton {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--white);
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+}
+.confirmButton:hover {
+    background: linear-gradient(135deg, var(--purple-end), var(--purple-dark));
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: var(--gray-border);
+    border-radius: 4px;
+    outline: none;
+}
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--purple-dark);
+    border: 2px solid var(--white);
+    margin-top: -6px;
+    cursor: pointer;
+}
+.slider:hover::-webkit-slider-thumb {
+    background: var(--purple-end);
+}
+
+.quickSelect {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.quickButton {
+    flex: 1;
+    padding: 0.5rem 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--purple-dark);
+    background: var(--white);
+    border: 1px solid var(--purple-dark);
+    border-radius: 9999px;
+    cursor: pointer;
+}
+.quickButton:hover {
+    background: var(--purple-dark);
+    color: var(--white);
+}
+
+/* disabled 처리 */
+.disabled {
+    filter: blur(4px);
+    pointer-events: none;
+    opacity: 0.6;
+}

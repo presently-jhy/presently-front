@@ -1,0 +1,129 @@
+@import '../../global.css';
+
+/* 전체 컨테이너 */
+.container {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-primary);
+}
+
+/* 헤더 영역 */
+.header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #eee; /* 구분선 (선택) */
+}
+.backButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 16px;
+}
+.backButton img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+.title {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-h2);
+    line-height: var(--lh-h2);
+}
+
+/* 폼 */
+.form {
+    flex: 1;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* 프로필 이미지 영역 */
+.profileImageContainer {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 16px;
+}
+
+/* 프로필 이미지 (원형) */
+.profileImage {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 50%;
+    /* 예시: 헤일로 효과 (원 둘레에 보라색 그림자) */
+    box-shadow: 0 0 0 3px #664fab;
+}
+
+/* 공란 상태일 때 보여줄 원형 */
+.blankProfileImage {
+    width: 140px;
+    height: 140px;
+    background-color: #eee;
+    border-radius: 50%;
+    /* 헤일로 효과 (선택) */
+    box-shadow: 0 0 0 3px #664fab;
+}
+
+/* 이미지 업로드 버튼 (라벨) 
+   - 원 하단 중앙에 배치하기 위해 absolute + translateX(-50%) */
+.uploadLabel {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    background-color: #664fab;
+    color: #fff;
+    padding: 6px 12px;
+    font-size: var(--fs-body-small);
+    border-radius: 9999px;
+    cursor: pointer;
+}
+
+/* 파일 입력 숨김 */
+.imageInput {
+    display: none;
+}
+
+/* 입력 그룹 (닉네임, 이메일) */
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+.label {
+    font-size: var(--fs-body-small);
+    margin-bottom: 4px;
+    color: #333;
+}
+.textInput {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: var(--fs-body-small);
+    color: #333;
+}
+
+/* 저장 버튼 */
+.saveButton {
+    background-color: #664fab;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 9999px;
+    font-size: var(--fs-button);
+    font-weight: var(--fw-button);
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.saveButton:hover {
+    opacity: 0.9;
+}

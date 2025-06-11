@@ -1,0 +1,148 @@
+/* src/components/GiftPreview/GiftPreview.module.css */
+@import '../../global.css';
+
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    padding: 1rem;
+}
+
+.modalContent {
+    position: relative;
+    width: 90%;
+    max-width: 360px;
+    max-height: 80vh;
+    padding: 1.5rem;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 3px solid transparent;
+    border-image: linear-gradient(135deg, var(--purple-start), var(--purple-end)) 1;
+    box-shadow: var(--shadow-dark);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.closeButton {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    color: #999;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.closeButton:hover {
+    color: var(--purple-dark);
+}
+
+.imageCircleWrap {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 1rem;
+}
+
+.progressCircle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--border-gray);
+    transition: background 0.3s ease;
+    z-index: 0;
+}
+
+.previewImage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60%;
+    height: 60%;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: var(--shadow-md);
+    z-index: 1;
+}
+
+.progressText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-button);
+    color: var(--white);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    z-index: 2;
+}
+
+.titleRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.75rem;
+}
+
+.giftTitle {
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-h4);
+    color: var(--text-dark);
+}
+
+.giftPrice {
+    font-size: var(--fs-body);
+    font-weight: var(--fw-body-small);
+    color: var(--purple-dark);
+}
+
+.giftDescription {
+    font-size: var(--fs-body-small);
+    line-height: 1.4;
+    color: #555;
+    margin-bottom: 1rem;
+}
+
+.actionButton {
+    width: 100%;
+    padding: 0.75rem 0;
+    font-size: var(--fs-body);
+    font-weight: var(--fw-button);
+    text-align: center;
+    border: none;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    color: var(--white);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+.actionButton:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, var(--purple-end), var(--purple-dark));
+}
+
+.feedbackSection {
+    margin-top: 1rem;
+}
