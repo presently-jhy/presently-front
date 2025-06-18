@@ -1,173 +1,201 @@
 /* src/pages/FundSend/FundSend.module.css */
 
+/* ── 컬러 & 타이포 ── */
+:root {
+    --purple: #664fab;
+    --purple-light: #7d57b1;
+    --gray-100: #f5f5f7;
+    --gray-200: #e5e5e7;
+    --gray-400: #a3a3a8;
+    --gray-700: #333;
+    --radius: 0.75rem;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* ── 레이아웃 ── */
 .container {
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-  min-height: 100vh;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  font-family: var(--font-primary);
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    font-family: var(--font-primary);
 }
 
-.fundMode {
-  background-color: #664fab;
-  color: #fff;
-}
-.giftMode {
-  background-color: #f8f9fa;
-  color: #664fab;
-}
-
+/* ── 헤더 ── */
 .header {
-  display: flex;
-  align-items: center;
-  margin: 30px 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0 1.5rem;
 }
 
 .backButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-right: 1rem;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+.backButton:hover {
+    background: var(--gray-100);
 }
 .backButton img {
-  width: 24px;
-  height: 24px;
+    width: 24px;
+    height: 24px;
 }
 
 .pageTitle {
-  font-size: var(--fs-h2);
-  font-weight: var(--fw-h2);
-  line-height: var(--lh-h2);
+    flex: 1;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--gray-700);
+    text-align: center;
 }
 
+/* ── 이벤트 정보 ── */
 .eventInfo {
-  text-align: center;
-  margin: 0.5rem 0 1rem;
+    text-align: center;
+    margin-bottom: 2rem;
 }
 .eventTitle {
-  font-size: var(--fs-h4);
-  font-weight: var(--fw-h4);
-  margin-bottom: 0.25rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-700);
 }
 .eventDate {
-  font-size: var(--fs-body-small);
+    font-size: 0.875rem;
+    color: var(--gray-400);
+    margin-top: 0.25rem;
 }
 
+/* ── 이미지 ── */
 .imageWrapper {
-  display: flex;
-  justify-content: center;
-  margin: 1.5rem auto;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
 }
 .eventImg {
-  width: 140px;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: var(--shadow-sm);
 }
 
-/* ─── 펀드 금액 입력 영역 ─── */
+/* ── 금액 입력 ── */
 .amountContainer {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
 }
 .amountLabel {
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  color: inherit;
+    font-size: 0.875rem;
+    color: var(--gray-700);
 }
 .inputWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: #fff;
-  border-radius: 24px;
-  padding: 0.5rem 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--gray-100);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 .amountInput {
-  flex: 1;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 1.125rem;
-  color: #000;
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+.amountInput:focus {
+    outline: none;
 }
 .currency {
-  margin-left: 0.5rem;
-  font-size: 1.125rem;
-  color: #333;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    color: var(--gray-400);
 }
 .hint {
-  margin-top: 0.5rem;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.8);
+    font-size: 0.75rem;
+    color: var(--gray-400);
+}
+.remaining {
+    font-size: 0.875rem;
+    color: var(--purple);
+    font-weight: 500;
 }
 
-/* ─── 메시지, 닉네임 ─── */
+/* ── 메시지 & 닉네임 ── */
 .messageTextarea {
-  width: 100%;
-  max-width: 340px;
-  margin: 0 auto 1.25rem;
-  display: block;
-  font-size: var(--fs-body-small);
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #fff;
-  resize: none;
-  outline: none;
+    width: 100%;
+    min-height: 100px;
+    padding: 1rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    color: var(--gray-700);
+    resize: vertical;
+    margin-bottom: 1.5rem;
 }
+.messageTextarea:focus {
+    border-color: var(--purple);
+    outline: none;
+}
+
 .nicknameContainer {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin: 0.75rem 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 .nicknameInput {
-  width: 140px;
-  font-size: var(--fs-h3);
-  font-weight: var(--fw-h3);
-  text-align: right;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #fff;
+    width: 120px;
+    padding: 0.75rem;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    color: var(--gray-700);
+}
+.nicknameInput:focus {
+    border-color: var(--purple);
+    outline: none;
 }
 .nicknameSuffix {
-  margin-left: 0.25rem;
-  font-size: var(--fs-h3);
-  font-weight: var(--fw-h3);
+    font-size: 0.875rem;
+    color: var(--gray-400);
 }
 
-/* ─── 제출 버튼 & 에러 ─── */
+/* ── 에러 메시지 ── */
 .errorMessage {
-  color: #ff4d4f;
-  font-size: 0.9rem;
-  text-align: center;
-  margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: #ff4d4f;
+    text-align: center;
+    margin-bottom: 1rem;
 }
+
+/* ── 제출 버튼 ── */
 .submitButton {
-  width: 200px;
-  padding: 0.875rem;
-  border-radius: 9999px;
-  font-size: var(--fs-button);
-  font-weight: var(--fw-button);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-  align-self: center;
+    width: 100%;
+    padding: 0.875rem;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--purple);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
-.fundMode .submitButton {
-  background-color: #fff;
-  color: #664fab;
-}
-.giftMode .submitButton {
-  background: linear-gradient(to right, #7d57b1, #594aa8);
-  color: #fff;
-}
-.submitButton:hover,
-.submitButton:focus {
-  opacity: 0.85;
-  box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+.submitButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
 }
