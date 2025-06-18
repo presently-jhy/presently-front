@@ -1,115 +1,73 @@
 /* src/components/AmountDial/AmountDial.module.css */
+
 :root {
-    --purple-start: #a874ff;
-    --purple-end: #7d57b1;
-    --purple-dark: #664fab;
-    --gray-border: #ededed;
-    --white: #fff;
-    --radius-lg: 0.75rem;
+    --primary-color: #664fab;
+    --primary-gradient-start: #a874ff;
+    --text-color: #333;
+    --placeholder-color: #999;
+    --bg-light: #f8f9fa;
+    --border-color: #ddd;
+    --radius-md: 0.75rem;
+    --transition-fast: 0.2s ease-out;
 }
 
-.container {
-    width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-    padding: 1rem;
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.wrapper {
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.display {
-    text-align: center;
-    cursor: pointer;
-}
-.valueText {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--purple-dark);
-}
-.unit {
-    font-size: 1rem;
-    color: #555;
-}
-
-.editWrapper {
-    display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 0.5rem;
+    width: 100%;
+    max-width: 240px;
+    padding: 0.75rem 1rem;
+    background-color: var(--bg-light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    cursor: text;
 }
-.editInput {
-    width: 4rem;
+
+.wrapper:focus-within {
+    /* gradient border on focus */
+    border: 1px solid transparent;
+    border-image: linear-gradient(135deg, var(--primary-color), var(--primary-gradient-start)) 1;
+    box-shadow: 0 2px 8px rgba(102, 79, 171, 0.2);
+}
+
+.wrapper.disabled {
+    filter: blur(2px);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.currency {
+    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+}
+
+.input {
+    flex: 1;
+    border: none;
+    background: transparent;
     font-size: 1.25rem;
     font-weight: 600;
-    text-align: right;
-    border: none;
-    border-bottom: 2px solid var(--purple-dark);
-    background: transparent;
-}
-.confirmButton {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--white);
-    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
-    border: none;
-    border-radius: var(--radius-lg);
-    cursor: pointer;
-}
-.confirmButton:hover {
-    background: linear-gradient(135deg, var(--purple-end), var(--purple-dark));
-}
-
-.slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 8px;
-    background: var(--gray-border);
-    border-radius: 4px;
+    color: var(--text-color);
     outline: none;
-}
-.slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--purple-dark);
-    border: 2px solid var(--white);
-    margin-top: -6px;
-    cursor: pointer;
-}
-.slider:hover::-webkit-slider-thumb {
-    background: var(--purple-end);
+    transition: color var(--transition-fast), background-image var(--transition-fast);
 }
 
-.quickSelect {
-    display: flex;
-    justify-content: space-between;
-    gap: 0.5rem;
-}
-.quickButton {
-    flex: 1;
-    padding: 0.5rem 0;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--purple-dark);
-    background: var(--white);
-    border: 1px solid var(--purple-dark);
-    border-radius: 9999px;
-    cursor: pointer;
-}
-.quickButton:hover {
-    background: var(--purple-dark);
-    color: var(--white);
+.input::placeholder {
+    color: var(--placeholder-color);
 }
 
-/* disabled 처리 */
-.disabled {
-    filter: blur(4px);
-    pointer-events: none;
+/* when user begins typing (input has focus), apply gradient text */
+.input:focus {
+    background-image: linear-gradient(to right, var(--primary-color), var(--primary-gradient-start));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.input:disabled {
     opacity: 0.6;
+    cursor: not-allowed;
 }

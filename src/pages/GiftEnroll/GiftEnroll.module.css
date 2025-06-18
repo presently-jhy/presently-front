@@ -273,3 +273,9 @@
 .submitButton:hover {
     opacity: 0.9;
 }
+
+.amountDialWrapper.disabledDial {
+    filter: blur(2px);
+    pointer-events: none;
+    opacity: 0.6;
+}

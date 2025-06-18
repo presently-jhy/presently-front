@@ -35,6 +35,14 @@ export default function FundSend() {
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
+    // ① 총액 계산 (fund면 targetAmount, gift면 price)
+    const totalAmount = useMemo(() => {
+        if (giftData) {
+            return giftData.selectedType === 'fund' ? giftData.targetAmount || 0 : giftData.price || 0;
+        }
+        return eventData.targetAmount || 0;
+    }, [giftData, eventData]);
+
     // 쉼표 찍힌 표시값
     const formattedAmount = useMemo(() => {
         if (!amount) return '';
@@ -44,9 +52,15 @@ export default function FundSend() {
 
     const handleAmountChange = (e) => {
         // 숫자만 남기기
-        const raw = e.target.value.replace(/[^\d]/g, '');
-        setAmount(raw);
-        setError('');
+        let num = Number(e.target.value.replace(/[^\d]/g, '')) || 0;
+        // ② 총액을 넘지 않도록 클램프
+        if (totalAmount && num > totalAmount) {
+            num = totalAmount;
+            setError(`최대 ${totalAmount.toLocaleString()}원 이하로 입력해 주세요.`);
+        } else {
+            setError('');
+        }
+        setAmount(String(num));
     };
 
     const handleBack = () => window.history.back();
@@ -66,8 +80,8 @@ export default function FundSend() {
                 setError('1,000원 이상 입력해 주세요.');
                 return;
             }
-            if (eventData.targetAmount && num > eventData.targetAmount) {
-                setError(`최대 ${eventData.targetAmount.toLocaleString()}원 이하로 입력해 주세요.`);
+            if (totalAmount && num > totalAmount) {
+                setError(`최대 ${totalAmount.toLocaleString()}원 이하로 입력해 주세요.`);
                 return;
             }
         }
@@ -146,8 +160,14 @@ export default function FundSend() {
                         <span className={styles.currency}>원</span>
                     </div>
                     <div className={styles.hint}>
-                        최소 1,000원 이상, 최대 {eventData.targetAmount?.toLocaleString() || '제한 없음'}원
+                        최소 1,000원 이상, 최대 {totalAmount.toLocaleString() || '제한 없음'}원
                     </div>
+                    {/* ③ 남은 금액 표시 */}
+                    {totalAmount > 0 && (
+                        <div className={styles.remaining}>
+                            남은 금액: {(totalAmount - Number(amount)).toLocaleString()}원
+                        </div>
+                    )}
                 </div>
             )}
 
