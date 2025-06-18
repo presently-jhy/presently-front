@@ -1,4 +1,5 @@
 // src/pages/EventView/EventView.jsx
+
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,40 +22,41 @@ const giftItemVariants = {
 export default function EventView() {
   const { user, checking } = useAuth();
   const navigate = useNavigate();
-  const { state: eventData = {} } = useLocation();
+  const location = useLocation();
+  const eventData = location.state || {};
 
   const [gifts, setGifts] = useState([]);
   const [mainTab, setMainTab] = useState("gift");
   const [giftTab, setGiftTab] = useState("want");
   const [selectedGift, setSelectedGift] = useState(null);
-  const [userMode, setUserMode] = useState("owner");
+  const [userMode, setUserMode] = useState("giver");
 
-  // 1. 로그인 확인 & 모드(owner/giver) 설정
+  // 로그인 처리 및 모드 설정
   useEffect(() => {
     if (!checking) {
       if (!user) {
-        navigate("/login");
+        navigate("/login", { state: { from: location.pathname } });
       } else {
-        setUserMode(user.id === eventData.creatorId ? "owner" : "giver");
+        // eventData.creatorId 또는 eventData.creator_id 둘 다 체크
+        const ownerId = eventData.creatorId || eventData.creator_id;
+        setUserMode(user.id === ownerId ? "owner" : "giver");
       }
     }
-  }, [user, checking, eventData.creatorId]);
+  }, [user, checking, eventData.creatorId, eventData.creator_id, navigate, location.pathname]);
 
-  // 2. 로컬스토리지에서 gifts 로드 & 100% 펀딩 자동 완료 처리
+  // 로그인 검사 중
+  if (checking) return <div>로그인 확인 중...</div>;
+  if (!user) return null;
+
+  // 로컬 스토리지에서 선물 로드 및 자동 완료
   useEffect(() => {
     if (!eventData.id) return;
     let all = JSON.parse(localStorage.getItem("gifts")) || [];
-    // 이벤트별로 필터링
     const filtered = all.filter((g) => g.eventId === eventData.id);
     let changed = false;
-
     const updated = filtered.map((g) => {
       const pct = typeof g.percent === "string" ? parseInt(g.percent, 10) : g.percent;
-      let next = {
-        ...g,
-        feedbacks: g.feedbacks || [],
-        acceptedFeedbacks: g.acceptedFeedbacks || [],
-      };
+      let next = { ...g, feedbacks: g.feedbacks || [], acceptedFeedbacks: g.acceptedFeedbacks || [] };
       if (g.selectedType === "fund" && g.receiveStatus === "want" && pct >= 100) {
         changed = true;
         next = {
@@ -66,16 +68,14 @@ export default function EventView() {
       }
       return next;
     });
-
     if (changed) {
-      // 변경된 이벤틑만 덮어씌우고 나머지는 그대로
       const rest = all.filter((g) => g.eventId !== eventData.id);
       localStorage.setItem("gifts", JSON.stringify([...updated, ...rest]));
     }
     setGifts(updated);
   }, [eventData.id]);
 
-  // 3. 탭별 필터링
+  // 탭별 필터
   const currentList = gifts.filter((g) => {
     if (giftTab === "want") return g.receiveStatus === "want";
     if (giftTab === "notwant") return g.receiveStatus === "unwant";
@@ -83,11 +83,7 @@ export default function EventView() {
     return false;
   });
 
-  // 4. 핸들러
-  const handleUserModeToggle = () => {
-    setUserMode((m) => (m === "owner" ? "giver" : "owner"));
-    setSelectedGift(null);
-  };
+  // 핸들러
   const handleAdd = () => navigate("/giftenroll", { state: eventData });
   const handleEdit = () => navigate("/addEventLog", { state: { ...eventData, mode: "edit" } });
 
@@ -110,22 +106,13 @@ export default function EventView() {
         if (g.id !== selectedGift.id) return g;
         const fb = (g.feedbacks || []).find((x) => x.id === fbId);
         const pending = (g.feedbacks || []).filter((x) => x.id !== fbId);
-        let next = {
-          ...g,
-          feedbacks: pending,
-          acceptedFeedbacks: [...(g.acceptedFeedbacks || []), fb],
-        };
+        let next = { ...g, feedbacks: pending, acceptedFeedbacks: [...(g.acceptedFeedbacks || []), fb] };
         if (g.selectedType === "fund" && fb) {
           const newCur = (g.currentAmount || 0) + fb.amount;
           const tgt = g.targetAmount || 1000000;
           const pct = Math.min(100, Math.round((newCur / tgt) * 100));
-          next = {
-            ...next,
-            currentAmount: newCur,
-            percent: `${pct}%`,
-          };
+          next = { ...next, currentAmount: newCur, percent: `${pct}%` };
           if (pct >= 100 && next.receiveStatus === "want") {
-            // 100% 달성 시
             next = {
               ...next,
               receiveStatus: "done",
@@ -169,7 +156,7 @@ export default function EventView() {
     }, 300);
   }, [navigate, eventData, selectedGift]);
 
-  // 5. Preview에 넘길 props
+  // Preview props
   const previewFeedbacks = selectedGift
     ? giftTab === "received"
       ? selectedGift.acceptedFeedbacks
@@ -181,15 +168,7 @@ export default function EventView() {
 
   return (
     <div className={styles.container}>
-      {/* 상단 헤더 */}
       <Header title="이벤트 보기" subTitle="상세 정보" rightButton={shareIcon} />
-
-      {/* 모드 토글 */}
-      <div className={styles.userModeToggle}>
-        <button className={styles.toggleButton} onClick={handleUserModeToggle}>
-          {userMode === "owner" ? "등록자 (내가 등록함)" : "선물 주는 사람"}
-        </button>
-      </div>
 
       {/* 이벤트 정보 */}
       <div className={styles.eventInfo}>
@@ -230,7 +209,6 @@ export default function EventView() {
         ))}
       </div>
 
-      {/* 선물 탭 */}
       {mainTab === "gift" ? (
         <>
           <div className={styles.subTabMenu}>
@@ -297,7 +275,6 @@ export default function EventView() {
           </div>
         </>
       ) : (
-        /* 이벤트 기록 탭 */
         <div className={`${styles.recordArea} ${styles.emptyState}`}>
           <div className={styles.icon}>📝</div>
           <div className={styles.text}>
@@ -308,7 +285,6 @@ export default function EventView() {
         </div>
       )}
 
-      {/* Preview 모달 */}
       {selectedGift && (
         <GiftPreview
           gift={selectedGift}
