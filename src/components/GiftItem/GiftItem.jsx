@@ -8,6 +8,7 @@ export default function GiftItem({
     description,
     image,
     percent, // e.g. "75%"
+    link, // 새로 추가된 상품 URL
     onClick,
     onDelete,
 }) {
@@ -47,14 +48,28 @@ export default function GiftItem({
                         className={styles.miniProgressCircle}
                         style={{
                             background: `conic-gradient(
-                var(--purple-dark) ${pctValue * 3.6}deg,
-                var(--bg-lighter) ${pctValue * 3.6}deg
+                var(--primary-color) ${pctValue * 3.6}deg,
+                var(--bg-light) ${pctValue * 3.6}deg
               )`,
                         }}
-                        title={`${pctValue}%`}
+                        title={`진행률 ${pctValue}%`}
                         aria-label={`진행률 ${pctValue}%`}
                     />
                 )}
+
+                {link && (
+                    <a
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={styles.linkButton}
+                        onClick={(e) => e.stopPropagation()}
+                        aria-label="상품 링크 열기"
+                    >
+                        🔗
+                    </a>
+                )}
+
                 {onDelete && (
                     <button
                         className={styles.deleteButton}

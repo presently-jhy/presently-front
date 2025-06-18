@@ -146,3 +146,22 @@
 .feedbackSection {
     margin-top: 1rem;
 }
+
+.linkRow {
+    margin-top: 12px;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.linkLabel {
+    font-weight: 600;
+    color: #555;
+}
+.linkAnchor {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+.linkAnchor:hover {
+    text-decoration: underline;
+}

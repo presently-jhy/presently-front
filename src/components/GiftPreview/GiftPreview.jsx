@@ -1,10 +1,12 @@
 // src/components/GiftPreview/GiftPreview.jsx
+
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './GiftPreview.module.css';
 import GiftFeedback from '../GiftFeedback/GiftFeedback';
 
 export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGiftAction }) {
     if (!gift) return null;
+
     const {
         selectedType: type,
         giftName: title,
@@ -14,6 +16,7 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
         currentAmount = 0,
         percent = '0%',
         price = 0,
+        link,
     } = gift;
 
     const isFund = type === 'fund' || type === '펀딩';
@@ -28,9 +31,7 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
             if (!start) start = now;
             const progress = Math.min(1, (now - start) / 700);
             setAnim(Math.round(total * progress));
-            if (progress < 1) {
-                rafRef.current = requestAnimationFrame(frame);
-            }
+            if (progress < 1) rafRef.current = requestAnimationFrame(frame);
         }
         rafRef.current = requestAnimationFrame(frame);
         return () => cancelAnimationFrame(rafRef.current);
@@ -53,10 +54,7 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
                         className={styles.progressCircle}
                         style={{
                             background: isFund
-                                ? `conic-gradient(
-                    var(--purple-start) ${angle}deg,
-                    var(--border-gray) ${angle}deg
-                  )`
+                                ? `conic-gradient(var(--purple-start) ${angle}deg, var(--border-gray) ${angle}deg)`
                                 : 'var(--border-gray)',
                         }}
                     />
@@ -70,6 +68,15 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
                 </div>
 
                 <p className={styles.giftDescription}>{desc}</p>
+
+                {link && (
+                    <div className={styles.linkRow}>
+                        <span className={styles.linkLabel}>상품 링크:</span>
+                        <a href={link} target="_blank" rel="noopener noreferrer" className={styles.linkAnchor}>
+                            보러가기 ↗
+                        </a>
+                    </div>
+                )}
 
                 {onGiftAction && (
                     <button className={styles.actionButton} onClick={onGiftAction}>

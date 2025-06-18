@@ -12,7 +12,7 @@ export default function GiftEnroll() {
     const location = useLocation();
     const eventData = location.state;
 
-    // 모바일 크기 체크
+    // 모바일 여부 체크
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
     useEffect(() => {
         const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -20,16 +20,17 @@ export default function GiftEnroll() {
         return () => window.removeEventListener('resize', onResize);
     }, []);
 
-    // 등록 타입 및 수신 상태
+    // 타입(gift|fund) & 수신 상태(want|unwant|done)
     const initialType = eventData?.eventType === 'gift' ? 'gift' : 'fund';
     const [selectedType, setSelectedType] = useState(initialType);
-    const [receiveStatus, setReceiveStatus] = useState('want'); // want | unwant | done
+    const [receiveStatus, setReceiveStatus] = useState('want');
 
-    // 입력 폼 state
+    // 폼 state
     const [imageFile, setImageFile] = useState(null);
     const [giftName, setGiftName] = useState('');
     const [giftDescription, setGiftDescription] = useState('');
     const [giftAmount, setGiftAmount] = useState('0');
+    const [giftLink, setGiftLink] = useState('');
 
     const namePlaceholder = selectedType === 'gift' ? '선물 이름 (필수)' : '펀드 이름 (필수)';
     const descriptionPlaceholder = selectedType === 'gift' ? '선물 설명' : '펀드 설명';
@@ -37,25 +38,23 @@ export default function GiftEnroll() {
     // 뒤로가기
     const handleBack = () => navigate(-1);
 
-    // 모드 선택
-    const handleSelectFund = () => setSelectedType('fund');
-    const handleSelectGift = () => setSelectedType('gift');
+    // 타입 탭 클릭 (want 모드에서만)
+    const typeSelectable = receiveStatus === 'want';
+    const handleSelectFund = () => typeSelectable && setSelectedType('fund');
+    const handleSelectGift = () => typeSelectable && setSelectedType('gift');
 
-    // 수신 상태 선택
+    // 수신 상태 변경
     const handleSelectWant = () => setReceiveStatus('want');
     const handleSelectUnwant = () => setReceiveStatus('unwant');
     const handleSelectDone = () => setReceiveStatus('done');
 
     // 이미지 업로드
     const handleImageChange = (e) => {
-        if (e.target.files?.[0]) {
-            const reader = new FileReader();
-            reader.onloadend = () => setImageFile(reader.result);
-            reader.readAsDataURL(e.target.files[0]);
-        }
+        if (!e.target.files?.[0]) return;
+        const reader = new FileReader();
+        reader.onloadend = () => setImageFile(reader.result);
+        reader.readAsDataURL(e.target.files[0]);
     };
-
-    // 예시 이미지
     const getExampleImage = () => (selectedType === 'fund' ? fundExampleImg : giftExampleImg);
     const previewImage = imageFile || getExampleImage();
 
@@ -63,25 +62,27 @@ export default function GiftEnroll() {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!giftName.trim()) {
-            alert(`${selectedType === 'gift' ? '선물' : '펀드'} 이름은 필수 입력 사항입니다.`);
+            alert(`${selectedType === 'gift' ? '선물' : '펀드'} 이름은 필수입니다.`);
             return;
         }
-        if (receiveStatus === 'want' && (!giftAmount || isNaN(parseFloat(giftAmount)))) {
-            alert(`${selectedType === 'gift' ? '선물' : '펀드'} 금액을 정상적으로 입력해 주세요.`);
-            return;
+        if (receiveStatus === 'want') {
+            const amt = parseFloat(giftAmount);
+            if (!amt || isNaN(amt)) {
+                alert(`${selectedType === 'gift' ? '선물' : '펀드'} 금액을 정확히 입력해주세요.`);
+                return;
+            }
         }
-
         const amountValue = parseFloat(giftAmount) || 0;
         const newGift = {
             id: Date.now(),
             selectedType,
             receiveStatus,
-            giftName,
-            giftDescription,
+            giftName: giftName.trim(),
+            giftDescription: giftDescription.trim(),
             imageUrl: previewImage,
             eventId: eventData?.id ?? null,
+            link: giftLink.trim() || undefined,
         };
-
         if (selectedType === 'fund') {
             newGift.targetAmount = amountValue;
             newGift.currentAmount = 0;
@@ -89,7 +90,6 @@ export default function GiftEnroll() {
         } else {
             newGift.price = amountValue;
         }
-
         const existing = JSON.parse(localStorage.getItem('gifts')) || [];
         localStorage.setItem('gifts', JSON.stringify([...existing, newGift]));
         navigate('/eventview', { state: eventData });
@@ -108,17 +108,19 @@ export default function GiftEnroll() {
             {/* 이벤트명 */}
             <div className={styles.eventName}>{eventData?.eventName || '이벤트명'}</div>
 
-            {/* 펀드/선물 탭 */}
+            {/* 펀드/선물 탭 (want 모드에서만 활성) */}
             <div className={styles.tabContainer}>
                 <button
                     className={`${styles.tabButton} ${selectedType === 'fund' ? styles.activeTab : ''}`}
                     onClick={handleSelectFund}
+                    disabled={!typeSelectable}
                 >
                     펀드
                 </button>
                 <button
                     className={`${styles.tabButton} ${selectedType === 'gift' ? styles.activeTab : ''}`}
                     onClick={handleSelectGift}
+                    disabled={!typeSelectable}
                 >
                     선물
                 </button>
@@ -150,7 +152,7 @@ export default function GiftEnroll() {
             <div className={styles.imageContainer}>
                 <img src={previewImage} alt="예시" className={styles.exampleImage} />
                 <label htmlFor="imageFile" className={styles.cameraLabel}>
-                    <img src={cameraIcon} alt="카메라 버튼" />
+                    <img src={cameraIcon} alt="카메라" />
                 </label>
                 <input
                     type="file"
@@ -189,18 +191,24 @@ export default function GiftEnroll() {
                     <span className={styles.charCount}>{giftDescription.length}/100</span>
                 </div>
 
-                {/* 금액 다이얼 (want 외에는 비활성) */}
-                <div
-                    className={
-                        receiveStatus !== 'want'
-                            ? `${styles.amountDialWrapper} ${styles.disabledDial}`
-                            : styles.amountDialWrapper
-                    }
-                >
+                {/* 링크 (옵션) */}
+                <div className={styles.inputGroup}>
+                    <input
+                        type="url"
+                        value={giftLink}
+                        onChange={(e) => setGiftLink(e.target.value)}
+                        placeholder="상품 URL (옵션)"
+                        className={styles.textInput}
+                    />
+                </div>
+
+                {/* 금액 다이얼 */}
+                <div className={`${styles.amountDialWrapper} ${receiveStatus !== 'want' ? styles.disabledDial : ''}`}>
                     <AmountDial
                         value={Number(giftAmount)}
                         setValue={(v) => setGiftAmount(String(v))}
                         maxValue={10000000}
+                        disabled={receiveStatus !== 'want'}
                     />
                 </div>
 

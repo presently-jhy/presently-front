@@ -1,46 +1,46 @@
 .container {
-  /* height: 100vh; */
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid #ddd;
+    /* height: 100vh; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #ddd;
 }
 
 .backButton {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .backButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  width: calc(9.54 rem / 16);
-  height: calc(19 rem / 16);
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: calc(9.54 rem / 16);
+    height: calc(19 rem / 16);
 }
 
 .titleDiv {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .title {
-  font-family: var(--font-primary);
-  font-size: var(--fs-h2);
-  border: var(--fs-h2);
+    font-family: var(--font-primary);
+    font-size: var(--fs-h2);
+    border: var(--fs-h2);
 }
 
 .subtitle {
-  font-family: var(--font-primary);
-  font-size: var(--fs-h4);
-  border: var(--fs-h4);
-  color: #d0d0d0;
+    font-family: var(--font-primary);
+    font-size: var(--fs-h4);
+    border: var(--fs-h4);
+    color: #d0d0d0;
 }
 
 .rightButtonDiv {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }

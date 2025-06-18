@@ -1,21 +1,10 @@
-<<<<<<< HEAD
-=======
 import React from 'react';
->>>>>>> hyeyoung
 import styles from './Eventbox.module.css';
 import giftImg from './giftImg.png';
 import calendarImg from './calendarImg.png';
 import viewImg from './viewImg.png';
 import presentImg from './presentImg.png';
 
-<<<<<<< HEAD
-const Eventbox = ({ eventImg, eventName, eventDate, eventView, eventPresent }) => {
-    return (
-        <div className={styles.container}>
-            {/* 이벤트 대표 이미지 */}
-            <div className={styles.giftImgDiv}>
-                <img src={giftImg} alt="giftImg" />
-=======
 /**
  * Eventbox 컴포넌트
  * @param {object} props
@@ -50,29 +39,10 @@ const Eventbox = ({
             {/* 이벤트 대표 이미지: eventImg가 제공되면 사용, 아니면 기본 이미지 */}
             <div className={styles.giftImgDiv}>
                 <img src={eventImg || giftImg} alt="event preview" />
->>>>>>> hyeyoung
             </div>
 
             {/* 이벤트 텍스트 영역 */}
             <div className={styles.eventTextDiv}>
-<<<<<<< HEAD
-                {/* 이벤트 타이틀 */}
-                <div className={styles.eventTitle}>{eventName}</div>
-
-                {/* 날짜/조회수/선물수 컨테이너 */}
-                <div className={styles.infoContainer}>
-                    <div className={styles.infoItem}>
-                        <img src={calendarImg} alt="calendarImg" />
-                        <span>{eventDate}</span>
-                    </div>
-                    <div className={styles.infoItem}>
-                        <img src={viewImg} alt="viewImg" />
-                        <span>{eventView}</span>
-                    </div>
-                    <div className={styles.infoItem}>
-                        <img src={presentImg} alt="presentImg" />
-                        <span>{eventPresent}</span>
-=======
                 <div className={styles.eventTitle}>{eventName}</div>
                 <div className={styles.infoContainer}>
                     <div className={styles.infoItem}>
@@ -88,7 +58,6 @@ const Eventbox = ({
                         <img src={presentImg} alt="present" />
                         {/* receivedGiftCount가 있다면 그 값을, 없으면 eventPresent */}
                         <span>{typeof receivedGiftCount === 'number' ? receivedGiftCount : eventPresent}</span>
->>>>>>> hyeyoung
                     </div>
                 </div>
             </div>

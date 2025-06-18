@@ -1,12 +1,6 @@
-<<<<<<< HEAD
-/* 전체 컨테이너 - 카드 형태로 보이도록 스타일링 */
-
-.container {
-=======
 /* 전체 컨테이너 - 카드 형태 */
 .container {
     position: relative;
->>>>>>> hyeyoung
     display: flex;
     align-items: center;
     width: 336px;
@@ -15,11 +9,6 @@
     border-radius: 20px;
     padding: 16px;
     margin-bottom: 12px;
-<<<<<<< HEAD
-    /* 원하는 경우 그림자 추가 */
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box;
-=======
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;
     overflow: hidden;
@@ -46,7 +35,6 @@
 .container:hover .deleteButton {
     right: 16px; /* 오른쪽에 나타남 */
     opacity: 1;
->>>>>>> hyeyoung
 }
 
 /* 이벤트 이미지 */
@@ -57,20 +45,12 @@
     object-fit: cover;
 }
 
-<<<<<<< HEAD
-/* 텍스트 쪽 전체 래퍼 */
-=======
 /* 이벤트 텍스트 영역 */
->>>>>>> hyeyoung
 .eventTextDiv {
     display: flex;
     flex-direction: column;
     margin-left: 12px;
-<<<<<<< HEAD
-    flex: 1; /* 이미지를 제외하고 남은 공간을 차지하도록 */
-=======
     flex: 1;
->>>>>>> hyeyoung
 }
 
 /* 이벤트 타이틀 */
@@ -81,15 +61,6 @@
     margin-bottom: 8px;
 }
 
-<<<<<<< HEAD
-/* 날짜/조회수/선물수 영역 묶는 컨테이너 */
-.infoContainer {
-    display: flex;
-    gap: 16px; /* 아이템 간 간격 */
-}
-
-/* 아이콘 + 텍스트 한 줄 정렬 */
-=======
 /* 날짜/조회수/선물수 영역 */
 .infoContainer {
     display: flex;
@@ -97,7 +68,6 @@
 }
 
 /* 아이콘 + 텍스트 */
->>>>>>> hyeyoung
 .infoItem {
     display: flex;
     align-items: center;

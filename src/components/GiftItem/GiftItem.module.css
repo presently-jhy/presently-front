@@ -128,3 +128,14 @@
 .miniProgressCircle:hover::after {
     opacity: 1;
 }
+
+.itemLinkIcon {
+    margin-left: 6px;
+    font-size: 1rem;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.itemLinkIcon:hover {
+    color: var(--primary-color-dark);
+}

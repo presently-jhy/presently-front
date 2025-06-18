@@ -1,61 +1,9 @@
-<<<<<<< HEAD
-/* 컨테이너 전체 중앙 정렬 */
-.container {
-=======
 .homecontainer {
     height: 100vh;
->>>>>>> hyeyoung
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-<<<<<<< HEAD
-    height: 100vh;
-    width: 100%;
-    background-color: white;
-    text-align: center;
-}
-
-/* 브랜드 제목 */
-.title {
-    font-size: 2.5rem; /* Tailwind의 text-4xl */
-    font-family: serif;
-    margin-bottom: 1rem;
-}
-
-/* 설명 문구 */
-.description {
-    font-size: 1.125rem; /* Tailwind의 text-lg */
-    color: #4a5568; /* Tailwind의 text-gray-600 */
-    margin-bottom: 1.5rem;
-}
-
-/* 선물 이미지 */
-.giftImage {
-    width: 8rem; /* Tailwind의 w-32 */
-    height: 8rem; /* Tailwind의 h-32 */
-    margin-bottom: 1.5rem;
-}
-
-/* 버튼 스타일 */
-.button {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    font-size: 1.125rem;
-    color: white;
-    background: linear-gradient(to right, #7b2cbf, #4c1d95);
-    border-radius: 9999px;
-    text-decoration: none;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-/* 버튼 hover 효과 */
-.button:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
-}
-=======
 }
 
 .logoText {
@@ -116,4 +64,3 @@
 
     text-align: center;
 }
->>>>>>> hyeyoung
