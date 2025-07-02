@@ -1,0 +1,125 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.icon {
+    color: #ef4444;
+    margin-bottom: 0.5rem;
+}
+
+.title {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.message {
+    margin: 0;
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.5;
+    max-width: 300px;
+}
+
+.retryButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #7c3aed;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 1rem;
+}
+
+.retryButton:hover {
+    background: #6d28d9;
+}
+
+/* 변형 스타일 */
+.default {
+    background: transparent;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+}
+
+.inline {
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.inline .title {
+    font-size: 0.875rem;
+}
+
+.inline .message {
+    font-size: 0.75rem;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+
+    .title {
+        font-size: 1rem;
+    }
+
+    .message {
+        font-size: 0.8rem;
+    }
+}
+
+/* 다크 모드 */
+@media (prefers-color-scheme: dark) {
+    .default {
+        color: #ffffff;
+    }
+
+    .card {
+        background: #1a1a1a;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .overlay {
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .title {
+        color: #ffffff;
+    }
+
+    .message {
+        color: #cccccc;
+    }
+}

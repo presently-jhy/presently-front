@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import styles from './Eventbox.module.css';
 import giftImg from './giftImg.png';
 import calendarImg from './calendarImg.png';
@@ -28,12 +29,22 @@ const Eventbox = ({
     onDelete,
 }) => {
     return (
-        <div className={styles.container}>
+        <motion.div
+            className={styles.container}
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+        >
             {/* 삭제 버튼: 삭제 핸들러가 있으면 표시 */}
             {onDelete && (
-                <button className={styles.deleteButton} onClick={onDelete}>
+                <motion.button
+                    className={styles.deleteButton}
+                    onClick={onDelete}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                >
                     삭제
-                </button>
+                </motion.button>
             )}
 
             {/* 이벤트 대표 이미지: eventImg가 제공되면 사용, 아니면 기본 이미지 */}
@@ -61,7 +72,7 @@ const Eventbox = ({
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

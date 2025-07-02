@@ -4,65 +4,107 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: #fafafa;
+    position: relative;
 }
 
 /* 상단 헤더 영역 */
 .header {
     display: flex;
     align-items: center;
-    padding: 1rem;
-    margin-top: 30px;
-    margin-bottom: 230px;
+    padding: 1.5rem;
+    margin: 1rem 0 2rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 /* 뒤로 가기 버튼 */
 .backButton {
-    background: none;
+    width: 40px;
+    height: 40px;
+    background: #f5f5f5;
     border: none;
-    padding: 0;
+    border-radius: 50%;
     cursor: pointer;
-    margin-right: 80px;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.backButton:hover {
+    background: #e8e8e8;
+    transform: translateY(-1px);
+}
+
+.backButton:active {
+    transform: translateY(0);
 }
 
 .backButton img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.backButton:hover img {
+    opacity: 1;
 }
 
 /* 헤더 타이틀 */
 .title {
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-h2);
-    line-height: var(--lh-h2);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
 }
 
 /* 메인 콘텐츠 영역 */
 .content {
-    padding: 1rem;
+    padding: 2rem;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
 }
 
 /* 안내 문구 전체 컨테이너 */
 .subtitle {
     text-align: center;
-    margin-bottom: 2rem;
-    line-height: 1.4;
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    max-width: 500px;
+    width: 100%;
 }
 
 /* 첫 줄: 연한 색, 보통 굵기 */
 .subtitleGray {
-    color: #aaa;
-    font-size: var(--fs-h4);
-    font-weight: var(--fw-h4);
-    line-height: var(--lh-h4);
+    color: #666;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    display: block;
+    margin-bottom: 0.5rem;
 }
 
 /* 둘째 줄: 진한 색, 굵게 */
 .subtitleBlack {
-    color: #000;
-    font-size: var(--fs-h3);
-    font-weight: var(--fw-h3);
-    line-height: var(--lh-h3);
+    color: #1a1a1a;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    display: block;
 }
 
 /* 이벤트 유형 버튼들을 감싸는 컨테이너 (row) */
@@ -71,26 +113,33 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
 }
 
 .eventOption {
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약한 그림자 */
-    border-radius: 8px;
-    padding: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border-radius: 16px;
+    padding: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 120px;
-    transition: transform 0.3s ease;
+    width: 140px;
+    height: 140px;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-/* hover 효과 */
+.eventOption:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.08);
+}
 
-.etcContainer:hover {
-    transform: translateY(-4px);
+.eventOption:active {
+    transform: translateY(-1px);
 }
 
 /* 이벤트 유형 버튼 (링크 스타일) */
@@ -99,33 +148,179 @@
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: #333;
+    color: #1a1a1a;
     cursor: pointer;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
 .eventTypeButton img {
     width: 60px;
     height: 60px;
     object-fit: contain;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.eventOption:hover .eventTypeButton img {
+    transform: scale(1.05);
 }
 
 .eventTypeButton span {
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    line-height: var(--lh-body-small);
-    color: #828282;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: #666;
+    transition: color 0.2s ease;
 }
 
-/* 반응형: 화면 너비가 600px 이하일 경우 세로 배열로 전환 */
-@media (max-width: 600px) {
-    .eventContainer {
-        flex-direction: column;
-        gap: 12px;
+.eventOption:hover .eventTypeButton span {
+    color: #1a1a1a;
+}
+
+/* 반응형: 화면 너비가 768px 이하일 경우 세로 배열로 전환 */
+@media (max-width: 768px) {
+    .header {
+        padding: 1rem;
+        margin: 0.5rem 0 1.5rem;
     }
 
-    .etcContainer {
-        width: 80%;
-        max-width: 300px;
+    .backButton {
+        width: 36px;
+        height: 36px;
+        margin-right: 0.75rem;
+    }
+
+    .title {
+        font-size: 1.25rem;
+    }
+
+    .content {
+        padding: 1.5rem;
+    }
+
+    .subtitle {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .subtitleGray {
+        font-size: 0.875rem;
+    }
+
+    .subtitleBlack {
+        font-size: 1.125rem;
+    }
+
+    .eventContainer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .eventOption {
+        width: 120px;
+        height: 120px;
+        padding: 1.25rem;
+    }
+
+    .eventTypeButton img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .eventTypeButton span {
+        font-size: 0.75rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 0.75rem;
+    }
+
+    .title {
+        font-size: 1.125rem;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+
+    .subtitle {
+        padding: 1rem;
+    }
+
+    .subtitleGray {
+        font-size: 0.75rem;
+    }
+
+    .subtitleBlack {
+        font-size: 1rem;
+    }
+
+    .eventOption {
+        width: 100px;
+        height: 100px;
+        padding: 1rem;
+    }
+
+    .eventTypeButton img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .eventTypeButton span {
+        font-size: 0.75rem;
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: #1a1a1a;
+    }
+
+    .header {
+        background: rgba(30, 30, 30, 0.95);
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .title {
+        color: #ffffff;
+    }
+
+    .subtitle {
+        background: rgba(30, 30, 30, 0.8);
+    }
+
+    .subtitleGray {
+        color: #cccccc;
+    }
+
+    .subtitleBlack {
+        color: #ffffff;
+    }
+
+    .eventOption {
+        background: rgba(30, 30, 30, 0.9);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .eventTypeButton span {
+        color: #cccccc;
+    }
+
+    .eventOption:hover .eventTypeButton span {
+        color: #ffffff;
+    }
+
+    .backButton {
+        background: #333333;
+    }
+
+    .backButton:hover {
+        background: #404040;
     }
 }

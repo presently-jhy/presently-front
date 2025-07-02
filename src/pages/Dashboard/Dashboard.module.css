@@ -1,103 +1,419 @@
 /* 대시보드 페이지 전체 컨테이너 */
 .dashboardContainer {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  box-sizing: border-box;
-  background-color: #f8f9fa;
-  min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    background: #fafafa;
+    min-height: 100vh;
+    position: relative;
 }
 
 /* 헤더 영역 */
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.headerButtons {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.statsButton {
+    background: none;
+    border: none;
+    color: #7c3aed;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.statsButton:hover {
+    background: rgba(124, 58, 237, 0.1);
+}
+
+.statsButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.statsSection {
+    margin: 1rem 0 1.5rem 0;
+    overflow: hidden;
 }
 
 /* 페이지 제목 스타일 */
 .pageTitle {
-  font-size: var(--fs-h2);
-  font-weight: var(--fw-h2);
-  line-height: var(--lh-h2);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* 유저 버튼 */
+.userButton {
+    width: 40px;
+    height: 40px;
+    background: #f5f5f5;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.userButton:hover {
+    background: #e8e8e8;
+    transform: translateY(-1px);
+}
+
+.userButton:active {
+    transform: translateY(0);
+}
+
+.userButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* 유저 버튼 이미지 */
 .userButton img {
-  width: 27px;
-  height: 17px;
-  cursor: pointer;
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.userButton:hover img {
+    opacity: 1;
 }
 
 /* 정렬 버튼 wrapper: 아이콘과 텍스트를 함께 감싸 클릭 영역 확장 */
 .sortButtonWrapper {
-  display: flex;
-  align-items: center;
-  margin-bottom: 16px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    position: relative;
+    z-index: 1;
 }
 
-.sortButtonWrapper:hover {
-  transform: scale(1.03);
+.sortButtonBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #7c3aed;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.sortButtonBtn:hover {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-color: rgba(124, 58, 237, 0.3);
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15);
+}
+
+.sortButtonBtn:active {
+    transform: translateY(0);
+}
+
+.sortButtonBtn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    background: #f5f5f5;
+    border-color: #e0e0e0;
+    color: #999;
 }
 
 /* 정렬 버튼 아이콘 */
 .sortButton {
-  width: 13px;
-  height: 8px;
-  margin-top: 8px;
-  margin-right: 5px;
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s ease;
+    opacity: 0.8;
+}
+
+.sortButtonBtn:hover .sortButton {
+    transform: scale(1.1);
+    opacity: 1;
 }
 
 /* 정렬 버튼 텍스트 */
 .sortButtonText {
-  font-size: var(--fs-h4);
-  font-weight: var(--fw-h4);
-  line-height: var(--lh-h4);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: inherit;
+    transition: color 0.2s ease;
 }
 
 /* 이벤트 카드 목록 컨테이너 */
 .eventList {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 /* 이벤트 카드를 감싸는 클릭 영역 */
 .eventLinkWrapper {
-  cursor: pointer;
-  transition: transform 0.2s ease;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 .eventLinkWrapper:hover {
-  transform: translateY(-3px);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.eventLinkWrapper:active {
+    transform: translateY(-1px);
 }
 
 /* 하단 버튼 wrapper */
 .buttonWrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 24px;
-  color: white;
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 /* 버튼 스타일 */
 .button {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  font-size: 1.125rem;
-  color: white;
-  background: linear-gradient(to right, #7b2cbf, #4c1d95);
-  border-radius: 9999px;
-  text-decoration: none;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: white;
+    background: #7c3aed;
+    border: none;
+    border-radius: 20px;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    transition: all 0.2s ease;
+    position: relative;
+    min-width: 180px;
 }
 
 .button:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+    background: #6d28d9;
+}
+
+.button:active {
+    transform: translateY(0);
+}
+
+.button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.button::after {
+    content: '✨';
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.button:hover::after {
+    transform: rotate(10deg);
+}
+
+/* 로딩 상태 */
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #666;
+    background: #fafafa;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .dashboardContainer {
+        padding: 1rem;
+    }
+
+    .header {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .pageTitle {
+        font-size: 1.25rem;
+    }
+
+    .userButton {
+        width: 36px;
+        height: 36px;
+    }
+
+    .userButton img {
+        width: 18px;
+        height: 18px;
+    }
+
+    .sortButtonWrapper {
+        margin-bottom: 1rem;
+    }
+
+    .sortButtonBtn {
+        padding: 0.625rem 1rem;
+        font-size: 0.8rem;
+        min-width: 100px;
+    }
+
+    .sortButton {
+        width: 14px;
+        height: 14px;
+    }
+
+    .sortButtonText {
+        font-size: 0.8rem;
+    }
+
+    .eventList {
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .button {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.875rem;
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboardContainer {
+        padding: 0.75rem;
+    }
+
+    .header {
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+    }
+
+    .pageTitle {
+        font-size: 1.125rem;
+    }
+
+    .userButton {
+        width: 32px;
+        height: 32px;
+    }
+
+    .userButton img {
+        width: 16px;
+        height: 16px;
+    }
+
+    .sortButtonWrapper {
+        padding: 0.375rem 0.5rem;
+    }
+
+    .sortButton {
+        width: 10px;
+        height: 10px;
+        margin-right: 0.25rem;
+    }
+
+    .sortButtonText {
+        font-size: 0.75rem;
+    }
+
+    .button {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .dashboardContainer {
+        background: #1a1a1a;
+    }
+
+    .header {
+        background: rgba(30, 30, 30, 0.95);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .pageTitle {
+        color: #ffffff;
+    }
+
+    .sortButtonBtn {
+        background: linear-gradient(135deg, #2a2a2a, #333333);
+        border-color: rgba(124, 58, 237, 0.3);
+        color: #7c3aed;
+    }
+
+    .sortButtonBtn:hover {
+        background: linear-gradient(135deg, #333333, #2a2a2a);
+        border-color: rgba(124, 58, 237, 0.4);
+    }
+
+    .sortButtonBtn:disabled {
+        background: #333333;
+        border-color: #555555;
+        color: #888888;
+    }
+
+    .sortButtonText {
+        color: inherit;
+    }
+
+    .loading {
+        background: #1a1a1a;
+        color: #cccccc;
+    }
+
+    .userButton {
+        background: #333333;
+    }
+
+    .userButton:hover {
+        background: #404040;
+    }
 }

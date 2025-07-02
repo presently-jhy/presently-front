@@ -4,69 +4,109 @@
 .container {
     width: 100%;
     min-height: 100vh;
-    padding: 16px;
+    padding: 1.5rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    background: #fafafa;
+    position: relative;
 }
 
 /* 헤더 영역 */
 .header {
     display: flex;
     align-items: center;
-    margin-top: 30px;
-    margin-bottom: 112px;
+    margin: 1rem 0 2rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .backButton {
-    background: none;
+    width: 40px;
+    height: 40px;
+    background: #f5f5f5;
     border: none;
+    border-radius: 50%;
     cursor: pointer;
-    margin-right: 80px;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.backButton:hover {
+    background: #e8e8e8;
+    transform: translateY(-1px);
+}
+
+.backButton:active {
+    transform: translateY(0);
 }
 
 .backButton img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.backButton:hover img {
+    opacity: 1;
 }
 
 .title {
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-h2);
-    line-height: var(--lh-h2);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
 }
 
 /* 토글 컨테이너 (펀드/선물 버튼) - 타이틀과 이미지 영역 사이 */
 .toggleContainer {
     display: flex;
     justify-content: center;
-    gap: 16px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 /* 토글 버튼 (96px x 32px) */
 .toggleButton {
-    width: 96px;
-    height: 32px;
-    border-radius: 16px;
-    border: 2px solid currentColor;
-    background-color: #fff;
-    color: #664fab;
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    color: #666;
+    font-size: 0.875rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: all 0.2s ease;
 }
 
 .toggleButton:hover {
-    opacity: 0.8;
+    transform: translateY(-1px);
+    border-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.toggleButton:active {
+    transform: translateY(0);
 }
 
 /* 활성 상태: 보라 배경, 흰색 텍스트 */
 .activeToggle {
-    background-color: #664fab;
-    color: #fff;
+    background: #7c3aed;
+    color: white;
+    border-color: #7c3aed;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
 }
 
 /* 중앙 이미지 영역 */
@@ -74,28 +114,54 @@
     position: relative;
     display: flex;
     justify-content: center;
-    margin-bottom: 60px;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .eventImage {
-    width: 157px;
-    height: 157px;
+    width: 160px;
+    height: 160px;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 3px solid white;
+    transition: all 0.2s ease;
+}
+
+.imageContainer:hover .eventImage {
+    transform: scale(1.02);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
 }
 
 .cameraLabel {
     position: absolute;
-    bottom: 0;
-    right: 36px;
+    bottom: 0.5rem;
+    right: 50%;
+    transform: translateX(50%);
+    width: 40px;
+    height: 40px;
+    background: #7c3aed;
+    border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    transition: all 0.2s ease;
+    border: 2px solid white;
+}
+
+.cameraLabel:hover {
+    transform: translateX(50%) scale(1.05);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
 }
 
 .cameraIcon {
-    width: 36px;
-    height: 36px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
-    margin-right: 60px;
+    filter: brightness(0) invert(1);
 }
 
 .imageInput {
@@ -103,22 +169,50 @@
 }
 
 /* 입력 그룹 */
+.inputGroups {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2rem;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+}
+
 .inputGroup {
     display: flex;
     flex-direction: column;
     position: relative;
-    margin-bottom: 6px;
+    width: 100%;
 }
 
 .textInput {
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    line-height: var(--lh-body-small);
-    padding: 12px;
-    border: 1px solid #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 0.875rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    color: #333;
-    width: 316px;
+    color: #1a1a1a;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.textInput:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
 .textInput::placeholder {
@@ -126,15 +220,26 @@
 }
 
 .textarea {
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    line-height: var(--lh-body-small);
-    padding: 12px;
-    border: 1px solid #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 0.875rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     resize: none;
-    color: #333;
-    width: 316px;
+    color: #1a1a1a;
+    background: #ffffff;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    min-height: 80px;
+}
+
+.textarea:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
 .textarea::placeholder {
@@ -142,45 +247,198 @@
 }
 
 .charCount {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: #999;
     position: absolute;
-    bottom: 8px;
-    right: 12px;
-    margin-right: 5px;
+    bottom: 0.5rem;
+    right: 0.75rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.125rem 0.375rem;
+    border-radius: 4px;
+    font-weight: 400;
+    transition: color 0.2s ease;
 }
 
 /* 안내 문구 */
 .infoMessage {
-    color: #999;
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    line-height: var(--lh-body-small);
+    color: #666;
+    font-size: 0.75rem;
+    font-weight: 400;
+    line-height: 1.5;
     text-align: center;
-    margin-bottom: 63px;
+    margin: 1rem 0;
+    background: rgba(124, 58, 237, 0.05);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border-left: 2px solid #7c3aed;
+    width: 100%;
 }
 
 /* 추가하기 버튼 */
 .submitButton {
-    background: linear-gradient(to right, #7b2cbf, #4c1d95);
-    color: #fff;
+    background: #7c3aed;
+    color: white;
     border: none;
-    padding: 12px;
-    border-radius: 9999px;
+    padding: 1rem 2rem;
+    border-radius: 20px;
     font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: background 0.3s ease;
-    align-self: center;
-    width: 200px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+    position: relative;
+    min-width: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .submitButton:hover {
-    background: linear-gradient(to right, #5a1f8c, #3a1270);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+    background: #6d28d9;
 }
 
-.inputGroups {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.submitButton:active {
+    transform: translateY(0);
+}
+
+.submitButton::after {
+    content: '✨';
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+}
+
+.submitButton:hover::after {
+    transform: rotate(10deg);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        padding: 1rem;
+        margin: 0.5rem 0 1.5rem;
+    }
+
+    .backButton {
+        width: 36px;
+        height: 36px;
+        margin-right: 0.75rem;
+    }
+
+    .title {
+        font-size: 1.25rem;
+    }
+
+    .eventImage {
+        width: 120px;
+        height: 120px;
+    }
+
+    .cameraLabel {
+        width: 36px;
+        height: 36px;
+    }
+
+    .cameraIcon {
+        width: 18px;
+        height: 18px;
+    }
+
+    .inputGroups {
+        padding: 1.5rem;
+    }
+
+    .submitButton {
+        padding: 0.875rem 1.5rem;
+        font-size: 0.875rem;
+        min-width: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 0.75rem;
+    }
+
+    .title {
+        font-size: 1.125rem;
+    }
+
+    .eventImage {
+        width: 100px;
+        height: 100px;
+    }
+
+    .cameraLabel {
+        width: 32px;
+        height: 32px;
+    }
+
+    .cameraIcon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .inputGroups {
+        padding: 1rem;
+    }
+
+    .submitButton {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: #1a1a1a;
+    }
+
+    .header,
+    .inputGroups {
+        background: rgba(30, 30, 30, 0.95);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .title {
+        color: #ffffff;
+    }
+
+    .textInput,
+    .textarea {
+        background: #2a2a2a;
+        color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .toggleButton {
+        background: #2a2a2a;
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #cccccc;
+    }
+
+    .infoMessage {
+        background: rgba(124, 58, 237, 0.2);
+        color: #cccccc;
+    }
+
+    .charCount {
+        background: rgba(30, 30, 30, 0.9);
+        color: #cccccc;
+    }
+
+    .backButton {
+        background: #333333;
+    }
+
+    .backButton:hover {
+        background: #404040;
+    }
 }

@@ -37,67 +37,120 @@
 .eventInfo {
     display: flex;
     align-items: center;
-    padding: 1rem;
+    padding: 1.5rem;
     border-bottom: 1px solid var(--border-color);
     position: relative;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
 }
 .eventImage {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     object-fit: cover;
     border-radius: 50%;
-    margin-right: 0.75rem;
+    margin-right: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 3px solid #fff;
 }
 .eventTextBox {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.5rem;
 }
 .hostName {
-    font-size: var(--fs-h4);
+    font-size: var(--fs-body-small);
     font-weight: var(--fw-medium);
-    color: #333;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 .eventDate {
     font-size: var(--fs-body-small);
-    color: #777;
+    color: #999;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+.eventDate::before {
+    content: '📅';
+    font-size: 0.875rem;
 }
 .eventTitle {
     font-size: var(--fs-h3);
     font-weight: var(--fw-semi-bold);
     color: #000;
+    line-height: 1.3;
 }
 .eventDescription {
     font-size: var(--fs-body-small);
-    color: #333;
-    line-height: 1.4;
+    color: #555;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
-/* 추가/수정 버튼 그룹 */
-.buttonGroup {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-}
-.addButton,
-.editButton {
-    width: 2rem;
-    height: 2rem;
-    background-color: #eee;
+/* 공유 버튼 */
+.shareButton {
+    background: none;
     border: none;
-    border-radius: 50%;
+    color: #7c3aed;
     cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.editButtonImg {
-    width: 1.4rem;
-    height: 1.4rem;
+
+.shareButton:hover {
+    background: rgba(124, 58, 237, 0.1);
+    transform: scale(1.05);
+}
+
+.shareButton:active {
+    transform: scale(0.95);
+}
+
+/* 개선된 버튼 그룹 */
+.buttonGroup {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    justify-content: flex-end;
+}
+.addButton,
+.editButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: linear-gradient(135deg, var(--primary-color), #7c5ac2);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: var(--fs-body-small);
+    font-weight: var(--fw-medium);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(102, 79, 171, 0.3);
+}
+.addButton:hover,
+.editButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.4);
+}
+.addButton:active,
+.editButton:active {
+    transform: translateY(0);
+}
+.addButton:disabled,
+.editButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* 메인 탭 */
@@ -105,19 +158,39 @@
     display: flex;
     justify-content: space-around;
     border-bottom: 1px solid var(--border-color);
-    margin-top: 0.25rem;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
 .tab {
     flex: 1;
     text-align: center;
-    padding: 0.75rem 0;
-    font-size: var(--fs-body-small);
+    padding: 1rem 0;
+    font-size: var(--fs-body);
     color: #999;
     cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    font-weight: var(--fw-medium);
+}
+.tab:hover {
+    color: var(--primary-color);
 }
 .activeTab {
-    color: #000;
-    font-weight: var(--fw-medium);
+    color: var(--primary-color);
+    font-weight: var(--fw-semi-bold);
+}
+.activeTab::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), #7c5ac2);
+    border-radius: 2px;
 }
 
 /* 서브 탭 */
@@ -125,101 +198,164 @@
     display: flex;
     justify-content: space-around;
     border-bottom: 1px solid var(--border-color);
-    margin-top: 0.25rem;
+    background: #fafafa;
+    padding: 0.5rem 0;
 }
 .subTab {
     flex: 1;
     text-align: center;
-    padding: 0.5rem 0;
+    padding: 0.75rem 0;
     font-size: var(--fs-body-small);
-    color: #999;
+    color: #777;
     cursor: pointer;
     position: relative;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+    margin: 0 0.25rem;
+}
+.subTab:hover {
+    background: rgba(102, 79, 171, 0.1);
+    color: var(--primary-color);
 }
 .activeSubTab {
-    color: #000;
+    color: var(--primary-color);
     font-weight: var(--fw-medium);
-}
-.activeSubTab::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30%;
-    height: 2px;
-    background-color: #000;
+    background: rgba(102, 79, 171, 0.1);
 }
 
 /* 선물 리스트 */
 .itemList {
     flex: 1;
     overflow-y: auto;
-    padding: 1rem;
-    background-color: var(--background-light);
+    padding: 1.5rem;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
 }
 .giftItemWrapper {
     position: relative;
     margin-bottom: 1rem;
+    transition: all 0.3s ease;
 }
-/* hover 시에 GiftItem 안의 deleteButton 보이기 */
-.giftItemWrapper:hover .deleteButton {
-    opacity: 1;
+.giftItemWrapper:hover {
+    transform: translateY(-4px);
 }
 
-/* 빈 상태 */
+/* 개선된 빈 상태 */
 .emptyState {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 3rem 1rem;
-    margin: 1rem;
-    background: var(--background-light);
+    padding: 4rem 2rem;
+    margin: 2rem;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 20px;
+    border: 2px dashed #ddd;
     color: #999;
     text-align: center;
+    transition: all 0.3s ease;
+}
+.emptyState:hover {
+    border-color: var(--primary-color);
+    background: linear-gradient(135deg, rgba(102, 79, 171, 0.05) 0%, #ffffff 100%);
 }
 .emptyState .icon {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+    animation: float 3s ease-in-out infinite;
+}
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 .emptyState .text {
     font-size: var(--fs-body);
-    line-height: 1.4;
+    line-height: 1.6;
+    color: #666;
+    max-width: 280px;
 }
 
 /* 기록 탭 */
 .recordArea {
     flex: 1;
-    padding: 1rem;
+    padding: 2rem;
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
 }
 
 /* 피드백 디테일 */
 .feedbackFolder {
-    margin-top: 0.75rem;
-    padding-left: 1rem;
-    border-left: 2px solid #eee;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(102, 79, 171, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(102, 79, 171, 0.1);
 }
 .feedbackFolder summary {
     cursor: pointer;
     font-weight: var(--fw-medium);
+    color: var(--primary-color);
+    padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 .feedbackFolder summary::-webkit-details-marker {
     display: none;
 }
 .feedbackFolder summary::before {
     content: '▶';
-    display: inline-block;
-    margin-right: 6px;
-    transition: transform 0.2s;
+    transition: transform 0.3s ease;
+    font-size: 0.75rem;
 }
 .feedbackFolder[open] summary::before {
     transform: rotate(90deg);
 }
 .feedbackHistory {
-    margin-top: 0.5rem;
-    padding-left: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(102, 79, 171, 0.1);
+}
+
+/* 로딩 상태 개선 */
+.loading {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    font-size: var(--fs-body);
+    color: #666;
+    gap: 0.75rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 480px) {
+    .eventInfo {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .eventImage {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .buttonGroup {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+
+    .itemList {
+        padding: 1rem;
+    }
+
+    .emptyState {
+        margin: 1rem;
+        padding: 3rem 1rem;
+    }
 }

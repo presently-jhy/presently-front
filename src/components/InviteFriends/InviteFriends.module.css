@@ -1,0 +1,299 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal {
+    background: white;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 1.5rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.closeButton {
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: #f5f5f5;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #666;
+    transition: all 0.2s ease;
+}
+
+.closeButton:hover {
+    background: #e8e8e8;
+    color: #333;
+}
+
+.content {
+    padding: 1.5rem;
+}
+
+.eventInfo {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border: 1px solid rgba(124, 58, 237, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.eventInfo h3 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.eventInfo p {
+    margin: 0;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.messageSection {
+    margin-bottom: 1.5rem;
+}
+
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+.messageInput {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color 0.2s ease;
+}
+
+.messageInput:focus {
+    outline: none;
+    border-color: #7c3aed;
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
+
+.methodsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.methodCard {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.methodCard:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.methodIcon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, #7c3aed, #6d28d9);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+}
+
+.methodContent h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.methodContent p {
+    margin: 0;
+    font-size: 0.75rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.linkSection {
+    margin-bottom: 1rem;
+}
+
+.linkContainer {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.linkInput {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    font-size: 0.75rem;
+    background: #f8f9fa;
+    color: #666;
+    cursor: text;
+}
+
+.copyButton {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: #7c3aed;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.copyButton:hover {
+    background: #6d28d9;
+    transform: translateY(-1px);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .overlay {
+        padding: 0.5rem;
+    }
+
+    .modal {
+        border-radius: 16px;
+    }
+
+    .header {
+        padding: 1rem 1rem 0.75rem;
+    }
+
+    .content {
+        padding: 1rem;
+    }
+
+    .methodsGrid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .methodCard {
+        padding: 0.75rem;
+    }
+
+    .methodIcon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .modal {
+        background: #1a1a1a;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .title {
+        color: #ffffff;
+    }
+
+    .closeButton {
+        background: #333333;
+        color: #cccccc;
+    }
+
+    .closeButton:hover {
+        background: #404040;
+        color: #ffffff;
+    }
+
+    .eventInfo {
+        background: linear-gradient(135deg, #2a2a2a, #333333);
+        border-color: rgba(124, 58, 237, 0.2);
+    }
+
+    .eventInfo h3 {
+        color: #ffffff;
+    }
+
+    .eventInfo p {
+        color: #cccccc;
+    }
+
+    .messageInput {
+        background: #2a2a2a;
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+    }
+
+    .methodCard {
+        background: #2a2a2a;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .methodContent h4 {
+        color: #ffffff;
+    }
+
+    .linkInput {
+        background: #2a2a2a;
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #cccccc;
+    }
+}

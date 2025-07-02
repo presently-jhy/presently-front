@@ -10,6 +10,7 @@ function Profile() {
     const [profileImage, setProfileImage] = useState(null); // base64 URL
     const [nickname, setNickname] = useState('');
     const [email, setEmail] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     // 마운트 시 로컬 스토리지에서 프로필 정보 불러오기
     useEffect(() => {
@@ -30,6 +31,19 @@ function Profile() {
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
+
+            // 파일 크기 체크 (5MB 제한)
+            if (file.size > 5 * 1024 * 1024) {
+                alert('파일 크기는 5MB 이하여야 합니다.');
+                return;
+            }
+
+            // 파일 타입 체크
+            if (!file.type.startsWith('image/')) {
+                alert('이미지 파일만 업로드 가능합니다.');
+                return;
+            }
+
             const reader = new FileReader();
             reader.onloadend = () => {
                 setProfileImage(reader.result);
@@ -39,15 +53,35 @@ function Profile() {
     };
 
     // 폼 제출: 로컬 스토리지에 프로필 정보 저장
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const updatedProfile = {
-            profileImage,
-            nickname,
-            email,
-        };
-        localStorage.setItem('profile', JSON.stringify(updatedProfile));
-        alert('프로필 정보가 저장되었습니다.');
+
+        if (!nickname.trim()) {
+            alert('닉네임을 입력해주세요.');
+            return;
+        }
+
+        setIsSubmitting(true);
+
+        try {
+            const updatedProfile = {
+                profileImage,
+                nickname: nickname.trim(),
+                email,
+                updatedAt: new Date().toISOString(),
+            };
+            localStorage.setItem('profile', JSON.stringify(updatedProfile));
+
+            // 성공 메시지 표시
+            setTimeout(() => {
+                alert('프로필 정보가 저장되었습니다! 🎉');
+                setIsSubmitting(false);
+            }, 500);
+        } catch (error) {
+            console.error('프로필 저장 실패:', error);
+            alert('프로필 저장에 실패했습니다. 다시 시도해주세요.');
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -72,7 +106,7 @@ function Profile() {
 
                     {/* 원 하단 중앙에 "업로드" 버튼 라벨 */}
                     <label htmlFor="profileImageInput" className={styles.uploadLabel}>
-                        업로드
+                        {profileImage ? '변경' : '업로드'}
                     </label>
                     <input
                         type="file"
@@ -92,7 +126,10 @@ function Profile() {
                         onChange={(e) => setNickname(e.target.value)}
                         className={styles.textInput}
                         placeholder="닉네임을 입력하세요"
+                        maxLength={20}
+                        required
                     />
+                    <span className={styles.charCount}>{nickname.length}/20</span>
                 </div>
 
                 {/* 이메일 */}
@@ -102,18 +139,16 @@ function Profile() {
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        readOnly
                         className={styles.textInput}
                         placeholder="이메일 주소를 입력하세요"
+                        required
                     />
                 </div>
 
                 {/* 저장하기 버튼 */}
-                <Link to="/setting">
-                    <button type="submit" className={styles.saveButton}>
-                        저장하기
-                    </button>
-                </Link>
+                <button type="submit" className={styles.saveButton} disabled={isSubmitting || !nickname.trim()}>
+                    {isSubmitting ? '저장 중...' : '저장하기'}
+                </button>
             </form>
         </div>
     );

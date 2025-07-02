@@ -1,11 +1,16 @@
+// src/pages/GiftEnroll/GiftEnroll.jsx
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import styles from './GiftEnroll.module.css';
 import arrowIcon from './arrowIcon.png';
 import fundExampleImg from './fundExample.png';
 import giftExampleImg from './giftExample.png';
 import cameraIcon from './cameraIcon.png';
 import AmountDial from '../../components/AmountDial/AmountDial';
+import Spinner from '../../components/Spinner/Spinner';
+import Confetti from '../../components/Confetti/Confetti';
 
 export default function GiftEnroll() {
     const navigate = useNavigate();
@@ -20,35 +25,51 @@ export default function GiftEnroll() {
         return () => window.removeEventListener('resize', onResize);
     }, []);
 
-    // 타입(gift|fund) & 수신 상태(want|unwant|done)
+    // 타입 & 수신 상태
     const initialType = eventData?.eventType === 'gift' ? 'gift' : 'fund';
     const [selectedType, setSelectedType] = useState(initialType);
     const [receiveStatus, setReceiveStatus] = useState('want');
 
-    // 폼 state
+    // 폼 state + validation
     const [imageFile, setImageFile] = useState(null);
     const [giftName, setGiftName] = useState('');
     const [giftDescription, setGiftDescription] = useState('');
     const [giftAmount, setGiftAmount] = useState('0');
     const [giftLink, setGiftLink] = useState('');
 
+    const [giftNameError, setGiftNameError] = useState('');
+    const [giftAmountError, setGiftAmountError] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+    const [showConfetti, setShowConfetti] = useState(false);
+
     const namePlaceholder = selectedType === 'gift' ? '선물 이름 (필수)' : '펀드 이름 (필수)';
     const descriptionPlaceholder = selectedType === 'gift' ? '선물 설명' : '펀드 설명';
 
-    // 뒤로가기
-    const handleBack = () => navigate(-1);
+    // validation functions
+    const validateGiftName = (val) => {
+        const v = val.trim();
+        if (!v) {
+            setGiftNameError('이름은 필수입니다.');
+        } else if (v.length < 2) {
+            setGiftNameError('최소 2글자 이상 입력해주세요.');
+        } else {
+            setGiftNameError('');
+        }
+    };
+    const validateGiftAmount = (val) => {
+        if (receiveStatus === 'want') {
+            const num = parseFloat(val);
+            if (!num || isNaN(num)) {
+                setGiftAmountError('금액을 정확히 입력해주세요.');
+            } else {
+                setGiftAmountError('');
+            }
+        } else {
+            setGiftAmountError('');
+        }
+    };
 
-    // 타입 탭 클릭 (want 모드에서만)
-    const typeSelectable = receiveStatus === 'want';
-    const handleSelectFund = () => typeSelectable && setSelectedType('fund');
-    const handleSelectGift = () => typeSelectable && setSelectedType('gift');
-
-    // 수신 상태 변경
-    const handleSelectWant = () => setReceiveStatus('want');
-    const handleSelectUnwant = () => setReceiveStatus('unwant');
-    const handleSelectDone = () => setReceiveStatus('done');
-
-    // 이미지 업로드
+    // image preview
     const handleImageChange = (e) => {
         if (!e.target.files?.[0]) return;
         const reader = new FileReader();
@@ -58,20 +79,20 @@ export default function GiftEnroll() {
     const getExampleImage = () => (selectedType === 'fund' ? fundExampleImg : giftExampleImg);
     const previewImage = imageFile || getExampleImage();
 
-    // 제출
-    const handleSubmit = (e) => {
+    // submit
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!giftName.trim()) {
-            alert(`${selectedType === 'gift' ? '선물' : '펀드'} 이름은 필수입니다.`);
-            return;
-        }
-        if (receiveStatus === 'want') {
-            const amt = parseFloat(giftAmount);
-            if (!amt || isNaN(amt)) {
-                alert(`${selectedType === 'gift' ? '선물' : '펀드'} 금액을 정확히 입력해주세요.`);
-                return;
-            }
-        }
+        // run validations
+        validateGiftName(giftName);
+        validateGiftAmount(giftAmount);
+
+        let hasError = false;
+        if (giftNameError) hasError = true;
+        if (giftAmountError) hasError = true;
+        if (hasError) return;
+
+        setSubmitting(true);
+        // 기존 로직
         const amountValue = parseFloat(giftAmount) || 0;
         const newGift = {
             id: Date.now(),
@@ -92,12 +113,24 @@ export default function GiftEnroll() {
         }
         const existing = JSON.parse(localStorage.getItem('gifts')) || [];
         localStorage.setItem('gifts', JSON.stringify([...existing, newGift]));
-        navigate('/eventview', { state: eventData });
+
+        // 폭죽 효과 트리거
+        setShowConfetti(true);
+        setTimeout(() => setShowConfetti(false), 100);
+
+        // 잠시 후 페이지 이동
+        setTimeout(() => {
+            navigate('/eventview', { state: eventData });
+        }, 1000);
+
+        setSubmitting(false);
     };
+
+    // header back
+    const handleBack = () => navigate(-1);
 
     return (
         <div className={styles.container}>
-            {/* 헤더 */}
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
                     <img src={arrowIcon} alt="뒤로가기" />
@@ -105,50 +138,46 @@ export default function GiftEnroll() {
                 <h2 className={styles.title}>{selectedType === 'gift' ? '선물 등록' : '펀드 등록'}</h2>
             </header>
 
-            {/* 이벤트명 */}
             <div className={styles.eventName}>{eventData?.eventName || '이벤트명'}</div>
 
-            {/* 펀드/선물 탭 (want 모드에서만 활성) */}
             <div className={styles.tabContainer}>
                 <button
                     className={`${styles.tabButton} ${selectedType === 'fund' ? styles.activeTab : ''}`}
-                    onClick={handleSelectFund}
-                    disabled={!typeSelectable}
+                    onClick={() => receiveStatus === 'want' && setSelectedType('fund')}
+                    disabled={receiveStatus !== 'want'}
                 >
                     펀드
                 </button>
                 <button
                     className={`${styles.tabButton} ${selectedType === 'gift' ? styles.activeTab : ''}`}
-                    onClick={handleSelectGift}
-                    disabled={!typeSelectable}
+                    onClick={() => receiveStatus === 'want' && setSelectedType('gift')}
+                    disabled={receiveStatus !== 'want'}
                 >
                     선물
                 </button>
             </div>
 
-            {/* 받고 싶은 / 받기 싫은 / 받은 */}
             <div className={styles.receiveContainer}>
                 <button
                     className={`${styles.receiveButton} ${receiveStatus === 'want' ? styles.receiveActive : ''}`}
-                    onClick={handleSelectWant}
+                    onClick={() => setReceiveStatus('want')}
                 >
                     받고 싶은
                 </button>
                 <button
                     className={`${styles.receiveButton} ${receiveStatus === 'unwant' ? styles.receiveActive : ''}`}
-                    onClick={handleSelectUnwant}
+                    onClick={() => setReceiveStatus('unwant')}
                 >
                     받기 싫은
                 </button>
                 <button
                     className={`${styles.receiveButton} ${receiveStatus === 'done' ? styles.receiveActive : ''}`}
-                    onClick={handleSelectDone}
+                    onClick={() => setReceiveStatus('done')}
                 >
                     받은
                 </button>
             </div>
 
-            {/* 이미지 업로드 */}
             <div className={styles.imageContainer}>
                 <img src={previewImage} alt="예시" className={styles.exampleImage} />
                 <label htmlFor="imageFile" className={styles.cameraLabel}>
@@ -163,19 +192,22 @@ export default function GiftEnroll() {
                 />
             </div>
 
-            {/* 입력 폼 */}
             <form className={styles.form} onSubmit={handleSubmit}>
                 {/* 이름 */}
                 <div className={styles.inputGroup}>
                     <input
                         type="text"
                         value={giftName}
-                        onChange={(e) => setGiftName(e.target.value)}
+                        onChange={(e) => {
+                            setGiftName(e.target.value);
+                            validateGiftName(e.target.value);
+                        }}
                         maxLength={30}
                         placeholder={namePlaceholder}
                         className={styles.textInput}
                     />
                     <span className={styles.charCount}>{giftName.length}/30</span>
+                    {giftNameError && <div className={styles.fieldError}>{giftNameError}</div>}
                 </div>
 
                 {/* 설명 */}
@@ -191,7 +223,7 @@ export default function GiftEnroll() {
                     <span className={styles.charCount}>{giftDescription.length}/100</span>
                 </div>
 
-                {/* 링크 (옵션) */}
+                {/* 링크 */}
                 <div className={styles.inputGroup}>
                     <input
                         type="url"
@@ -206,16 +238,31 @@ export default function GiftEnroll() {
                 <div className={`${styles.amountDialWrapper} ${receiveStatus !== 'want' ? styles.disabledDial : ''}`}>
                     <AmountDial
                         value={Number(giftAmount)}
-                        setValue={(v) => setGiftAmount(String(v))}
+                        setValue={(v) => {
+                            const s = String(v);
+                            setGiftAmount(s);
+                            validateGiftAmount(s);
+                        }}
                         maxValue={10000000}
                         disabled={receiveStatus !== 'want'}
                     />
                 </div>
+                {giftAmountError && <div className={styles.fieldError}>{giftAmountError}</div>}
 
-                <button type="submit" className={styles.submitButton}>
-                    완료하기
-                </button>
+                <motion.button
+                    type="submit"
+                    className={styles.submitButton}
+                    disabled={submitting || giftNameError !== '' || giftAmountError !== ''}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                >
+                    {submitting ? <Spinner /> : '완료하기'}
+                </motion.button>
             </form>
+
+            {/* 폭죽 효과 */}
+            <Confetti trigger={showConfetti} />
         </div>
     );
 }

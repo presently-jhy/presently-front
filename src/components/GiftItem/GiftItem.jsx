@@ -1,5 +1,6 @@
 // src/components/GiftItem/GiftItem.jsx
 import React from 'react';
+import { motion } from 'framer-motion';
 import styles from './GiftItem.module.css';
 
 export default function GiftItem({
@@ -23,12 +24,15 @@ export default function GiftItem({
     };
 
     return (
-        <div
+        <motion.div
             className={styles.giftItemContainer}
             onClick={onClick}
             role="button"
             tabIndex={0}
             onKeyDown={handleKeyDown}
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
         >
             <img src={image} alt={`${title} 이미지`} className={styles.giftImage} />
 
@@ -83,6 +87,6 @@ export default function GiftItem({
                     </button>
                 )}
             </div>
-        </div>
+        </motion.div>
     );
 }

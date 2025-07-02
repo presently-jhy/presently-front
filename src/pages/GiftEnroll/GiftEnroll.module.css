@@ -3,108 +3,250 @@
 .container {
     width: 100%;
     min-height: 100vh;
-    padding: 16px;
+    padding: 1.5rem;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     font-family: var(--font-primary);
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    position: relative;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(102, 79, 171, 0.1), rgba(124, 90, 194, 0.1));
+    z-index: 0;
 }
 
 /* 헤더 */
 .header {
     display: flex;
     align-items: center;
-    margin-top: 30px;
-    margin-bottom: 24px;
+    margin: 1rem 0 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .backButton {
-    background: none;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
     border: none;
+    border-radius: 50%;
     cursor: pointer;
-    margin-right: 80px;
+    margin-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.backButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.backButton:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 32px rgba(102, 79, 171, 0.4);
+}
+
+.backButton:hover::before {
+    left: 100%;
+}
+
+.backButton:active {
+    transform: translateY(0) scale(0.98);
 }
 
 .backButton img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
+}
+
+.backButton:hover img {
+    transform: translateX(-2px);
 }
 
 .title {
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-h2);
-    line-height: var(--lh-h2);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+.title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--purple-start), var(--purple-end));
+    border-radius: 2px;
 }
 
 /* 이벤트 이름 */
 .eventName {
-    font-size: var(--fs-h4);
-    font-weight: var(--fw-h4);
-    line-height: var(--lh-h4);
-    color: #aaa;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #666;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(102, 79, 171, 0.1);
 }
 
 /* 펀드/선물 탭 */
 .tabContainer {
     display: flex;
     justify-content: center;
-    gap: 16px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 79, 171, 0.1);
 }
 
 .tabButton {
-    width: 96px;
-    height: 32px;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #664fab;
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    border: 1px solid #664fab;
+    width: 120px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    color: var(--purple-dark);
+    font-size: 1rem;
+    font-weight: 600;
+    border: 2px solid rgba(102, 79, 171, 0.2);
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.tabButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(102, 79, 171, 0.1), rgba(124, 90, 194, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .tabButton:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    border-color: var(--purple-start);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.15);
+}
+
+.tabButton:hover::before {
+    opacity: 1;
+}
+
+.tabButton:active {
+    transform: translateY(0);
 }
 
 .activeTab {
-    background-color: #664fab;
-    color: #fff;
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    color: white;
+    border-color: var(--purple-start);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
+}
+
+.tabButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
 }
 
 /* 받고 싶은 / 받기 싫은 / 받은 */
 .receiveContainer {
     display: flex;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .receiveButton {
-    width: 78px;
-    height: 26px;
-    border-radius: 6px;
-    background-color: #fff;
-    color: #664fab;
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    border: 1px solid #664fab;
+    width: 100px;
+    height: 40px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    color: var(--purple-dark);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: 2px solid rgba(102, 79, 171, 0.2);
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s, transform 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.receiveButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(102, 79, 171, 0.1), rgba(124, 90, 194, 0.1));
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .receiveButton:hover {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    border-color: var(--purple-start);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.15);
+}
+
+.receiveButton:hover::before {
+    opacity: 1;
+}
+
+.receiveButton:active {
+    transform: translateY(0);
 }
 
 .receiveActive {
-    background-color: #664fab;
-    color: #fff;
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    color: white;
+    border-color: var(--purple-start);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
 }
 
 /* 이미지 업로드 */
@@ -112,31 +254,53 @@
     position: relative;
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .exampleImage {
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
     object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #eee;
+    border-radius: 16px;
+    border: 3px solid white;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.imageContainer:hover .exampleImage {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(102, 79, 171, 0.2);
 }
 
 .cameraLabel {
     position: absolute;
-    bottom: 0;
-    right: 28px;
-    margin-right: 75px;
+    bottom: 0.5rem;
+    right: 50%;
+    transform: translateX(50%);
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
+    transition: all 0.3s ease;
+    border: 3px solid white;
 }
 
-.cameraIcon {
-    width: 36px;
-    height: 36px;
-    object-fit: contain;
-    margin-right: 80px;
-    margin-bottom: 2px;
+.cameraLabel:hover {
+    transform: translateX(50%) scale(1.1);
+    box-shadow: 0 6px 24px rgba(102, 79, 171, 0.4);
+}
+
+.cameraLabel img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1);
 }
 
 .imageInput {
@@ -147,25 +311,42 @@
 .form {
     display: flex;
     flex-direction: column;
-    max-width: 340px;
+    max-width: 400px;
     margin: 0 auto;
+    gap: 1.5rem;
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 79, 171, 0.1);
 }
 
 .inputGroup {
     position: relative;
     display: flex;
     flex-direction: column;
-    margin-bottom: 8px;
 }
 
 .textInput {
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    color: #333;
-    width: 316px;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 1rem 1.25rem;
+    border: 2px solid rgba(102, 79, 171, 0.1);
+    border-radius: 12px;
+    color: var(--text-dark);
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.textInput:focus {
+    outline: none;
+    border-color: var(--purple-start);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.15);
+    transform: translateY(-2px);
 }
 
 .textInput::placeholder {
@@ -173,14 +354,26 @@
 }
 
 .textArea {
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 1rem 1.25rem;
+    border: 2px solid rgba(102, 79, 171, 0.1);
+    border-radius: 12px;
     resize: none;
-    color: #333;
-    width: 316px;
+    color: var(--text-dark);
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+.textArea:focus {
+    outline: none;
+    border-color: var(--purple-start);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.15);
+    transform: translateY(-2px);
 }
 
 .textArea::placeholder {
@@ -188,100 +381,219 @@
 }
 
 .charCount {
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     color: #999;
     position: absolute;
-    bottom: 8px;
-    right: 12px;
+    bottom: 0.75rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-weight: 500;
 }
 
-/* 금액 표시 영역 */
-.amountDisplay {
-    margin-bottom: 12px;
-    text-align: center;
-}
-
-.commaAmount {
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.korAmount {
-    font-size: 0.9rem;
-    color: #666;
-}
-
-/* 모바일: native number input 스타일 */
-.amountInputContainer {
+/* 금액 다이얼 */
+.amountDialWrapper {
     display: flex;
     justify-content: center;
-    margin-bottom: 12px;
-}
-
-.amountInput {
-    width: 100%;
-    max-width: 340px;
-    padding: 12px;
-    font-size: var(--fs-body-small);
-    border: 1px solid #ccc;
-    border-radius: 8px;
-}
-
-/* 숫자 키패드 (PC 전용) */
-.keypad {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 12px;
-    width: 100%;
-    max-width: 340px;
-    margin: 0 auto 12px auto;
-}
-
-.keypadButton {
-    width: 100%;
-    padding: 16px 0;
-    font-size: 1rem;
-    border: none;
-    border-radius: 8px;
-    background-color: #f2f2f2;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.keypadButton:hover {
-    background-color: #e2e2e2;
-}
-
-/* 완료 버튼 */
-.submitButton {
-    background: linear-gradient(to right, #7d57b1, #594aa8);
-    color: #fff;
-    border: none;
-    padding: 12px;
-    border-radius: 9999px;
-    font-size: var(--fs-button);
-    font-weight: var(--fw-button);
-    cursor: pointer;
-    transition: background 0.3s ease;
-    align-self: center;
-    width: 200px;
-    text-align: center;
-    margin-top: 12px;
-}
-
-.submitButton:hover {
-    opacity: 0.9;
+    margin: 1rem 0;
+    transition: all 0.3s ease;
 }
 
 .amountDialWrapper.disabledDial {
-    filter: blur(2px);
+    opacity: 0.5;
     pointer-events: none;
-    opacity: 0.6;
 }
 
-.tabButton:disabled {
-    opacity: 0.5;
+/* 제출 버튼 */
+.submitButton {
+    width: 100%;
+    padding: 1.25rem;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    color: white;
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
+    position: relative;
+    overflow: hidden;
+    margin-top: 1rem;
+}
+
+.submitButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.submitButton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(102, 79, 171, 0.4);
+}
+
+.submitButton:hover::before {
+    left: 100%;
+}
+
+.submitButton:active {
+    transform: translateY(-1px);
+}
+
+.submitButton:disabled {
+    opacity: 0.6;
     cursor: not-allowed;
-    /* 혹은 pointer-events: none; */
+    transform: none;
+}
+
+/* 에러 메시지 */
+.fieldError {
+    font-size: 0.875rem;
+    color: #ff4d4f;
+    background: rgba(255, 77, 79, 0.1);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border-left: 3px solid #ff4d4f;
+    margin-top: 0.5rem;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .header {
+        margin: 0.5rem 0 1.5rem;
+    }
+
+    .backButton {
+        width: 40px;
+        height: 40px;
+        margin-right: 0.75rem;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .tabContainer {
+        padding: 0.75rem;
+        gap: 0.75rem;
+    }
+
+    .tabButton {
+        width: 100px;
+        height: 40px;
+        font-size: 0.875rem;
+    }
+
+    .receiveButton {
+        width: 80px;
+        height: 36px;
+        font-size: 0.8rem;
+    }
+
+    .exampleImage {
+        width: 120px;
+        height: 120px;
+    }
+
+    .cameraLabel {
+        width: 40px;
+        height: 40px;
+    }
+
+    .cameraLabel img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .form {
+        padding: 1.5rem;
+        max-width: 100%;
+    }
+
+    .submitButton {
+        padding: 1rem;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0.75rem;
+    }
+
+    .title {
+        font-size: 1.25rem;
+    }
+
+    .tabContainer {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .tabButton {
+        width: 100%;
+        max-width: 200px;
+    }
+
+    .receiveContainer {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .receiveButton {
+        width: calc(50% - 0.25rem);
+        font-size: 0.75rem;
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+
+    .container::before {
+        background: linear-gradient(135deg, rgba(102, 79, 171, 0.2), rgba(124, 90, 194, 0.2));
+    }
+
+    .eventName,
+    .tabContainer,
+    .form {
+        background: rgba(42, 42, 42, 0.9);
+        border-color: rgba(102, 79, 171, 0.2);
+    }
+
+    .title {
+        color: #ffffff;
+    }
+
+    .textInput,
+    .textArea {
+        background: linear-gradient(135deg, #333333, #444444);
+        color: #ffffff;
+        border-color: rgba(102, 79, 171, 0.3);
+    }
+
+    .tabButton,
+    .receiveButton {
+        background: linear-gradient(135deg, #333333, #444444);
+        border-color: rgba(102, 79, 171, 0.3);
+        color: #ffffff;
+    }
+
+    .charCount {
+        background: rgba(42, 42, 42, 0.9);
+        color: #cccccc;
+    }
 }
