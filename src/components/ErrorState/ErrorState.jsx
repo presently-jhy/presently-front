@@ -1,61 +1,38 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertTriangle, RefreshCw } from 'lucide-react';
 import styles from './ErrorState.module.css';
 
 const ErrorState = ({
-    title = '오류가 발생했습니다',
-    message = '잠시 후 다시 시도해주세요.',
+    title = 'Something went wrong',
+    message,
     onRetry,
-    variant = 'default',
+    showRetry = true,
+    size = 'medium',
+    className = '',
 }) => {
     return (
         <motion.div
-            className={`${styles.container} ${styles[variant]}`}
+            className={`${styles.container} ${styles[size]} ${className}`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
         >
-            <motion.div
-                className={styles.icon}
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
-            >
-                <AlertCircle size={48} />
-            </motion.div>
-
-            <motion.h3
-                className={styles.title}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-            >
-                {title}
-            </motion.h3>
-
-            <motion.p
-                className={styles.message}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-            >
-                {message}
-            </motion.p>
-
-            {onRetry && (
+            <div className={styles.icon}>
+                <AlertTriangle size={size === 'small' ? 32 : size === 'large' ? 64 : 48} />
+            </div>
+            <h3 className={styles.title}>{title}</h3>
+            {message && <p className={styles.message}>{message}</p>}
+            {showRetry && onRetry && (
                 <motion.button
                     className={styles.retryButton}
                     onClick={onRetry}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
+                    transition={{ duration: 0.1 }}
                 >
                     <RefreshCw size={16} />
-                    다시 시도
+                    Try Again
                 </motion.button>
             )}
         </motion.div>

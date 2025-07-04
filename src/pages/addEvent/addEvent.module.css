@@ -1,19 +1,31 @@
-/* 페이지 전체 컨테이너 */
+/* addEvent 페이지 스타일 */
+@import '../../global.css';
+
 .container {
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background: #fafafa;
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
     position: relative;
 }
 
-/* 상단 헤더 영역 */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(102, 79, 171, 0.1), rgba(124, 90, 194, 0.1));
+    z-index: 0;
+}
+
 .header {
     display: flex;
     align-items: center;
-    padding: 1.5rem;
-    margin: 1rem 0 2rem;
+    padding: var(--spacing-lg);
+    margin: var(--spacing-md) 0 var(--spacing-xl);
     position: relative;
     z-index: 1;
     background: rgba(255, 255, 255, 0.95);
@@ -21,15 +33,14 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-/* 뒤로 가기 버튼 */
 .backButton {
     width: 40px;
     height: 40px;
-    background: #f5f5f5;
+    background: var(--bg-tertiary);
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    margin-right: 1rem;
+    margin-right: var(--spacing-md);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,7 +48,7 @@
 }
 
 .backButton:hover {
-    background: #e8e8e8;
+    background: var(--gray-200);
     transform: translateY(-1px);
 }
 
@@ -56,16 +67,14 @@
     opacity: 1;
 }
 
-/* 헤더 타이틀 */
 .title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #1a1a1a;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
 }
 
-/* 메인 콘텐츠 영역 */
 .content {
-    padding: 2rem;
+    padding: var(--spacing-xl);
     position: relative;
     z-index: 1;
     display: flex;
@@ -75,54 +84,50 @@
     flex: 1;
 }
 
-/* 안내 문구 전체 컨테이너 */
 .subtitle {
     text-align: center;
-    margin-bottom: 3rem;
-    line-height: 1.6;
+    margin-bottom: var(--spacing-2xl);
+    line-height: var(--line-height-relaxed);
     background: rgba(255, 255, 255, 0.8);
-    padding: 2rem;
-    border-radius: 16px;
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
     max-width: 500px;
     width: 100%;
 }
 
-/* 첫 줄: 연한 색, 보통 굵기 */
 .subtitleGray {
-    color: #666;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.6;
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-relaxed);
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-sm);
 }
 
-/* 둘째 줄: 진한 색, 굵게 */
 .subtitleBlack {
-    color: #1a1a1a;
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.4;
+    color: var(--text-primary);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
     display: block;
 }
 
-/* 이벤트 유형 버튼들을 감싸는 컨테이너 (row) */
 .eventContainer {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
     flex-wrap: wrap;
 }
 
 .eventOption {
     background: rgba(255, 255, 255, 0.9);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
-    border-radius: 16px;
-    padding: 1.5rem;
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -142,13 +147,12 @@
     transform: translateY(-1px);
 }
 
-/* 이벤트 유형 버튼 (링크 스타일) */
 .eventTypeButton {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: #1a1a1a;
+    color: var(--text-primary);
     cursor: pointer;
     width: 100%;
     height: 100%;
@@ -160,7 +164,7 @@
     width: 60px;
     height: 60px;
     object-fit: contain;
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--spacing-sm);
     transition: transform 0.2s ease;
 }
 
@@ -169,60 +173,60 @@
 }
 
 .eventTypeButton span {
-    font-size: 0.875rem;
-    font-weight: 500;
-    line-height: 1.4;
-    color: #666;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-tight);
+    color: var(--text-secondary);
     transition: color 0.2s ease;
 }
 
 .eventOption:hover .eventTypeButton span {
-    color: #1a1a1a;
+    color: var(--text-primary);
 }
 
-/* 반응형: 화면 너비가 768px 이하일 경우 세로 배열로 전환 */
+/* 반응형 디자인 */
 @media (max-width: 768px) {
     .header {
-        padding: 1rem;
-        margin: 0.5rem 0 1.5rem;
+        padding: var(--spacing-md);
+        margin: var(--spacing-sm) 0 var(--spacing-lg);
     }
 
     .backButton {
         width: 36px;
         height: 36px;
-        margin-right: 0.75rem;
+        margin-right: var(--spacing-sm);
     }
 
     .title {
-        font-size: 1.25rem;
+        font-size: var(--font-size-xl);
     }
 
     .content {
-        padding: 1.5rem;
+        padding: var(--spacing-lg);
     }
 
     .subtitle {
-        padding: 1.5rem;
-        margin-bottom: 2rem;
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
     }
 
     .subtitleGray {
-        font-size: 0.875rem;
+        font-size: var(--font-size-sm);
     }
 
     .subtitleBlack {
-        font-size: 1.125rem;
+        font-size: var(--font-size-lg);
     }
 
     .eventContainer {
-        flex-direction: column;
-        gap: 1rem;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
     }
 
     .eventOption {
         width: 120px;
         height: 120px;
-        padding: 1.25rem;
+        padding: var(--spacing-md);
     }
 
     .eventTypeButton img {
@@ -231,39 +235,40 @@
     }
 
     .eventTypeButton span {
-        font-size: 0.75rem;
+        font-size: var(--font-size-xs);
     }
 }
 
 @media (max-width: 480px) {
     .header {
-        padding: 0.75rem;
+        padding: var(--spacing-sm);
     }
 
     .title {
-        font-size: 1.125rem;
+        font-size: var(--font-size-lg);
     }
 
     .content {
-        padding: 1rem;
+        padding: var(--spacing-md);
     }
 
     .subtitle {
-        padding: 1rem;
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
     }
 
     .subtitleGray {
-        font-size: 0.75rem;
+        font-size: var(--font-size-xs);
     }
 
     .subtitleBlack {
-        font-size: 1rem;
+        font-size: var(--font-size-base);
     }
 
     .eventOption {
         width: 100px;
         height: 100px;
-        padding: 1rem;
+        padding: var(--spacing-sm);
     }
 
     .eventTypeButton img {
@@ -272,14 +277,18 @@
     }
 
     .eventTypeButton span {
-        font-size: 0.75rem;
+        font-size: var(--font-size-xs);
     }
 }
 
 /* 다크 모드 지원 */
 @media (prefers-color-scheme: dark) {
     .container {
-        background: #1a1a1a;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+
+    .container::before {
+        background: linear-gradient(135deg, rgba(102, 79, 171, 0.2), rgba(124, 90, 194, 0.2));
     }
 
     .header {
@@ -288,7 +297,7 @@
     }
 
     .title {
-        color: #ffffff;
+        color: var(--white);
     }
 
     .subtitle {
@@ -296,11 +305,11 @@
     }
 
     .subtitleGray {
-        color: #cccccc;
+        color: var(--text-secondary);
     }
 
     .subtitleBlack {
-        color: #ffffff;
+        color: var(--white);
     }
 
     .eventOption {
@@ -309,18 +318,18 @@
     }
 
     .eventTypeButton span {
-        color: #cccccc;
+        color: var(--text-secondary);
     }
 
     .eventOption:hover .eventTypeButton span {
-        color: #ffffff;
+        color: var(--white);
     }
 
     .backButton {
-        background: #333333;
+        background: var(--gray-700);
     }
 
     .backButton:hover {
-        background: #404040;
+        background: var(--gray-600);
     }
 }

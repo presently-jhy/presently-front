@@ -39,7 +39,7 @@ function Home() {
     };
 
     return (
-        <div className={styles.homecontainer}>
+        <div className={styles.homeContainer}>
             <div className={styles.logoText}>presently</div>
             <div className={styles.subText}>선물. 기념일. 더 완벽하게.</div>
             <div className={styles.giftDiv}>

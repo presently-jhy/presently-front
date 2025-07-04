@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft, User } from 'lucide-react';
 import styles from './Setting.module.css';
-import backIcon from './arrowIcon.png';
-import profileIcon from './profileIcon.png';
 import { supabase } from '../../lib/supabaseClient';
+import { useToast } from '../../context/ToastContext';
 
 function Setting() {
     const navigate = useNavigate();
+    const { showSuccess, showError } = useToast();
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
     // 뒤로가기
@@ -32,7 +33,9 @@ function Setting() {
         const { error } = await supabase.auth.signOut();
         if (error) {
             console.error('로그아웃 실패:', error.message);
-            // 필요하다면 사용자에게 오류 안내
+            showError('로그아웃 중 오류가 발생했습니다.');
+        } else {
+            showSuccess('로그아웃되었습니다.');
         }
         navigate('/');
     };
@@ -41,7 +44,7 @@ function Setting() {
         <div className={styles.container}>
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
-                    <img src={backIcon} alt="뒤로가기" />
+                    <ArrowLeft size={24} />
                 </button>
                 <h2 className={styles.title}>설정</h2>
             </header>
@@ -50,7 +53,7 @@ function Setting() {
                 {/* 프로필 수정 */}
                 <div className={styles.settingItem} onClick={handleProfileEdit}>
                     <span>프로필 정보 수정</span>
-                    <img src={profileIcon} alt="프로필 수정" className={styles.settingIcon} />
+                    <User size={20} className={styles.settingIcon} />
                 </div>
 
                 {/* 알림 설정 */}

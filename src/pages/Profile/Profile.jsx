@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import styles from './Profile.module.css';
-import arrowIcon from './arrowIcon.png';
+import { useToast } from '../../context/ToastContext';
 
 function Profile() {
     const navigate = useNavigate();
+    const { showSuccess, showError } = useToast();
 
     // 프로필 정보 상태 (이미지, 닉네임, 이메일)
     const [profileImage, setProfileImage] = useState(null); // base64 URL
@@ -34,13 +36,13 @@ function Profile() {
 
             // 파일 크기 체크 (5MB 제한)
             if (file.size > 5 * 1024 * 1024) {
-                alert('파일 크기는 5MB 이하여야 합니다.');
+                showError('파일 크기는 5MB 이하여야 합니다.');
                 return;
             }
 
             // 파일 타입 체크
             if (!file.type.startsWith('image/')) {
-                alert('이미지 파일만 업로드 가능합니다.');
+                showError('이미지 파일만 업로드 가능합니다.');
                 return;
             }
 
@@ -57,7 +59,7 @@ function Profile() {
         e.preventDefault();
 
         if (!nickname.trim()) {
-            alert('닉네임을 입력해주세요.');
+            showError('닉네임을 입력해주세요.');
             return;
         }
 
@@ -74,12 +76,12 @@ function Profile() {
 
             // 성공 메시지 표시
             setTimeout(() => {
-                alert('프로필 정보가 저장되었습니다! 🎉');
+                showSuccess('프로필 정보가 저장되었습니다! 🎉');
                 setIsSubmitting(false);
             }, 500);
         } catch (error) {
             console.error('프로필 저장 실패:', error);
-            alert('프로필 저장에 실패했습니다. 다시 시도해주세요.');
+            showError('프로필 저장에 실패했습니다. 다시 시도해주세요.');
             setIsSubmitting(false);
         }
     };
@@ -89,7 +91,7 @@ function Profile() {
             {/* 상단 헤더 */}
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
-                    <img src={arrowIcon} alt="뒤로가기" />
+                    <ArrowLeft size={24} />
                 </button>
                 <h2 className={styles.title}>프로필 정보</h2>
             </header>

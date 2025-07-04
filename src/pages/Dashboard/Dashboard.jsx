@@ -3,23 +3,32 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BarChart3 } from 'lucide-react';
+import { BarChart3, ArrowDown } from 'lucide-react';
 import styles from './Dashboard.module.css';
 import Eventbox from '../../components/eventbox/Eventbox';
-import SkeletonCard from '../../components/SkeletonCard/SkeletonCard';
-import Spinner from '../../components/Spinner/Spinner';
-import EventStats from '../../components/DataVisualization/EventStats';
-import CuteLoading from '../../components/CuteLoading/CuteLoading';
+import { SkeletonCard, Spinner, EventStats, CuteLoading, Button, EmptyState, ErrorState } from '../../components';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../context/ToastContext';
+import { useSupabaseRealtime } from '../../hooks/useSupabaseRealtime';
+import { eventService } from '../../services/eventService';
 
 export default function Dashboard() {
-    const [events, setEvents] = useState([]);
     const [gifts, setGifts] = useState([]);
-    const [loading, setLoading] = useState(true);
     const [sortLoading, setSortLoading] = useState(false);
     const [showStats, setShowStats] = useState(false);
     const navigate = useNavigate();
-    const { user, accessToken, checking } = useAuth();
+    const { user, checking } = useAuth();
+    const { showSuccess, showError } = useToast();
+
+    // Supabase Realtime으로 이벤트 데이터 관리
+    const {
+        data: events,
+        loading,
+        error,
+    } = useSupabaseRealtime('events', {
+        column: 'creator_id',
+        value: user?.id,
+    });
 
     // 인증 처리
     useEffect(() => {
@@ -28,42 +37,12 @@ export default function Dashboard() {
         }
     }, [checking, user, navigate]);
 
-    // 사용자 이벤트 가져오기
+    // 사용자 이벤트 가져오기 (Supabase Realtime으로 대체됨)
     useEffect(() => {
-        async function fetchUserEvents() {
-            setLoading(true);
-            try {
-                const res = await fetch('https://rewftufssxzqgdqrsqlz.functions.supabase.co/get-user-events', {
-                    headers: { Authorization: `Bearer ${accessToken}` },
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    setEvents(
-                        data.map((e) => ({
-                            id: e.id,
-                            eventName: e.title,
-                            eventDescription: e.description,
-                            eventDate: e.event_datetime?.split('T')[0],
-                            eventImg: e.image_url,
-                            eventView: e.event_view,
-                            eventPresent: e.event_present,
-                            ownerId: e.creator_id,
-                        }))
-                    );
-                } else {
-                    console.error('이벤트 불러오기 실패:', await res.text());
-                }
-            } catch (err) {
-                console.error('이벤트 요청 에러:', err);
-            } finally {
-                setLoading(false);
-            }
+        if (events && events.length > 0) {
+            showSuccess(`${events.length}개의 이벤트를 불러왔어요!`);
         }
-
-        if (!checking && user && accessToken) {
-            fetchUserEvents();
-        }
-    }, [checking, user, accessToken]);
+    }, [events, showSuccess]);
 
     // 선물 데이터 가져오기
     useEffect(() => {
@@ -78,19 +57,35 @@ export default function Dashboard() {
         await new Promise((resolve) => setTimeout(resolve, 300));
         setEvents((prev) => [...prev].sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate)));
         setSortLoading(false);
+        showSuccess('이벤트가 최신순으로 정렬되었어요!');
     };
 
     // 이벤트 삭제
-    const handleDelete = (idx, e) => {
+    const handleDelete = async (eventId, e) => {
         e.stopPropagation();
-        const updated = events.filter((_, i) => i !== idx);
-        setEvents(updated);
-        localStorage.setItem('events', JSON.stringify(updated));
+        try {
+            await eventService.deleteEvent(eventId);
+            showSuccess('이벤트가 삭제되었습니다!');
+        } catch (error) {
+            console.error('이벤트 삭제 실패:', error);
+            showError('이벤트 삭제에 실패했습니다.');
+        }
     };
 
     // 이벤트 클릭
-    const handleEventClick = (ev) => {
-        navigate('/eventview', { state: ev });
+    const handleEventClick = (event) => {
+        // Supabase 데이터 구조에 맞게 변환
+        const eventData = {
+            id: event.id,
+            eventName: event.title,
+            eventDescription: event.description,
+            eventDate: event.event_datetime?.split('T')[0],
+            eventImg: event.image_url,
+            eventView: event.event_view,
+            eventPresent: event.event_present,
+            ownerId: event.creator_id,
+        };
+        navigate('/eventview', { state: eventData });
     };
 
     if (checking)
@@ -154,7 +149,7 @@ export default function Dashboard() {
                         <Spinner size={16} />
                     ) : (
                         <motion.div animate={{ rotate: 0 }} transition={{ duration: 0.3 }}>
-                            <img src="/sortEventDate.png" alt="최신순" className={styles.sortButton} />
+                            <ArrowDown size={20} />
                         </motion.div>
                     )}
                     <span className={styles.sortButtonText}>
@@ -166,27 +161,26 @@ export default function Dashboard() {
             <div className={styles.eventList}>
                 {loading ? (
                     <SkeletonCard count={3} />
+                ) : error ? (
+                    <ErrorState
+                        title="이벤트를 불러올 수 없습니다"
+                        message={error}
+                        onRetry={() => window.location.reload()}
+                    />
                 ) : events.length === 0 ? (
-                    <div
-                        style={{
-                            textAlign: 'center',
-                            padding: '3rem 1rem',
-                            color: '#666',
-                            background: 'rgba(255, 255, 255, 0.9)',
-                            borderRadius: '16px',
-                            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.08)',
-                            border: '1px solid rgba(102, 79, 171, 0.1)',
-                        }}
-                    >
-                        <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎉</div>
-                        <h3 style={{ marginBottom: '0.5rem', color: 'var(--text-dark)' }}>
-                            첫 번째 이벤트를 만들어보세요!
-                        </h3>
-                        <p style={{ margin: 0, fontSize: '0.875rem' }}>아직 등록된 이벤트가 없습니다.</p>
-                    </div>
+                    <EmptyState
+                        icon="calendar"
+                        title="첫 번째 이벤트를 만들어보세요!"
+                        description="아직 등록된 이벤트가 없습니다. 새로운 이벤트를 추가해보세요."
+                        action={
+                            <Button variant="primary" onClick={() => navigate('/addevent')} size="medium">
+                                이벤트 추가하기
+                            </Button>
+                        }
+                    />
                 ) : (
-                    events.map((event, idx) => {
-                        const isOwner = event.ownerId === user?.id;
+                    events.map((event) => {
+                        const isOwner = event.creator_id === user?.id;
                         return (
                             <div
                                 key={event.id}
@@ -194,11 +188,15 @@ export default function Dashboard() {
                                 className={styles.eventLinkWrapper}
                             >
                                 <Eventbox
-                                    {...event}
-                                    eventView={event.eventView}
-                                    eventPresent={event.eventPresent}
+                                    id={event.id}
+                                    eventName={event.title}
+                                    eventDescription={event.description}
+                                    eventDate={event.event_datetime?.split('T')[0]}
+                                    eventImg={event.image_url}
+                                    eventView={event.event_view}
+                                    eventPresent={event.event_present}
                                     isOwner={isOwner}
-                                    onDelete={(e) => handleDelete(idx, e)}
+                                    onDelete={(e) => handleDelete(event.id, e)}
                                 />
                             </div>
                         );

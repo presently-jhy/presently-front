@@ -3,19 +3,21 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { ArrowLeft, Camera } from 'lucide-react';
 import styles from './GiftEnroll.module.css';
-import arrowIcon from './arrowIcon.png';
 import fundExampleImg from './fundExample.png';
 import giftExampleImg from './giftExample.png';
-import cameraIcon from './cameraIcon.png';
 import AmountDial from '../../components/AmountDial/AmountDial';
 import Spinner from '../../components/Spinner/Spinner';
 import Confetti from '../../components/Confetti/Confetti';
+import { giftService } from '../../services/giftService';
+import { useToast } from '../../context/ToastContext';
 
 export default function GiftEnroll() {
     const navigate = useNavigate();
     const location = useLocation();
     const eventData = location.state;
+    const { showSuccess, showError } = useToast();
 
     // 모바일 여부 체크
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -92,27 +94,34 @@ export default function GiftEnroll() {
         if (hasError) return;
 
         setSubmitting(true);
-        // 기존 로직
-        const amountValue = parseFloat(giftAmount) || 0;
-        const newGift = {
-            id: Date.now(),
-            selectedType,
-            receiveStatus,
-            giftName: giftName.trim(),
-            giftDescription: giftDescription.trim(),
-            imageUrl: previewImage,
-            eventId: eventData?.id ?? null,
-            link: giftLink.trim() || undefined,
-        };
-        if (selectedType === 'fund') {
-            newGift.targetAmount = amountValue;
-            newGift.currentAmount = 0;
-            newGift.percent = '0%';
-        } else {
-            newGift.price = amountValue;
+
+        try {
+            const amountValue = parseFloat(giftAmount) || 0;
+            const giftData = {
+                event_id: eventData?.id,
+                title: giftName.trim(),
+                description: giftDescription.trim(),
+                image_url: previewImage,
+                gift_type: selectedType,
+                status: receiveStatus,
+                link: giftLink.trim() || null,
+            };
+
+            if (selectedType === 'fund') {
+                giftData.target_amount = amountValue;
+                giftData.current_amount = 0;
+            } else {
+                giftData.price = amountValue;
+            }
+
+            await giftService.createGiftHybrid(giftData);
+            showSuccess('선물이 등록되었습니다! 🎁');
+        } catch (error) {
+            console.error('선물 등록 실패:', error);
+            showError('선물 등록에 실패했습니다.');
+            setSubmitting(false);
+            return;
         }
-        const existing = JSON.parse(localStorage.getItem('gifts')) || [];
-        localStorage.setItem('gifts', JSON.stringify([...existing, newGift]));
 
         // 폭죽 효과 트리거
         setShowConfetti(true);
@@ -133,7 +142,7 @@ export default function GiftEnroll() {
         <div className={styles.container}>
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
-                    <img src={arrowIcon} alt="뒤로가기" />
+                    <ArrowLeft size={24} />
                 </button>
                 <h2 className={styles.title}>{selectedType === 'gift' ? '선물 등록' : '펀드 등록'}</h2>
             </header>
@@ -181,7 +190,7 @@ export default function GiftEnroll() {
             <div className={styles.imageContainer}>
                 <img src={previewImage} alt="예시" className={styles.exampleImage} />
                 <label htmlFor="imageFile" className={styles.cameraLabel}>
-                    <img src={cameraIcon} alt="카메라" />
+                    <Camera size={24} />
                 </label>
                 <input
                     type="file"

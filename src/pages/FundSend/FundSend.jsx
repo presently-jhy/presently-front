@@ -2,8 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import styles from './FundSend.module.css';
-import arrowIcon from './arrowIcon.png';
 import watchImg from './watch.png';
 import Spinner from '../../components/Spinner/Spinner';
 
@@ -132,7 +132,7 @@ export default function FundSend() {
         <div className={`${styles.container} ${isFundMode ? styles.fundMode : styles.giftMode}`}>
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
-                    <img src={arrowIcon} alt="뒤로가기" />
+                    <ArrowLeft size={24} />
                 </button>
                 <h2 className={styles.pageTitle}>{eventData.eventName}</h2>
             </header>

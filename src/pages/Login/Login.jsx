@@ -2,18 +2,23 @@ import { Link } from 'react-router-dom';
 import gift from './gift.png';
 import kakao from './kakao-icon.png';
 import google from './google-icon.png';
-import styles from './Login.module.css'; // CSS 파일 import
+import styles from './Login.module.css';
+import { supabase } from '../../lib/supabaseClient';
 
 function Login() {
-    // 로그인 버튼 클릭 핸들러 (구현 가능)
-    const handleGoogleLogin = () => {
-        console.log('Google 로그인 시도!');
-        // 실제 Google 로그인 로직 연결
+    // 실제 로그인 핸들러
+    const handleGoogleLogin = async () => {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+        });
+        if (error) console.error('Google 로그인 실패:', error.message);
     };
 
-    const handleKakaoLogin = () => {
-        console.log('Kakao 로그인 시도!');
-        // 실제 Kakao 로그인 로직 연결
+    const handleKakaoLogin = async () => {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'kakao',
+        });
+        if (error) console.error('Kakao 로그인 실패:', error.message);
     };
 
     return (

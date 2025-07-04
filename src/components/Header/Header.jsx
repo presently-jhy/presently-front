@@ -51,19 +51,7 @@ const Header = ({ backLink = null, title, subTitle, rightButton = null }) => {
                 <div className={styles.title}>{title}</div>
                 <div className={styles.subtitle}>{subTitle}</div>
             </div>
-            <div className={styles.rightButtonDiv}>
-                {rightButton === shareIcon ? (
-                    <img
-                        src={rightButton}
-                        alt="Share"
-                        className={styles.icon}
-                        onClick={handleShare} //클릭 시 handleShare 실행
-                        style={{ cursor: 'pointer' }} //클릭 가능한 스타일 추가
-                    />
-                ) : (
-                    rightButton && <img src={rightButton} alt="icon" className={styles.icon} />
-                )}{' '}
-            </div>
+            <div className={styles.rightButtonDiv}>{rightButton}</div>
         </header>
     );
 };

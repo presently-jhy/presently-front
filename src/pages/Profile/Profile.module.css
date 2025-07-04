@@ -1,10 +1,10 @@
 @import '../../global.css';
 
-/* 전체 컨테이너 */
+/* Profile 페이지 스타일 */
 .container {
     width: 100%;
     min-height: 100vh;
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
     display: flex;
     flex-direction: column;
     font-family: var(--font-primary);
@@ -26,7 +26,7 @@
 .header {
     display: flex;
     align-items: center;
-    padding: 1.5rem;
+    padding: var(--spacing-lg);
     position: relative;
     z-index: 1;
     background: rgba(255, 255, 255, 0.9);
@@ -41,7 +41,7 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    margin-right: 1rem;
+    margin-right: var(--spacing-md);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,8 +87,8 @@
 }
 
 .title {
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
     color: var(--text-dark);
     background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
     -webkit-background-clip: text;
@@ -111,10 +111,10 @@
 /* 폼 */
 .form {
     flex: 1;
-    padding: 2rem;
+    padding: var(--spacing-xl);
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: var(--spacing-xl);
     align-items: center;
     justify-content: flex-start;
     position: relative;
@@ -126,7 +126,7 @@
     position: relative;
     width: 180px;
     height: 180px;
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -139,7 +139,7 @@
     object-fit: cover;
     border-radius: 50%;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    border: 4px solid white;
+    border: 4px solid var(--white);
     transition: all 0.3s ease;
 }
 
@@ -152,15 +152,15 @@
 .blankProfileImage {
     width: 180px;
     height: 180px;
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    background: linear-gradient(135deg, var(--bg-light), var(--gray-200));
     border-radius: 50%;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border: 4px solid white;
+    border: 4px solid var(--white);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
-    color: #ccc;
+    color: var(--gray-300);
     transition: all 0.3s ease;
 }
 
@@ -183,15 +183,15 @@
     bottom: 0;
     transform: translateX(-50%);
     background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
-    color: white;
-    padding: 0.75rem 1.5rem;
-    font-size: 0.875rem;
-    font-weight: 600;
-    border-radius: 25px;
+    color: var(--white);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-full);
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
     transition: all 0.3s ease;
-    border: 3px solid white;
+    border: 3px solid var(--white);
 }
 
 .uploadLabel:hover {
@@ -200,7 +200,7 @@
 }
 
 .uploadLabel:active {
-    transform: translateX(-50%) scale(0.95);
+    transform: translateX(-50%) scale(0.98);
 }
 
 /* 파일 입력 숨김 */
@@ -210,37 +210,37 @@
 
 /* 입력 그룹 (닉네임, 이메일) */
 .inputGroup {
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    max-width: 400px;
     background: rgba(255, 255, 255, 0.9);
-    padding: 1.5rem;
-    border-radius: 16px;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(102, 79, 171, 0.1);
+    width: 100%;
+    max-width: 400px;
     transition: all 0.3s ease;
 }
 
 .inputGroup:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 32px rgba(102, 79, 171, 0.15);
-    border-color: rgba(102, 79, 171, 0.2);
 }
 
 .label {
-    font-size: 1rem;
-    font-weight: 600;
-    margin-bottom: 0.75rem;
-    color: var(--text-dark);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
 }
 
 .label::before {
     content: '👤';
-    font-size: 1.125rem;
+    font-size: var(--font-size-base);
 }
 
 .inputGroup:nth-child(3) .label::before {
@@ -248,44 +248,44 @@
 }
 
 .textInput {
-    padding: 1rem 1.25rem;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-md) var(--spacing-lg);
     border: 2px solid rgba(102, 79, 171, 0.1);
-    border-radius: 12px;
-    font-size: 1rem;
+    border-radius: var(--radius-lg);
     color: var(--text-dark);
-    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    background: linear-gradient(135deg, var(--bg-light), var(--white));
     transition: all 0.3s ease;
-    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .textInput:focus {
     outline: none;
     border-color: var(--purple-start);
-    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.15);
-    transform: translateY(-2px);
+    box-shadow: 0 0 0 3px rgba(102, 79, 171, 0.1);
+    background: var(--white);
 }
 
 .textInput::placeholder {
-    color: #999;
+    color: var(--text-tertiary);
 }
 
 .textInput[readonly] {
-    background: linear-gradient(135deg, #f0f0f0, #e5e5e5);
-    color: #666;
+    background: var(--bg-tertiary);
+    color: var(--text-tertiary);
     cursor: not-allowed;
 }
 
 .charCount {
-    font-size: 0.875rem;
-    color: #999;
-    position: absolute;
-    bottom: 0.75rem;
-    right: 1rem;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 0.25rem 0.5rem;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: color 0.3s ease;
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    text-align: right;
+    margin-top: var(--spacing-xs);
+    background: rgba(255, 255, 255, 0.8);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    align-self: flex-end;
 }
 
 .saveButton:disabled {
@@ -295,29 +295,28 @@
 }
 
 .saveButton:disabled::after {
-    transform: none;
+    opacity: 0.3;
 }
 
 /* 저장 버튼 */
 .saveButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--white);
     background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
-    color: white;
     border: none;
-    padding: 1.25rem 2.5rem;
-    border-radius: 25px;
-    font-size: 1.125rem;
-    font-weight: 600;
+    border-radius: var(--radius-full);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
     position: relative;
     overflow: hidden;
     min-width: 200px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
 }
 
 .saveButton::before {
@@ -332,7 +331,7 @@
 }
 
 .saveButton:hover {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 32px rgba(102, 79, 171, 0.4);
 }
 
@@ -346,7 +345,7 @@
 
 .saveButton::after {
     content: '💾';
-    font-size: 1.25rem;
+    font-size: var(--font-size-xl);
     transition: transform 0.3s ease;
 }
 
@@ -361,22 +360,22 @@
     }
 
     .header {
-        padding: 1rem;
+        padding: var(--spacing-md);
     }
 
     .backButton {
         width: 40px;
         height: 40px;
-        margin-right: 0.75rem;
+        margin-right: var(--spacing-sm);
     }
 
     .title {
-        font-size: 1.5rem;
+        font-size: var(--font-size-xl);
     }
 
     .form {
-        padding: 1.5rem;
-        gap: 1.5rem;
+        padding: var(--spacing-lg);
+        gap: var(--spacing-lg);
     }
 
     .profileImageContainer {
@@ -395,27 +394,27 @@
     }
 
     .inputGroup {
-        padding: 1rem;
+        padding: var(--spacing-md);
     }
 
     .saveButton {
-        padding: 1rem 2rem;
-        font-size: 1rem;
+        padding: var(--spacing-md) var(--spacing-xl);
+        font-size: var(--font-size-base);
         min-width: 180px;
     }
 }
 
 @media (max-width: 480px) {
     .header {
-        padding: 0.75rem;
+        padding: var(--spacing-sm);
     }
 
     .title {
-        font-size: 1.25rem;
+        font-size: var(--font-size-lg);
     }
 
     .form {
-        padding: 1rem;
+        padding: var(--spacing-md);
     }
 
     .profileImageContainer {
@@ -434,12 +433,12 @@
     }
 
     .uploadLabel {
-        padding: 0.5rem 1rem;
-        font-size: 0.8rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-xs);
     }
 
     .inputGroup {
-        padding: 0.75rem;
+        padding: var(--spacing-sm);
     }
 
     .saveButton {
@@ -464,7 +463,7 @@
     }
 
     .title {
-        color: #ffffff;
+        color: var(--white);
     }
 
     .inputGroup {
@@ -474,13 +473,13 @@
 
     .textInput {
         background: linear-gradient(135deg, #333333, #444444);
-        color: #ffffff;
+        color: var(--white);
         border-color: rgba(102, 79, 171, 0.3);
     }
 
     .textInput[readonly] {
         background: linear-gradient(135deg, #2a2a2a, #333333);
-        color: #999;
+        color: var(--text-tertiary);
     }
 
     .blankProfileImage {

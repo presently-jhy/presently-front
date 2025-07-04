@@ -1,43 +1,55 @@
-/* 대시보드 페이지 전체 컨테이너 */
+/* Dashboard 페이지 스타일 */
+@import '../../global.css';
+
 .dashboardContainer {
     display: flex;
     flex-direction: column;
-    padding: 1.5rem;
+    padding: var(--spacing-lg);
     box-sizing: border-box;
-    background: #fafafa;
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
     min-height: 100vh;
     position: relative;
 }
 
-/* 헤더 영역 */
+.dashboardContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(102, 79, 171, 0.1), rgba(124, 90, 194, 0.1));
+    z-index: 0;
+}
+
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
     position: relative;
     z-index: 1;
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(8px);
-    padding: 1.5rem;
-    border-radius: 12px;
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
     border: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .headerButtons {
     display: flex;
-    gap: 0.75rem;
+    gap: var(--spacing-sm);
     align-items: center;
 }
 
 .statsButton {
     background: none;
     border: none;
-    color: #7c3aed;
+    color: var(--purple-start);
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 8px;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
@@ -54,22 +66,20 @@
 }
 
 .statsSection {
-    margin: 1rem 0 1.5rem 0;
+    margin: var(--spacing-md) 0 var(--spacing-lg) 0;
     overflow: hidden;
 }
 
-/* 페이지 제목 스타일 */
 .pageTitle {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #1a1a1a;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
 }
 
-/* 유저 버튼 */
 .userButton {
     width: 40px;
     height: 40px;
-    background: #f5f5f5;
+    background: var(--bg-tertiary);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -80,7 +90,7 @@
 }
 
 .userButton:hover {
-    background: #e8e8e8;
+    background: var(--gray-200);
     transform: translateY(-1px);
 }
 
@@ -94,7 +104,6 @@
     transform: none;
 }
 
-/* 유저 버튼 이미지 */
 .userButton img {
     width: 20px;
     height: 20px;
@@ -106,11 +115,10 @@
     opacity: 1;
 }
 
-/* 정렬 버튼 wrapper: 아이콘과 텍스트를 함께 감싸 클릭 영역 확장 */
 .sortButtonWrapper {
     display: flex;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--spacing-lg);
     position: relative;
     z-index: 1;
 }
@@ -118,23 +126,23 @@
 .sortButtonBtn {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: linear-gradient(135deg, var(--white), var(--bg-light));
     border: 1px solid rgba(124, 58, 237, 0.2);
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 8px rgba(124, 58, 237, 0.1);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #7c3aed;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--purple-start);
     min-width: 120px;
     justify-content: center;
 }
 
 .sortButtonBtn:hover {
-    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    background: linear-gradient(135deg, var(--bg-light), var(--white));
     border-color: rgba(124, 58, 237, 0.3);
     box-shadow: 0 4px 16px rgba(124, 58, 237, 0.15);
 }
@@ -147,12 +155,11 @@
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
-    background: #f5f5f5;
-    border-color: #e0e0e0;
-    color: #999;
+    background: var(--bg-tertiary);
+    border-color: var(--border-light);
+    color: var(--text-tertiary);
 }
 
-/* 정렬 버튼 아이콘 */
 .sortButton {
     width: 16px;
     height: 16px;
@@ -165,30 +172,27 @@
     opacity: 1;
 }
 
-/* 정렬 버튼 텍스트 */
 .sortButtonText {
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     line-height: 1.4;
     color: inherit;
     transition: color 0.2s ease;
 }
 
-/* 이벤트 카드 목록 컨테이너 */
 .eventList {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
     position: relative;
     z-index: 1;
 }
 
-/* 이벤트 카드를 감싸는 클릭 영역 */
 .eventLinkWrapper {
     cursor: pointer;
     transition: all 0.2s ease;
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     overflow: hidden;
 }
 
@@ -201,28 +205,26 @@
     transform: translateY(-1px);
 }
 
-/* 하단 버튼 wrapper */
 .buttonWrapper {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
+    margin-top: var(--spacing-xl);
     position: relative;
     z-index: 1;
 }
 
-/* 버튼 스타일 */
 .button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: white;
-    background: #7c3aed;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--white);
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
     border: none;
-    border-radius: 20px;
+    border-radius: var(--radius-full);
     text-decoration: none;
     box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
     transition: all 0.2s ease;
@@ -233,7 +235,7 @@
 .button:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
-    background: #6d28d9;
+    background: linear-gradient(135deg, var(--purple-end), var(--purple-start));
 }
 
 .button:active {
@@ -248,7 +250,7 @@
 
 .button::after {
     content: '✨';
-    font-size: 1rem;
+    font-size: var(--font-size-base);
     transition: transform 0.2s ease;
 }
 
@@ -256,31 +258,30 @@
     transform: rotate(10deg);
 }
 
-/* 로딩 상태 */
 .loading {
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #666;
-    background: #fafafa;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
+    background: var(--bg-light);
 }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     .dashboardContainer {
-        padding: 1rem;
+        padding: var(--spacing-md);
     }
 
     .header {
-        padding: 1rem;
-        margin-bottom: 1.5rem;
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
     }
 
     .pageTitle {
-        font-size: 1.25rem;
+        font-size: var(--font-size-xl);
     }
 
     .userButton {
@@ -294,12 +295,12 @@
     }
 
     .sortButtonWrapper {
-        margin-bottom: 1rem;
+        margin-bottom: var(--spacing-md);
     }
 
     .sortButtonBtn {
-        padding: 0.625rem 1rem;
-        font-size: 0.8rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-sm);
         min-width: 100px;
     }
 
@@ -309,33 +310,33 @@
     }
 
     .sortButtonText {
-        font-size: 0.8rem;
+        font-size: var(--font-size-sm);
     }
 
     .eventList {
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
+        gap: var(--spacing-sm);
+        margin-bottom: var(--spacing-lg);
     }
 
     .button {
-        padding: 0.875rem 1.5rem;
-        font-size: 0.875rem;
+        padding: var(--spacing-sm) var(--spacing-lg);
+        font-size: var(--font-size-sm);
         min-width: 160px;
     }
 }
 
 @media (max-width: 480px) {
     .dashboardContainer {
-        padding: 0.75rem;
+        padding: var(--spacing-sm);
     }
 
     .header {
-        padding: 0.75rem;
-        margin-bottom: 1rem;
+        padding: var(--spacing-sm);
+        margin-bottom: var(--spacing-md);
     }
 
     .pageTitle {
-        font-size: 1.125rem;
+        font-size: var(--font-size-lg);
     }
 
     .userButton {
@@ -349,17 +350,17 @@
     }
 
     .sortButtonWrapper {
-        padding: 0.375rem 0.5rem;
+        padding: var(--spacing-sm);
     }
 
     .sortButton {
         width: 10px;
         height: 10px;
-        margin-right: 0.25rem;
+        margin-right: var(--spacing-xs);
     }
 
     .sortButtonText {
-        font-size: 0.75rem;
+        font-size: var(--font-size-xs);
     }
 
     .button {
@@ -371,7 +372,11 @@
 /* 다크 모드 지원 */
 @media (prefers-color-scheme: dark) {
     .dashboardContainer {
-        background: #1a1a1a;
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+
+    .dashboardContainer::before {
+        background: linear-gradient(135deg, rgba(102, 79, 171, 0.2), rgba(124, 90, 194, 0.2));
     }
 
     .header {
@@ -380,24 +385,24 @@
     }
 
     .pageTitle {
-        color: #ffffff;
+        color: var(--white);
     }
 
     .sortButtonBtn {
-        background: linear-gradient(135deg, #2a2a2a, #333333);
+        background: linear-gradient(135deg, var(--gray-800), var(--gray-700));
         border-color: rgba(124, 58, 237, 0.3);
-        color: #7c3aed;
+        color: var(--purple-start);
     }
 
     .sortButtonBtn:hover {
-        background: linear-gradient(135deg, #333333, #2a2a2a);
+        background: linear-gradient(135deg, var(--gray-700), var(--gray-800));
         border-color: rgba(124, 58, 237, 0.4);
     }
 
     .sortButtonBtn:disabled {
-        background: #333333;
-        border-color: #555555;
-        color: #888888;
+        background: var(--gray-700);
+        border-color: var(--gray-600);
+        color: var(--text-tertiary);
     }
 
     .sortButtonText {
@@ -406,14 +411,14 @@
 
     .loading {
         background: #1a1a1a;
-        color: #cccccc;
+        color: var(--text-secondary);
     }
 
     .userButton {
-        background: #333333;
+        background: var(--gray-700);
     }
 
     .userButton:hover {
-        background: #404040;
+        background: var(--gray-600);
     }
 }

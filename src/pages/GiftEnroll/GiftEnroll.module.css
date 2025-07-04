@@ -3,12 +3,12 @@
 .container {
     width: 100%;
     min-height: 100vh;
-    padding: 1.5rem;
+    padding: var(--spacing-lg);
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     font-family: var(--font-primary);
-    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
     position: relative;
 }
 
@@ -27,7 +27,7 @@
 .header {
     display: flex;
     align-items: center;
-    margin: 1rem 0 2rem;
+    margin: var(--spacing-md) 0 var(--spacing-xl);
     position: relative;
     z-index: 1;
 }
@@ -39,7 +39,7 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    margin-right: 1rem;
+    margin-right: var(--spacing-md);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,8 +85,8 @@
 }
 
 .title {
-    font-size: 1.75rem;
-    font-weight: 700;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
     color: var(--text-dark);
     background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
     -webkit-background-clip: text;
@@ -108,16 +108,16 @@
 
 /* 이벤트 이름 */
 .eventName {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #666;
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-secondary);
     text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
     position: relative;
     z-index: 1;
     background: rgba(255, 255, 255, 0.9);
-    padding: 1rem;
-    border-radius: 12px;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     border: 1px solid rgba(102, 79, 171, 0.1);
 }
@@ -126,13 +126,13 @@
 .tabContainer {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
     position: relative;
     z-index: 1;
     background: rgba(255, 255, 255, 0.9);
-    padding: 1rem;
-    border-radius: 16px;
+    padding: var(--spacing-md);
+    border-radius: var(--radius-xl);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(102, 79, 171, 0.1);
 }
@@ -140,11 +140,11 @@
 .tabButton {
     width: 120px;
     height: 48px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, var(--bg-light), var(--white));
     color: var(--purple-dark);
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
     border: 2px solid rgba(102, 79, 171, 0.2);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -180,7 +180,7 @@
 
 .activeTab {
     background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
-    color: white;
+    color: var(--white);
     border-color: var(--purple-start);
     box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
 }
@@ -195,8 +195,8 @@
 .receiveContainer {
     display: flex;
     justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
     position: relative;
     z-index: 1;
 }
@@ -204,11 +204,11 @@
 .receiveButton {
     width: 100px;
     height: 40px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, var(--bg-light), var(--white));
     color: var(--purple-dark);
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     border: 2px solid rgba(102, 79, 171, 0.2);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -244,7 +244,7 @@
 
 .receiveActive {
     background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
-    color: white;
+    color: var(--white);
     border-color: var(--purple-start);
     box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
 }
@@ -254,7 +254,7 @@
     position: relative;
     display: flex;
     justify-content: center;
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacing-xl);
     position: relative;
     z-index: 1;
 }
@@ -263,8 +263,8 @@
     width: 160px;
     height: 160px;
     object-fit: cover;
-    border-radius: 16px;
-    border: 3px solid white;
+    border-radius: var(--radius-xl);
+    border: 3px solid var(--white);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease;
 }
@@ -276,7 +276,7 @@
 
 .cameraLabel {
     position: absolute;
-    bottom: 0.5rem;
+    bottom: var(--spacing-sm);
     right: 50%;
     transform: translateX(50%);
     width: 48px;
@@ -289,7 +289,7 @@
     justify-content: center;
     box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
     transition: all 0.3s ease;
-    border: 3px solid white;
+    border: 3px solid var(--white);
 }
 
 .cameraLabel:hover {
@@ -313,11 +313,11 @@
     flex-direction: column;
     max-width: 400px;
     margin: 0 auto;
-    gap: 1.5rem;
+    gap: var(--spacing-lg);
     position: relative;
     z-index: 1;
     background: rgba(255, 255, 255, 0.9);
-    padding: 2rem;
+    padding: var(--spacing-xl);
     border-radius: 20px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(102, 79, 171, 0.1);
@@ -330,13 +330,13 @@
 }
 
 .textInput {
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 1rem 1.25rem;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-md) var(--spacing-lg);
     border: 2px solid rgba(102, 79, 171, 0.1);
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     color: var(--text-dark);
-    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    background: linear-gradient(135deg, var(--bg-light), var(--white));
     transition: all 0.3s ease;
     width: 100%;
     box-sizing: border-box;
@@ -345,59 +345,59 @@
 .textInput:focus {
     outline: none;
     border-color: var(--purple-start);
-    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.15);
-    transform: translateY(-2px);
+    box-shadow: 0 0 0 3px rgba(102, 79, 171, 0.1);
+    background: var(--white);
 }
 
 .textInput::placeholder {
-    color: #999;
+    color: var(--text-tertiary);
 }
 
 .textArea {
-    font-size: 1rem;
-    font-weight: 500;
-    padding: 1rem 1.25rem;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-md) var(--spacing-lg);
     border: 2px solid rgba(102, 79, 171, 0.1);
-    border-radius: 12px;
-    resize: none;
+    border-radius: var(--radius-lg);
     color: var(--text-dark);
-    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    background: linear-gradient(135deg, var(--bg-light), var(--white));
     transition: all 0.3s ease;
     width: 100%;
+    min-height: 120px;
+    resize: vertical;
     box-sizing: border-box;
-    min-height: 100px;
-    font-family: inherit;
+    font-family: var(--font-primary);
 }
 
 .textArea:focus {
     outline: none;
     border-color: var(--purple-start);
-    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.15);
-    transform: translateY(-2px);
+    box-shadow: 0 0 0 3px rgba(102, 79, 171, 0.1);
+    background: var(--white);
 }
 
 .textArea::placeholder {
-    color: #999;
+    color: var(--text-tertiary);
 }
 
 .charCount {
-    font-size: 0.875rem;
-    color: #999;
-    position: absolute;
-    bottom: 0.75rem;
-    right: 1rem;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 0.25rem 0.5rem;
-    border-radius: 8px;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    text-align: right;
+    margin-top: var(--spacing-xs);
+    background: rgba(255, 255, 255, 0.8);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    align-self: flex-end;
 }
 
 /* 금액 다이얼 */
 .amountDialWrapper {
     display: flex;
     justify-content: center;
-    margin: 1rem 0;
-    transition: all 0.3s ease;
+    margin: var(--spacing-lg) 0;
+    position: relative;
+    z-index: 1;
 }
 
 .amountDialWrapper.disabledDial {
@@ -407,20 +407,23 @@
 
 /* 제출 버튼 */
 .submitButton {
-    width: 100%;
-    padding: 1.25rem;
-    border: none;
-    border-radius: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--white);
     background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
-    color: white;
-    font-size: 1.125rem;
-    font-weight: 600;
+    border: none;
+    border-radius: var(--radius-full);
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
     position: relative;
     overflow: hidden;
-    margin-top: 1rem;
+    min-width: 200px;
 }
 
 .submitButton::before {
@@ -455,50 +458,50 @@
 
 /* 에러 메시지 */
 .fieldError {
-    font-size: 0.875rem;
-    color: #ff4d4f;
-    background: rgba(255, 77, 79, 0.1);
-    padding: 0.75rem;
-    border-radius: 8px;
-    border-left: 3px solid #ff4d4f;
-    margin-top: 0.5rem;
+    font-size: var(--font-size-sm);
+    color: var(--error-color);
+    background: rgba(239, 68, 68, 0.1);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--error-color);
+    margin-top: var(--spacing-sm);
 }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
     .container {
-        padding: 1rem;
+        padding: var(--spacing-md);
     }
 
     .header {
-        margin: 0.5rem 0 1.5rem;
+        margin: var(--spacing-sm) 0 var(--spacing-lg);
     }
 
     .backButton {
         width: 40px;
         height: 40px;
-        margin-right: 0.75rem;
+        margin-right: var(--spacing-sm);
     }
 
     .title {
-        font-size: 1.5rem;
+        font-size: var(--font-size-xl);
     }
 
     .tabContainer {
-        padding: 0.75rem;
-        gap: 0.75rem;
+        padding: var(--spacing-sm);
+        gap: var(--spacing-sm);
     }
 
     .tabButton {
         width: 100px;
         height: 40px;
-        font-size: 0.875rem;
+        font-size: var(--font-size-sm);
     }
 
     .receiveButton {
         width: 80px;
         height: 36px;
-        font-size: 0.8rem;
+        font-size: var(--font-size-xs);
     }
 
     .exampleImage {
@@ -517,23 +520,23 @@
     }
 
     .form {
-        padding: 1.5rem;
+        padding: var(--spacing-lg);
         max-width: 100%;
     }
 
     .submitButton {
-        padding: 1rem;
-        font-size: 1rem;
+        padding: var(--spacing-md);
+        font-size: var(--font-size-base);
     }
 }
 
 @media (max-width: 480px) {
     .container {
-        padding: 0.75rem;
+        padding: var(--spacing-sm);
     }
 
     .title {
-        font-size: 1.25rem;
+        font-size: var(--font-size-lg);
     }
 
     .tabContainer {
@@ -548,12 +551,12 @@
 
     .receiveContainer {
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: var(--spacing-sm);
     }
 
     .receiveButton {
-        width: calc(50% - 0.25rem);
-        font-size: 0.75rem;
+        width: calc(50% - var(--spacing-xs));
+        font-size: var(--font-size-xs);
     }
 }
 
@@ -575,13 +578,13 @@
     }
 
     .title {
-        color: #ffffff;
+        color: var(--white);
     }
 
     .textInput,
     .textArea {
         background: linear-gradient(135deg, #333333, #444444);
-        color: #ffffff;
+        color: var(--white);
         border-color: rgba(102, 79, 171, 0.3);
     }
 
@@ -589,11 +592,11 @@
     .receiveButton {
         background: linear-gradient(135deg, #333333, #444444);
         border-color: rgba(102, 79, 171, 0.3);
-        color: #ffffff;
+        color: var(--white);
     }
 
     .charCount {
         background: rgba(42, 42, 42, 0.9);
-        color: #cccccc;
+        color: var(--text-secondary);
     }
 }
