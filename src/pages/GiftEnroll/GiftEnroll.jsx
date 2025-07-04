@@ -12,6 +12,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import Confetti from '../../components/Confetti/Confetti';
 import { giftService } from '../../services/giftService';
 import { useToast } from '../../context/ToastContext';
+import { Breadcrumb } from '../../components';
 
 export default function GiftEnroll() {
     const navigate = useNavigate();
@@ -140,6 +141,14 @@ export default function GiftEnroll() {
 
     return (
         <div className={styles.container}>
+            <Breadcrumb
+                paths={[
+                    { label: '홈', to: '/' },
+                    { label: '대시보드', to: '/dashboard' },
+                    { label: '이벤트 보기', to: '/eventview' },
+                    { label: selectedType === 'gift' ? '선물 등록' : '펀드 등록' },
+                ]}
+            />
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
                     <ArrowLeft size={24} />
