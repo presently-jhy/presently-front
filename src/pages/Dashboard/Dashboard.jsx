@@ -38,11 +38,7 @@ export default function Dashboard() {
     }, [checking, user, navigate]);
 
     // 사용자 이벤트 가져오기 (Supabase Realtime으로 대체됨)
-    useEffect(() => {
-        if (events && events.length > 0) {
-            showSuccess(`${events.length}개의 이벤트를 불러왔어요!`);
-        }
-    }, [events, showSuccess]);
+    // 성공 알림 제거 - 실시간 업데이트이므로 불필요한 알림 방지
 
     // 선물 데이터 가져오기
     useEffect(() => {
