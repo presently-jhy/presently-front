@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import gift from './gift.png';
 import kakao from './kakao-icon.png';
 import google from './google-icon.png';

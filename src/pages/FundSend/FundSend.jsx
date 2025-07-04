@@ -1,6 +1,6 @@
 // src/pages/FundSend/FundSend.jsx
 
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import styles from './FundSend.module.css';

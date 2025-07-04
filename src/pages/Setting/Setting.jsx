@@ -1,6 +1,6 @@
 // src/pages/Setting/Setting.jsx
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, User } from 'lucide-react';
 import styles from './Setting.module.css';
@@ -10,7 +10,10 @@ import { useToast } from '../../context/ToastContext';
 function Setting() {
     const navigate = useNavigate();
     const { showSuccess, showError } = useToast();
-    const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+    const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
+        const saved = localStorage.getItem('notificationsEnabled');
+        return saved ? JSON.parse(saved) : true;
+    });
 
     // 뒤로가기
     const handleBack = () => {
@@ -25,7 +28,9 @@ function Setting() {
     // 알림 설정 토글
     const handleToggleNotifications = () => {
         setNotificationsEnabled((prev) => !prev);
-        // TODO: 백엔드 or 로컬스토리지에 실제 저장
+        // 로컬스토리지에 알림 설정 저장
+        localStorage.setItem('notificationsEnabled', JSON.stringify(!notificationsEnabled));
+        showSuccess('알림 설정이 저장되었습니다!');
     };
 
     // 실제 로그아웃

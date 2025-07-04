@@ -1,6 +1,6 @@
 // src/pages/GiftEnroll/GiftEnroll.jsx
 
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Camera } from 'lucide-react';
@@ -19,13 +19,13 @@ export default function GiftEnroll() {
     const eventData = location.state;
     const { showSuccess, showError } = useToast();
 
-    // 모바일 여부 체크
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-    useEffect(() => {
-        const onResize = () => setIsMobile(window.innerWidth < 768);
-        window.addEventListener('resize', onResize);
-        return () => window.removeEventListener('resize', onResize);
-    }, []);
+    // 모바일 여부 체크 (현재 미사용)
+    // const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+    // useEffect(() => {
+    //     const onResize = () => setIsMobile(window.innerWidth < 768);
+    //     window.addEventListener('resize', onResize);
+    //     return () => window.removeEventListener('resize', onResize);
+    // }, []);
 
     // 타입 & 수신 상태
     const initialType = eventData?.eventType === 'gift' ? 'gift' : 'fund';

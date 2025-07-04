@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Package, Calendar, Gift, Users, Search } from 'lucide-react';
 import styles from './EmptyState.module.css';

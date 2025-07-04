@@ -7,7 +7,7 @@ export const storageService = {
         const fileName = `${Math.random()}.${fileExt}`;
         const filePath = `${folder}/${fileName}`;
 
-        const { data, error } = await supabase.storage.from('images').upload(filePath, file);
+        const { error } = await supabase.storage.from('images').upload(filePath, file);
 
         if (error) throw error;
 

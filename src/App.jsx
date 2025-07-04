@@ -1,5 +1,4 @@
 // src/App.jsx
-import React from 'react';
 import { Toaster } from 'react-hot-toast';
 import AppRoutes from './router';
 import CuteCursor from './components/CuteCursor/CuteCursor';

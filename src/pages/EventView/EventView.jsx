@@ -1,6 +1,6 @@
 // src/pages/EventView/EventView.jsx
 
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Share2 } from 'lucide-react';
@@ -48,10 +48,6 @@ export default function EventView() {
         }
     }, [user, checking, eventData.creatorId, eventData.creator_id, navigate, location.pathname]);
 
-    // 로그인 검사 중
-    if (checking) return <div>로그인 확인 중...</div>;
-    if (!user) return null;
-
     // 로컬 스토리지에서 선물 로드 및 자동 완료
     useEffect(() => {
         if (!eventData.id) {
@@ -84,6 +80,10 @@ export default function EventView() {
         setLoading(false);
     }, [eventData.id]);
 
+    // 로그인 검사 중
+    if (checking) return <div>로그인 확인 중...</div>;
+    if (!user) return null;
+
     // 탭별 필터
     const currentList = gifts.filter((g) => {
         if (giftTab === 'want') return g.receiveStatus === 'want';
@@ -110,6 +110,7 @@ export default function EventView() {
 
     const handleAcceptFeedback = useCallback(
         (fbId) => {
+            if (!selectedGift) return;
             const all = JSON.parse(localStorage.getItem('gifts')) || [];
             const updatedAll = all.map((g) => {
                 if (g.id !== selectedGift.id) return g;
@@ -144,6 +145,7 @@ export default function EventView() {
 
     const handleRejectFeedback = useCallback(
         (fbId) => {
+            if (!selectedGift) return;
             const all = JSON.parse(localStorage.getItem('gifts')) || [];
             const updatedAll = all.map((g) =>
                 g.id !== selectedGift.id ? g : { ...g, feedbacks: (g.feedbacks || []).filter((f) => f.id !== fbId) }

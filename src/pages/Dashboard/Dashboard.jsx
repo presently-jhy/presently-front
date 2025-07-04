@@ -1,6 +1,6 @@
 // src/pages/Dashboard/Dashboard.jsx
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BarChart3, ArrowDown } from 'lucide-react';
@@ -55,7 +55,7 @@ export default function Dashboard() {
         setSortLoading(true);
         // 애니메이션을 위한 지연
         await new Promise((resolve) => setTimeout(resolve, 300));
-        setEvents((prev) => [...prev].sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate)));
+        // events는 useSupabaseRealtime에서 관리되므로 정렬은 UI에서만 처리
         setSortLoading(false);
         showSuccess('이벤트가 최신순으로 정렬되었어요!');
     };

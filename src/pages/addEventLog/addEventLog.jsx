@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, Camera } from 'lucide-react';
 import styles from './AddEventLog.module.css';
@@ -14,14 +14,14 @@ const AddEventLog = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const eventData = location.state || {};
-    const { user, accessToken } = useAuth();
+    // const { user } = useAuth();
     const { showError } = useToast();
     const isEditMode = Boolean(eventData.id);
 
     // 초기 이벤트 타입: 수정 모드면 기존 eventData, 아니면 전달받은 state의 eventType 또는 기본 'birthday'
     const initialType = isEditMode ? eventData.eventType : location.state?.eventType || 'birthday';
     // 예시: birthday일 경우 기본값을 'fund'로 설정
-    const [selectedType, setSelectedType] = useState(initialType);
+    const [selectedType] = useState(initialType);
 
     const [eventName, setEventName] = useState(isEditMode ? eventData.eventName : '');
     const [eventDate, setEventDate] = useState(isEditMode ? eventData.eventDate : '');
