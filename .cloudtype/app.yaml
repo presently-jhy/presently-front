@@ -1,0 +1,12 @@
+name: presently-front
+app: node@18
+context:
+    preset: react-vite
+    git:
+        url: https://github.com/gaejungrhee/presently-front.git
+        branch: main
+    build:
+        command: npm run build
+    run:
+        command: npm run preview
+        port: 4173
