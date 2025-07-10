@@ -1,9 +1,13 @@
 // src/api/config.js
-export const API_BASE = 'https://ee5cbf72-71a4-4ba9-8e80-52f41c2316f9.mock.pstmn.io';
+export const API_BASE = "https://rewftufssxzqgdqrsqlz.functions.supabase.co";
 
 export const ENDPOINTS = {
-    getEvents: `${API_BASE}/getevents`,
-    getGifts: `${API_BASE}/getgifts`,
-    getFeedbacks: `${API_BASE}/getfeedbacks`,
-    // (POST/PUT 쓰실 땐 같은 URL에 method만 바꾸시면 됩니다)
+  getUserEvents: `${API_BASE}/get-user-events`,
+  getUserEventDetail: `${API_BASE}/get-user-event-detail`,
+  createUserEvent: `${API_BASE}/create-user-event`,
+  createGiftOption: `${API_BASE}/create-gift-option`,
+  createGiftRequest: `${API_BASE}/create-gift-request`,
+  updateUserEvent: `${API_BASE}/update-user-event`,
+  deleteGiftOption: `${API_BASE}/delete-gift-option`,
+  deleteUserEvent: `${API_BASE}/delete-user-event`,
 };

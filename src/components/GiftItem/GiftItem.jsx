@@ -1,88 +1,80 @@
 // src/components/GiftItem/GiftItem.jsx
-import React from 'react';
-import styles from './GiftItem.module.css';
+import React from "react";
+import styles from "./GiftItem.module.css";
 
 export default function GiftItem({
-    type,
-    title,
-    description,
-    image,
-    percent, // e.g. "75%"
-    link, // 새로 추가된 상품 URL
-    onClick,
-    onDelete,
+  type,
+  title,
+  description,
+  image,
+  percent, // e.g. "75%"
+  link, // 새로 추가된 상품 URL
+  onClick,
+  onDelete,
 }) {
-    const isFund = type === '펀딩';
-    const pctValue = isFund ? parseInt(percent?.replace('%', ''), 10) || 0 : 0;
+  const isFund = type === "펀딩";
+  const pctValue = isFund ? parseInt(percent?.replace("%", ""), 10) || 0 : 0;
 
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            onClick();
-        }
-    };
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick();
+    }
+  };
 
-    return (
-        <div
-            className={styles.giftItemContainer}
-            onClick={onClick}
-            role="button"
-            tabIndex={0}
-            onKeyDown={handleKeyDown}
-        >
-            <img src={image} alt={`${title} 이미지`} className={styles.giftImage} />
+  return (
+    <div className={styles.giftItemContainer} onClick={onClick} role="button" tabIndex={0} onKeyDown={handleKeyDown}>
+      <img src={image} alt={`${title} 이미지`} className={styles.giftImage} />
 
-            <div className={styles.textWrap}>
-                <div className={styles.topLine}>
-                    <span className={`${styles.typeBadge} ${isFund ? styles.fundBadge : styles.giftBadge}`}>
-                        {type}
-                    </span>
-                    <span className={styles.itemTitle}>{title}</span>
-                </div>
-                <p className={styles.itemDescription}>{description}</p>
-            </div>
+      <div className={styles.textWrap}>
+        <div className={styles.topLine}>
+          <span className={`${styles.typeBadge} ${isFund ? styles.fundBadge : styles.giftBadge}`}>{type}</span>
+          <span className={styles.itemTitle}>{title}</span>
+        </div>
+        <p className={styles.itemDescription}>{description}</p>
+      </div>
 
-            <div className={styles.rightGroup}>
-                {isFund && (
-                    <div
-                        className={styles.miniProgressCircle}
-                        style={{
-                            background: `conic-gradient(
+      <div className={styles.rightGroup}>
+        {isFund && (
+          <div
+            className={styles.miniProgressCircle}
+            style={{
+              background: `conic-gradient(
                 var(--primary-color) ${pctValue * 3.6}deg,
                 var(--bg-light) ${pctValue * 3.6}deg
               )`,
-                        }}
-                        title={`진행률 ${pctValue}%`}
-                        aria-label={`진행률 ${pctValue}%`}
-                    />
-                )}
+            }}
+            title={`진행률 ${pctValue}%`}
+            aria-label={`진행률 ${pctValue}%`}
+          />
+        )}
 
-                {link && (
-                    <a
-                        href={link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={styles.linkButton}
-                        onClick={(e) => e.stopPropagation()}
-                        aria-label="상품 링크 열기"
-                    >
-                        🔗
-                    </a>
-                )}
+        {link && (
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.linkButton}
+            onClick={(e) => e.stopPropagation()}
+            aria-label="상품 링크 열기"
+          >
+            🔗
+          </a>
+        )}
 
-                {onDelete && (
-                    <button
-                        className={styles.deleteButton}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onDelete();
-                        }}
-                        aria-label="삭제"
-                    >
-                        ×
-                    </button>
-                )}
-            </div>
-        </div>
-    );
+        {onDelete && (
+          <button
+            className={styles.deleteButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete(e);
+            }}
+            aria-label="삭제"
+          >
+            ×
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }

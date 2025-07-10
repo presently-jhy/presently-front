@@ -8,6 +8,7 @@ import birthdayImg from "./birthdayImg.png";
 import etcImg from "./etcImg.png";
 
 import { useAuth } from "../../context/AuthContext";
+import { ENDPOINTS } from "../../api/config";
 
 const AddEventLog = () => {
   const navigate = useNavigate();
@@ -72,54 +73,64 @@ const AddEventLog = () => {
     }
 
     if (isEditMode) {
-      // 수정 모드: 기존 로컬스토리지 사용
-      const existingEvents = JSON.parse(localStorage.getItem("events")) || [];
-      const updatedEvents = existingEvents.map((evt) =>
-        evt.id === eventData.id
-          ? {
-              ...evt,
-              eventType: selectedType,
-              eventName,
-              eventDate,
-              eventDescription,
-              eventImg: imageFile ? imageFile : evt.eventImg || defaultImage,
-            }
-          : evt
-      );
-      localStorage.setItem("events", JSON.stringify(updatedEvents));
-    } else {
       //토큰 없는 경우 바로 종료
       if (!accessToken) {
         alert("토큰이 없거나 로그인 세션이 만료되었습니다.");
         return;
       }
-      // 생성 모드: Supabase Edge Function 호출
       try {
-        const res = await fetch("https://rewftufssxzqgdqrsqlz.functions.supabase.co/create-user-event", {
+        const res = await fetch(ENDPOINTS.updateUserEvent, {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${accessToken}`, // ✅ accessToken 사용
+            Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            id: eventData.id,
             title: eventName,
             description: eventDescription,
             event_datetime: eventDate,
-            image_url: imageFile || defaultImage,
+            image_url: imageFile || eventData.eventImg || defaultImage,
             event_category: selectedType,
           }),
         });
-
         if (res.ok) {
           navigate("/dashboard");
         } else {
           const err = await res.json();
-          alert("이벤트 생성 실패: " + err.error);
+          alert("이벤트 수정 실패: " + err.error);
         }
       } catch (error) {
-        console.error("이벤트 생성 중 오류:", error);
-        alert("이벤트 생성 중 오류가 발생했습니다.");
+        alert("이벤트 수정 중 오류가 발생했습니다.");
       }
+      return;
+    }
+    // 생성 모드: Supabase Edge Function 호출
+    try {
+      const res = await fetch("https://rewftufssxzqgdqrsqlz.functions.supabase.co/create-user-event", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // ✅ accessToken 사용
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: eventName,
+          description: eventDescription,
+          event_datetime: eventDate,
+          image_url: imageFile || defaultImage,
+          event_category: selectedType,
+        }),
+      });
+
+      if (res.ok) {
+        navigate("/dashboard");
+      } else {
+        const err = await res.json();
+        alert("이벤트 생성 실패: " + err.error);
+      }
+    } catch (error) {
+      console.error("이벤트 생성 중 오류:", error);
+      alert("이벤트 생성 중 오류가 발생했습니다.");
     }
   };
 

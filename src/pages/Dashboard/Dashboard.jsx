@@ -1,13 +1,12 @@
 // src/pages/Dashboard/Dashboard.jsx
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import styles from "./Dashboard.module.css";
 import Eventbox from "../../components/eventbox/Eventbox";
 import userButton from "./userButton.png";
 import sortEventDate from "./sortEventDate.png";
 import { useAuth } from "../../context/AuthContext";
-import { supabase } from "../../lib/supabaseClient";
 
 export default function Dashboard() {
   const [events, setEvents] = useState([]);
@@ -41,6 +40,7 @@ export default function Dashboard() {
                 eventView: e.event_view,
                 eventPresent: e.event_present,
                 ownerId: e.creator_id,
+                giftOptions: e.gift_options || [],
               }))
             );
           } else {
@@ -59,17 +59,53 @@ export default function Dashboard() {
     setEvents((prev) => [...prev].sort((a, b) => new Date(b.eventDate) - new Date(a.eventDate)));
   };
 
-  // 4) 이벤트 삭제 (unchanged)
-  const handleDelete = (idx, e) => {
+  // 4) 이벤트 삭제 (서버 연동)
+  const handleDelete = async (idx, e) => {
     e.stopPropagation();
-    const updated = events.filter((_, i) => i !== idx);
-    setEvents(updated);
-    localStorage.setItem("events", JSON.stringify(updated));
+    const event = events[idx];
+    if (!window.confirm("정말 이 이벤트를 삭제하시겠습니까?")) return;
+    try {
+      const response = await fetch("https://rewftufssxzqgdqrsqlz.functions.supabase.co/delete-user-event", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ event_id: event.id }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(`삭제 실패: ${errorData.error || "알 수 없는 오류"}`);
+        return;
+      }
+      // 삭제 성공 시 이벤트 목록 다시 fetch
+      const res = await fetch("https://rewftufssxzqgdqrsqlz.functions.supabase.co/get-user-events", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setEvents(
+          data.map((e) => ({
+            id: e.id,
+            eventName: e.title,
+            eventDescription: e.description,
+            eventDate: e.event_datetime?.split("T")[0],
+            eventImg: e.image_url,
+            eventView: e.event_view,
+            eventPresent: e.event_present,
+            ownerId: e.creator_id,
+            giftOptions: e.gift_options || [],
+          }))
+        );
+      }
+    } catch {
+      alert("삭제 중 오류가 발생했습니다.");
+    }
   };
 
-  // 5) 이벤트 클릭 (unchanged)
+  // 5) 이벤트 클릭 (changed)
   const handleEventClick = (ev) => {
-    navigate("/eventview", { state: ev });
+    navigate(`/eventview/${ev.id}`);
   };
 
   if (checking) return <div className={styles.loading}>로그인 확인 중...</div>;
@@ -100,6 +136,7 @@ export default function Dashboard() {
                 eventPresent={event.eventPresent}
                 isOwner={isOwner}
                 onDelete={(e) => handleDelete(idx, e)}
+                giftOptions={event.giftOptions}
               />
             </div>
           );
