@@ -1,7 +1,7 @@
 // src/pages/EventView/EventView.jsx
 
-import React, { useState, useEffect, useCallback } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useState, useEffect, useCallback } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Share2 } from "lucide-react";
 import Header from "../../components/Header/Header";
