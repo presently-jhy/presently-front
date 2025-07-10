@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import Home from "./pages/Home/Home";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import AddEvent from "./pages/addEvent/addEvent";
@@ -8,6 +8,7 @@ import FundSend from "./pages/FundSend/FundSend";
 import Setting from "./pages/Setting/Setting";
 import Profile from "./pages/Profile/Profile";
 import EventView from "./pages/EventView/EventView";
+import ComponentShowcase from "./pages/ComponentShowcase/ComponentShowcase";
 
 export default function AppRouter() {
   return (
@@ -22,6 +23,7 @@ export default function AppRouter() {
         <Route path="/setting" element={<Setting />} />
         <Route path="/eventview/:eventId" element={<EventView />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/showcase" element={<ComponentShowcase />} />
       </Routes>
     </Router>
   );

@@ -1,91 +1,206 @@
 @import '../../global.css';
 
-/* 전체 컨테이너 */
+/* Profile 페이지 스타일 */
 .container {
     width: 100%;
     min-height: 100vh;
-    background-color: #f8f9fa;
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
     display: flex;
     flex-direction: column;
     font-family: var(--font-primary);
+    position: relative;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(102, 79, 171, 0.1), rgba(124, 90, 194, 0.1));
+    z-index: 0;
 }
 
 /* 헤더 영역 */
 .header {
     display: flex;
     align-items: center;
-    padding: 16px;
-    border-bottom: 1px solid #eee; /* 구분선 (선택) */
+    padding: var(--spacing-lg);
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(102, 79, 171, 0.1);
 }
+
 .backButton {
-    background: none;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
     border: none;
+    border-radius: 50%;
     cursor: pointer;
-    margin-right: 16px;
+    margin-right: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
+    position: relative;
+    overflow: hidden;
 }
+
+.backButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.backButton:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 32px rgba(102, 79, 171, 0.4);
+}
+
+.backButton:hover::before {
+    left: 100%;
+}
+
+.backButton:active {
+    transform: translateY(0) scale(0.98);
+}
+
 .backButton img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
+    transition: transform 0.3s ease;
 }
+
+.backButton:hover img {
+    transform: translateX(-2px);
+}
+
 .title {
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-h2);
-    line-height: var(--lh-h2);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-dark);
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    position: relative;
+}
+
+.title::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--purple-start), var(--purple-end));
+    border-radius: 2px;
 }
 
 /* 폼 */
 .form {
     flex: 1;
-    padding: 16px;
+    padding: var(--spacing-xl);
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--spacing-xl);
     align-items: center;
     justify-content: flex-start;
+    position: relative;
+    z-index: 1;
 }
 
 /* 프로필 이미지 영역 */
 .profileImageContainer {
     position: relative;
-    width: 140px;
-    height: 140px;
-    margin-bottom: 16px;
+    width: 180px;
+    height: 180px;
+    margin-bottom: var(--spacing-xl);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* 프로필 이미지 (원형) */
 .profileImage {
-    width: 140px;
-    height: 140px;
+    width: 180px;
+    height: 180px;
     object-fit: cover;
     border-radius: 50%;
-    /* 예시: 헤일로 효과 (원 둘레에 보라색 그림자) */
-    box-shadow: 0 0 0 3px #664fab;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    border: 4px solid var(--white);
+    transition: all 0.3s ease;
+}
+
+.profileImageContainer:hover .profileImage {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(102, 79, 171, 0.2);
 }
 
 /* 공란 상태일 때 보여줄 원형 */
 .blankProfileImage {
-    width: 140px;
-    height: 140px;
-    background-color: #eee;
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, var(--bg-light), var(--gray-200));
     border-radius: 50%;
-    /* 헤일로 효과 (선택) */
-    box-shadow: 0 0 0 3px #664fab;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 4px solid var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    color: var(--gray-300);
+    transition: all 0.3s ease;
 }
 
-/* 이미지 업로드 버튼 (라벨) 
-   - 원 하단 중앙에 배치하기 위해 absolute + translateX(-50%) */
+.blankProfileImage::before {
+    content: '👤';
+    font-size: 4rem;
+    opacity: 0.5;
+}
+
+.profileImageContainer:hover .blankProfileImage {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(102, 79, 171, 0.2);
+    background: linear-gradient(135deg, rgba(102, 79, 171, 0.1), rgba(124, 90, 194, 0.1));
+}
+
+/* 이미지 업로드 버튼 (라벨) */
 .uploadLabel {
     position: absolute;
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    background-color: #664fab;
-    color: #fff;
-    padding: 6px 12px;
-    font-size: var(--fs-body-small);
-    border-radius: 9999px;
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
+    color: var(--white);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-full);
     cursor: pointer;
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
+    transition: all 0.3s ease;
+    border: 3px solid var(--white);
+}
+
+.uploadLabel:hover {
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 6px 24px rgba(102, 79, 171, 0.4);
+}
+
+.uploadLabel:active {
+    transform: translateX(-50%) scale(0.98);
 }
 
 /* 파일 입력 숨김 */
@@ -95,35 +210,280 @@
 
 /* 입력 그룹 (닉네임, 이메일) */
 .inputGroup {
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 80%;
+    background: rgba(255, 255, 255, 0.9);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 79, 171, 0.1);
+    width: 100%;
+    max-width: 400px;
+    transition: all 0.3s ease;
 }
+
+.inputGroup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(102, 79, 171, 0.15);
+}
+
 .label {
-    font-size: var(--fs-body-small);
-    margin-bottom: 4px;
-    color: #333;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-sm);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
 }
+
+.label::before {
+    content: '👤';
+    font-size: var(--font-size-base);
+}
+
+.inputGroup:nth-child(3) .label::before {
+    content: '📧';
+}
+
 .textInput {
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: var(--fs-body-small);
-    color: #333;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: 2px solid rgba(102, 79, 171, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--text-dark);
+    background: linear-gradient(135deg, var(--bg-light), var(--white));
+    transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.textInput:focus {
+    outline: none;
+    border-color: var(--purple-start);
+    box-shadow: 0 0 0 3px rgba(102, 79, 171, 0.1);
+    background: var(--white);
+}
+
+.textInput::placeholder {
+    color: var(--text-tertiary);
+}
+
+.textInput[readonly] {
+    background: var(--bg-tertiary);
+    color: var(--text-tertiary);
+    cursor: not-allowed;
+}
+
+.charCount {
+    font-size: var(--font-size-sm);
+    color: var(--text-tertiary);
+    text-align: right;
+    margin-top: var(--spacing-xs);
+    background: rgba(255, 255, 255, 0.8);
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    align-self: flex-end;
+}
+
+.saveButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.saveButton:disabled::after {
+    opacity: 0.3;
 }
 
 /* 저장 버튼 */
 .saveButton {
-    background-color: #664fab;
-    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-lg) var(--spacing-xl);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--white);
+    background: linear-gradient(135deg, var(--purple-start), var(--purple-end));
     border: none;
-    padding: 12px 20px;
-    border-radius: 9999px;
-    font-size: var(--fs-button);
-    font-weight: var(--fw-button);
+    border-radius: var(--radius-full);
     cursor: pointer;
-    transition: opacity 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 16px rgba(102, 79, 171, 0.3);
+    position: relative;
+    overflow: hidden;
+    min-width: 200px;
 }
+
+.saveButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
 .saveButton:hover {
-    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(102, 79, 171, 0.4);
+}
+
+.saveButton:hover::before {
+    left: 100%;
+}
+
+.saveButton:active {
+    transform: translateY(-1px);
+}
+
+.saveButton::after {
+    content: '💾';
+    font-size: var(--font-size-xl);
+    transition: transform 0.3s ease;
+}
+
+.saveButton:hover::after {
+    transform: rotate(15deg);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        padding: 0;
+    }
+
+    .header {
+        padding: var(--spacing-md);
+    }
+
+    .backButton {
+        width: 40px;
+        height: 40px;
+        margin-right: var(--spacing-sm);
+    }
+
+    .title {
+        font-size: var(--font-size-xl);
+    }
+
+    .form {
+        padding: var(--spacing-lg);
+        gap: var(--spacing-lg);
+    }
+
+    .profileImageContainer {
+        width: 140px;
+        height: 140px;
+    }
+
+    .profileImage,
+    .blankProfileImage {
+        width: 140px;
+        height: 140px;
+    }
+
+    .blankProfileImage::before {
+        font-size: 3rem;
+    }
+
+    .inputGroup {
+        padding: var(--spacing-md);
+    }
+
+    .saveButton {
+        padding: var(--spacing-md) var(--spacing-xl);
+        font-size: var(--font-size-base);
+        min-width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: var(--spacing-sm);
+    }
+
+    .title {
+        font-size: var(--font-size-lg);
+    }
+
+    .form {
+        padding: var(--spacing-md);
+    }
+
+    .profileImageContainer {
+        width: 120px;
+        height: 120px;
+    }
+
+    .profileImage,
+    .blankProfileImage {
+        width: 120px;
+        height: 120px;
+    }
+
+    .blankProfileImage::before {
+        font-size: 2.5rem;
+    }
+
+    .uploadLabel {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: var(--font-size-xs);
+    }
+
+    .inputGroup {
+        padding: var(--spacing-sm);
+    }
+
+    .saveButton {
+        width: 100%;
+        min-width: auto;
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+
+    .container::before {
+        background: linear-gradient(135deg, rgba(102, 79, 171, 0.2), rgba(124, 90, 194, 0.2));
+    }
+
+    .header {
+        background: rgba(42, 42, 42, 0.9);
+        border-bottom-color: rgba(102, 79, 171, 0.2);
+    }
+
+    .title {
+        color: var(--white);
+    }
+
+    .inputGroup {
+        background: rgba(42, 42, 42, 0.9);
+        border-color: rgba(102, 79, 171, 0.2);
+    }
+
+    .textInput {
+        background: linear-gradient(135deg, #333333, #444444);
+        color: var(--white);
+        border-color: rgba(102, 79, 171, 0.3);
+    }
+
+    .textInput[readonly] {
+        background: linear-gradient(135deg, #2a2a2a, #333333);
+        color: var(--text-tertiary);
+    }
+
+    .blankProfileImage {
+        background: linear-gradient(135deg, #333333, #444444);
+        border-color: rgba(102, 79, 171, 0.2);
+    }
 }

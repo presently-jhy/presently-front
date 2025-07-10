@@ -1,0 +1,157 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--spacing-2xl);
+    color: var(--text-secondary);
+}
+
+/* Sizes */
+.small {
+    padding: var(--spacing-lg);
+}
+
+.medium {
+    padding: var(--spacing-2xl);
+}
+
+.large {
+    padding: var(--spacing-3xl);
+}
+
+.icon {
+    color: var(--error-color);
+    margin-bottom: var(--spacing-md);
+    opacity: 0.8;
+}
+
+.title {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    margin: 0 0 var(--spacing-sm) 0;
+    line-height: var(--line-height-tight);
+}
+
+.message {
+    font-size: var(--font-size-base);
+    color: var(--text-secondary);
+    margin: 0 0 var(--spacing-lg) 0;
+    line-height: var(--line-height-normal);
+    max-width: 400px;
+}
+
+.retryButton {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--primary-color);
+    color: var(--text-inverse);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.retryButton:hover {
+    background-color: var(--primary-hover);
+    box-shadow: var(--shadow-md);
+}
+
+.retryButton:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* 변형 스타일 */
+.default {
+    background: transparent;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+}
+
+.inline {
+    flex-direction: row;
+    gap: 0.5rem;
+    padding: 0.5rem;
+}
+
+.inline .title {
+    font-size: 0.875rem;
+}
+
+.inline .message {
+    font-size: 0.75rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-xl);
+    }
+
+    .small {
+        padding: var(--spacing-md);
+    }
+
+    .medium {
+        padding: var(--spacing-xl);
+    }
+
+    .large {
+        padding: var(--spacing-2xl);
+    }
+
+    .title {
+        font-size: var(--font-size-base);
+    }
+
+    .message {
+        font-size: var(--font-size-sm);
+    }
+}
+
+/* 다크 모드 */
+@media (prefers-color-scheme: dark) {
+    .default {
+        color: #ffffff;
+    }
+
+    .card {
+        background: #1a1a1a;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .overlay {
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    .title {
+        color: #ffffff;
+    }
+
+    .message {
+        color: #cccccc;
+    }
+}

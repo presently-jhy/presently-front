@@ -1,0 +1,139 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+    z-index: var(--z-modal-backdrop);
+}
+
+.modal {
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-xl);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    z-index: var(--z-modal);
+}
+
+/* Sizes */
+.small {
+    width: 400px;
+    max-width: 90vw;
+}
+
+.medium {
+    width: 600px;
+    max-width: 90vw;
+}
+
+.large {
+    width: 800px;
+    max-width: 90vw;
+}
+
+.full {
+    width: 95vw;
+    height: 95vh;
+}
+
+/* Header */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--border-light);
+    flex-shrink: 0;
+}
+
+.title {
+    margin: 0;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    line-height: var(--line-height-tight);
+}
+
+.closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-secondary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.closeButton:hover {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.closeButton:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Content */
+.content {
+    padding: var(--spacing-lg);
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .overlay {
+        padding: var(--spacing-sm);
+    }
+
+    .modal {
+        border-radius: var(--radius-md);
+    }
+
+    .small,
+    .medium,
+    .large {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .header {
+        padding: var(--spacing-md);
+    }
+
+    .content {
+        padding: var(--spacing-md);
+    }
+
+    .title {
+        font-size: var(--font-size-lg);
+    }
+}
+
+@media (max-width: 480px) {
+    .overlay {
+        padding: 0;
+    }
+
+    .modal {
+        border-radius: 0;
+        max-width: 100vw;
+        max-height: 100vh;
+    }
+}

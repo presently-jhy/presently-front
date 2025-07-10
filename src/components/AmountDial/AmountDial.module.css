@@ -1,14 +1,14 @@
 /* src/components/AmountDial/AmountDial.module.css */
 
 :root {
-    --primary-color: #664fab;
-    --primary-gradient-start: #a874ff;
-    --text-color: #333;
-    --placeholder-color: #999;
-    --bg-light: #f8f9fa;
-    --border-color: #ddd;
-    --radius-md: 0.75rem;
-    --transition-fast: 0.2s ease-out;
+    --primary-color: var(--primary-color);
+    --primary-gradient-start: var(--primary-hover);
+    --text-color: var(--text-primary);
+    --placeholder-color: var(--text-tertiary);
+    --bg-light: var(--bg-secondary);
+    --border-color: var(--border-light);
+    --radius-md: var(--radius-md);
+    --transition-fast: var(--transition-fast);
 }
 
 .wrapper {

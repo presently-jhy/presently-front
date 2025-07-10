@@ -25,34 +25,75 @@ function Home() {
     };
 
     const handleGoogleLogin = async () => {
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'google',
-        });
-        if (error) console.error('Google 로그인 실패:', error.message);
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'google',
+            });
+            if (error) {
+                console.error('Google 로그인 실패:', error.message);
+                // 사용자에게 에러 메시지 표시
+                alert(`로그인에 실패했습니다. 잠시 후 다시 시도해주세요.`);
+            }
+        } catch (error) {
+            console.error('Google 로그인 중 예상치 못한 오류:', error);
+            alert('인터넷 연결을 확인하고 다시 시도해주세요.');
+        }
     };
 
     const handleKakaoLogin = async () => {
-        const { error } = await supabase.auth.signInWithOAuth({
-            provider: 'kakao',
-        });
-        if (error) console.error('Kakao 로그인 실패:', error.message);
+        try {
+            const { error } = await supabase.auth.signInWithOAuth({
+                provider: 'kakao',
+            });
+            if (error) {
+                console.error('Kakao 로그인 실패:', error.message);
+                // 사용자에게 에러 메시지 표시
+                alert(`로그인에 실패했습니다. 잠시 후 다시 시도해주세요.`);
+            }
+        } catch (error) {
+            console.error('Kakao 로그인 중 예상치 못한 오류:', error);
+            alert('인터넷 연결을 확인하고 다시 시도해주세요.');
+        }
+    };
+
+    const handleImageError = (e) => {
+        // 기본 이미지로 대체
+        e.target.style.display = 'none';
     };
 
     return (
-        <div className={styles.homecontainer}>
+        <div className={styles.homeContainer}>
             <div className={styles.logoText}>presently</div>
             <div className={styles.subText}>선물. 기념일. 더 완벽하게.</div>
             <div className={styles.giftDiv}>
-                <img src={gift} alt="gift" className={styles.giftImg} />
+                <img
+                    src={gift}
+                    alt="선물 아이콘"
+                    className={styles.giftImg}
+                    loading="lazy"
+                    onError={handleImageError}
+                />
             </div>
             {isLoginStarted ? (
                 <div>
                     <div className={styles.loginButtonGroup}>
                         <div className={styles.googleLoginDiv} onClick={handleGoogleLogin}>
-                            <img src={googleLoginImg} alt="구글 로그인" className={styles.googleLoginImg} />
+                            <img
+                                src={googleLoginImg}
+                                alt="구글 로그인"
+                                className={styles.googleLoginImg}
+                                loading="lazy"
+                                onError={handleImageError}
+                            />
                         </div>
                         <div className={styles.kakaoLoginDiv} onClick={handleKakaoLogin}>
-                            <img src={kakaoLoginImg} alt="카카오 로그인" className={styles.kakaoLoginImg} />
+                            <img
+                                src={kakaoLoginImg}
+                                alt="카카오 로그인"
+                                className={styles.kakaoLoginImg}
+                                loading="lazy"
+                                onError={handleImageError}
+                            />
                         </div>
                     </div>
                     <div className={styles.captionText}>

@@ -1,0 +1,154 @@
+.container {
+    position: fixed;
+    top: var(--spacing-lg);
+    right: var(--spacing-lg);
+    z-index: var(--z-toast);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    max-width: 400px;
+    pointer-events: none;
+}
+
+.toast {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    pointer-events: auto;
+    min-width: 300px;
+    max-width: 400px;
+}
+
+/* Toast types */
+.success {
+    border-left: 4px solid var(--success-color);
+}
+
+.success .icon {
+    color: var(--success-color);
+}
+
+.error {
+    border-left: 4px solid var(--error-color);
+}
+
+.error .icon {
+    color: var(--error-color);
+}
+
+.warning {
+    border-left: 4px solid var(--warning-color);
+}
+
+.warning .icon {
+    color: var(--warning-color);
+}
+
+.info {
+    border-left: 4px solid var(--info-color);
+}
+
+.info .icon {
+    color: var(--info-color);
+}
+
+.icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.content {
+    flex: 1;
+    min-width: 0;
+}
+
+.title {
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-xs);
+    line-height: var(--line-height-tight);
+}
+
+.message {
+    color: var(--text-secondary);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+}
+
+.closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-tertiary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.closeButton:hover {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.closeButton:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        top: var(--spacing-sm);
+        right: var(--spacing-sm);
+        left: var(--spacing-sm);
+        max-width: none;
+    }
+
+    .toast {
+        min-width: auto;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        top: 0;
+        right: 0;
+        left: 0;
+        border-radius: 0;
+    }
+
+    .toast {
+        border-radius: 0;
+        border-left: none;
+        border-top: 4px solid;
+    }
+
+    .success {
+        border-top-color: var(--success-color);
+    }
+
+    .error {
+        border-top-color: var(--error-color);
+    }
+
+    .warning {
+        border-top-color: var(--warning-color);
+    }
+
+    .info {
+        border-top-color: var(--info-color);
+    }
+}

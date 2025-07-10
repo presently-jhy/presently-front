@@ -1,0 +1,182 @@
+.container {
+    padding: 1.5rem;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 2rem 0;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.chartCard {
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.chartCard:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.chartHeader {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    color: #7c3aed;
+}
+
+.chartHeader h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.tooltip {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    border: none;
+}
+
+.tooltipLabel {
+    margin: 0 0 0.25rem 0;
+    font-weight: 500;
+}
+
+.tooltipValue {
+    margin: 0;
+    opacity: 0.9;
+}
+
+.summaryStats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.summaryCard {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border: 1px solid rgba(124, 58, 237, 0.1);
+    border-radius: 12px;
+    color: #7c3aed;
+    transition: all 0.3s ease;
+}
+
+.summaryCard:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+}
+
+.summaryCard h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #666;
+}
+
+.summaryCard p {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+        border-radius: 12px;
+    }
+
+    .title {
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .chartCard {
+        padding: 1rem;
+    }
+
+    .summaryStats {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 0.75rem;
+    }
+
+    .summaryCard {
+        padding: 0.75rem;
+    }
+
+    .summaryCard p {
+        font-size: 1.125rem;
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: #1a1a1a;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .title {
+        color: #ffffff;
+    }
+
+    .chartCard {
+        background: #2a2a2a;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .chartHeader h3 {
+        color: #ffffff;
+    }
+
+    .summaryCard {
+        background: linear-gradient(135deg, #2a2a2a, #333333);
+        border-color: rgba(124, 58, 237, 0.2);
+    }
+
+    .summaryCard h4 {
+        color: #cccccc;
+    }
+
+    .summaryCard p {
+        color: #ffffff;
+    }
+
+    .tooltip {
+        background: rgba(255, 255, 255, 0.9);
+        color: #1a1a1a;
+    }
+}

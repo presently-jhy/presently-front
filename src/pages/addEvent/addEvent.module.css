@@ -1,131 +1,335 @@
-/* 페이지 전체 컨테이너 */
+/* addEvent 페이지 스타일 */
+@import '../../global.css';
+
 .container {
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background: linear-gradient(135deg, var(--bg-light) 0%, var(--white) 100%);
+    position: relative;
 }
 
-/* 상단 헤더 영역 */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(102, 79, 171, 0.1), rgba(124, 90, 194, 0.1));
+    z-index: 0;
+}
+
 .header {
     display: flex;
     align-items: center;
-    padding: 1rem;
-    margin-top: 30px;
-    margin-bottom: 230px;
+    padding: var(--spacing-lg);
+    margin: var(--spacing-md) 0 var(--spacing-xl);
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
-/* 뒤로 가기 버튼 */
 .backButton {
-    background: none;
+    width: 40px;
+    height: 40px;
+    background: var(--bg-tertiary);
     border: none;
-    padding: 0;
+    border-radius: 50%;
     cursor: pointer;
-    margin-right: 80px;
+    margin-right: var(--spacing-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.backButton:hover {
+    background: var(--gray-200);
+    transform: translateY(-1px);
+}
+
+.backButton:active {
+    transform: translateY(0);
 }
 
 .backButton img {
-    width: 24px;
-    height: 24px;
-    object-fit: contain;
+    width: 18px;
+    height: 18px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
 }
 
-/* 헤더 타이틀 */
+.backButton:hover img {
+    opacity: 1;
+}
+
 .title {
-    font-size: var(--fs-h2);
-    font-weight: var(--fw-h2);
-    line-height: var(--lh-h2);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-primary);
 }
 
-/* 메인 콘텐츠 영역 */
 .content {
-    padding: 1rem;
+    padding: var(--spacing-xl);
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
 }
 
-/* 안내 문구 전체 컨테이너 */
 .subtitle {
     text-align: center;
-    margin-bottom: 2rem;
-    line-height: 1.4;
+    margin-bottom: var(--spacing-2xl);
+    line-height: var(--line-height-relaxed);
+    background: rgba(255, 255, 255, 0.8);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    max-width: 500px;
+    width: 100%;
 }
 
-/* 첫 줄: 연한 색, 보통 굵기 */
 .subtitleGray {
-    color: #aaa;
-    font-size: var(--fs-h4);
-    font-weight: var(--fw-h4);
-    line-height: var(--lh-h4);
+    color: var(--text-secondary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--line-height-relaxed);
+    display: block;
+    margin-bottom: var(--spacing-sm);
 }
 
-/* 둘째 줄: 진한 색, 굵게 */
 .subtitleBlack {
-    color: #000;
-    font-size: var(--fs-h3);
-    font-weight: var(--fw-h3);
-    line-height: var(--lh-h3);
+    color: var(--text-primary);
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    line-height: var(--line-height-tight);
+    display: block;
 }
 
-/* 이벤트 유형 버튼들을 감싸는 컨테이너 (row) */
 .eventContainer {
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 16px;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
 }
 
 .eventOption {
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 약한 그림자 */
-    border-radius: 8px;
-    padding: 16px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-lg);
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 120px;
-    transition: transform 0.3s ease;
+    width: 140px;
+    height: 140px;
+    transition: all 0.2s ease;
+    border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-/* hover 효과 */
-
-.etcContainer:hover {
-    transform: translateY(-4px);
+.eventOption:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.08);
 }
 
-/* 이벤트 유형 버튼 (링크 스타일) */
+.eventOption:active {
+    transform: translateY(-1px);
+}
+
 .eventTypeButton {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-decoration: none;
-    color: #333;
+    color: var(--text-primary);
     cursor: pointer;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    transition: all 0.2s ease;
 }
 
 .eventTypeButton img {
     width: 60px;
     height: 60px;
     object-fit: contain;
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-sm);
+    transition: transform 0.2s ease;
+}
+
+.eventOption:hover .eventTypeButton img {
+    transform: scale(1.05);
 }
 
 .eventTypeButton span {
-    font-size: var(--fs-body-small);
-    font-weight: var(--fw-body-small);
-    line-height: var(--lh-body-small);
-    color: #828282;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-tight);
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
 }
 
-/* 반응형: 화면 너비가 600px 이하일 경우 세로 배열로 전환 */
-@media (max-width: 600px) {
-    .eventContainer {
-        flex-direction: column;
-        gap: 12px;
+.eventOption:hover .eventTypeButton span {
+    color: var(--text-primary);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .header {
+        padding: var(--spacing-md);
+        margin: var(--spacing-sm) 0 var(--spacing-lg);
     }
 
-    .etcContainer {
-        width: 80%;
-        max-width: 300px;
+    .backButton {
+        width: 36px;
+        height: 36px;
+        margin-right: var(--spacing-sm);
+    }
+
+    .title {
+        font-size: var(--font-size-xl);
+    }
+
+    .content {
+        padding: var(--spacing-lg);
+    }
+
+    .subtitle {
+        padding: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .subtitleGray {
+        font-size: var(--font-size-sm);
+    }
+
+    .subtitleBlack {
+        font-size: var(--font-size-lg);
+    }
+
+    .eventContainer {
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .eventOption {
+        width: 120px;
+        height: 120px;
+        padding: var(--spacing-md);
+    }
+
+    .eventTypeButton img {
+        width: 50px;
+        height: 50px;
+    }
+
+    .eventTypeButton span {
+        font-size: var(--font-size-xs);
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: var(--spacing-sm);
+    }
+
+    .title {
+        font-size: var(--font-size-lg);
+    }
+
+    .content {
+        padding: var(--spacing-md);
+    }
+
+    .subtitle {
+        padding: var(--spacing-md);
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .subtitleGray {
+        font-size: var(--font-size-xs);
+    }
+
+    .subtitleBlack {
+        font-size: var(--font-size-base);
+    }
+
+    .eventOption {
+        width: 100px;
+        height: 100px;
+        padding: var(--spacing-sm);
+    }
+
+    .eventTypeButton img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .eventTypeButton span {
+        font-size: var(--font-size-xs);
+    }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+    .container {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    }
+
+    .container::before {
+        background: linear-gradient(135deg, rgba(102, 79, 171, 0.2), rgba(124, 90, 194, 0.2));
+    }
+
+    .header {
+        background: rgba(30, 30, 30, 0.95);
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .title {
+        color: var(--white);
+    }
+
+    .subtitle {
+        background: rgba(30, 30, 30, 0.8);
+    }
+
+    .subtitleGray {
+        color: var(--text-secondary);
+    }
+
+    .subtitleBlack {
+        color: var(--white);
+    }
+
+    .eventOption {
+        background: rgba(30, 30, 30, 0.9);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .eventTypeButton span {
+        color: var(--text-secondary);
+    }
+
+    .eventOption:hover .eventTypeButton span {
+        color: var(--white);
+    }
+
+    .backButton {
+        background: var(--gray-700);
+    }
+
+    .backButton:hover {
+        background: var(--gray-600);
     }
 }

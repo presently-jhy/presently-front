@@ -3,16 +3,19 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { Share2 } from "lucide-react";
 import Header from "../../components/Header/Header";
 import GiftItem from "../../components/GiftItem/GiftItem";
 import GiftPreview from "../../components/GiftPreview/GiftPreview";
-import GiftFeedback from "../../components/GiftFeedback/GiftFeedback";
+import InviteFriends from "../../components/InviteFriends/InviteFriends";
 import { useAuth } from "../../context/AuthContext";
 import styles from "./EventView.module.css";
-import shareIcon from "./shareIcon.svg";
 import defaultEventImg from "./defaultEventImg.png";
 import editButtonImg from "./editButton.png";
+import SkeletonCard from "../../components/SkeletonCard/SkeletonCard";
+import Spinner from "../../components/Spinner/Spinner";
 import { ENDPOINTS } from "../../api/config";
+import GiftFeedback from "../../components/GiftFeedback/GiftFeedback";
 
 const giftItemVariants = {
   initial: { opacity: 0, scale: 0.95 },
@@ -20,7 +23,7 @@ const giftItemVariants = {
   exit: { opacity: 0, scale: 1.05, transition: { duration: 0.5 } },
 };
 
-// 1. 이벤트 데이터 매핑
+// 서버 데이터 매핑 함수
 function mapEventData(raw) {
   return {
     ...raw,
@@ -28,10 +31,10 @@ function mapEventData(raw) {
     eventDescription: raw.description,
     eventDate: raw.event_datetime ? raw.event_datetime.split("T")[0] : "",
     eventImg: raw.image_url,
+    creatorId: raw.creator_id,
     gift_options: raw.gift_options ? raw.gift_options.map(mapGift) : [],
   };
 }
-// 2. 선물 데이터 매핑
 function mapGift(g) {
   return {
     ...g,
@@ -40,6 +43,8 @@ function mapGift(g) {
     imageUrl: g.image_url,
     selectedType: g.type?.toLowerCase(),
     receiveStatus: g.receive_status,
+    acceptedFeedbacks: g.acceptedFeedbacks || [],
+    feedbacks: g.feedbacks || [],
   };
 }
 
@@ -53,44 +58,32 @@ export default function EventView() {
   const [mainTab, setMainTab] = useState("gift");
   const [giftTab, setGiftTab] = useState("want");
   const [selectedGift, setSelectedGift] = useState(null);
+  const [showInviteModal, setShowInviteModal] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // 1. 서버에서 이벤트 상세 정보 fetch (accessToken 필요 X)
   useEffect(() => {
     if (!eventId) return;
+    setLoading(true);
     const headers = {};
     if (accessToken) headers["Authorization"] = `Bearer ${accessToken}`;
     fetch(`${ENDPOINTS.getUserEventDetail}?id=${eventId}`, { headers })
       .then((res) => res.json())
-      .then((raw) => setEventData(mapEventData(raw)));
+      .then((raw) => {
+        const mapped = mapEventData(raw);
+        setEventData(mapped);
+        setGifts(mapped.gift_options || []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, [eventId, accessToken]);
 
   // 2. 로그인 및 owner 판별
   useEffect(() => {
     if (!checking && user && eventData) {
-      setUserMode(user.id === eventData.creator_id ? "owner" : "giver");
+      setUserMode(user.id === (eventData.creatorId || eventData.creator_id) ? "owner" : "giver");
     }
   }, [user, checking, eventData]);
-
-  // 3. user가 없으면 로그인 페이지로 이동 (내 이벤트일 때만)
-  useEffect(() => {
-    if (!checking && !user && eventData && userMode === "owner") {
-      navigate("/login", { state: { from: `/eventview/${eventId}` } });
-    }
-  }, [checking, user, eventData, userMode, navigate, eventId]);
-
-  // 서버에서 받아온 gift_options로 gifts 세팅
-  useEffect(() => {
-    if (eventData?.gift_options) {
-      setGifts(eventData.gift_options);
-    } else {
-      setGifts([]);
-    }
-  }, [eventData]);
-
-  // 디버깅용 콘솔
-  useEffect(() => {
-    console.log("gifts:", gifts);
-  }, [gifts]);
 
   // 탭별 필터
   const currentList = gifts.filter((g) => {
@@ -103,7 +96,9 @@ export default function EventView() {
   // 로그인 필요시 이동하는 헬퍼
   const requireLogin = useCallback(() => {
     if (!user) {
-      navigate("/login", { state: { from: `/eventview/${eventId}` } });
+      if (window.confirm("로그인이 필요합니다. 로그인 하시겠습니까?")) {
+        navigate("/login", { state: { from: `/eventview/${eventId}` } });
+      }
       return true;
     }
     return false;
@@ -143,7 +138,9 @@ export default function EventView() {
         if (accessToken) headers["Authorization"] = `Bearer ${accessToken}`;
         const res = await fetch(`${ENDPOINTS.getUserEventDetail}?id=${eventId}`, { headers });
         const raw = await res.json();
-        setEventData(mapEventData(raw));
+        const mapped = mapEventData(raw);
+        setEventData(mapped);
+        setGifts(mapped.gift_options || []);
         if (selectedGift?.id === giftId) setSelectedGift(null);
       } catch {
         alert("삭제 중 오류가 발생했습니다.");
@@ -152,79 +149,10 @@ export default function EventView() {
     [eventId, accessToken, selectedGift]
   );
 
-  const handleAcceptFeedback = useCallback(
-    (fbId) => {
-      const all = JSON.parse(localStorage.getItem("gifts")) || [];
-      const updatedAll = all.map((g) => {
-        if (g.id !== selectedGift.id) return g;
-        const fb = (g.feedbacks || []).find((x) => x.id === fbId);
-        const pending = (g.feedbacks || []).filter((x) => x.id !== fbId);
-        let next = { ...g, feedbacks: pending, acceptedFeedbacks: [...(g.acceptedFeedbacks || []), fb] };
-        if (g.selectedType === "fund" && fb) {
-          const newCur = (g.currentAmount || 0) + fb.amount;
-          const tgt = g.targetAmount || 1000000;
-          const pct = Math.min(100, Math.round((newCur / tgt) * 100));
-          next = { ...next, currentAmount: newCur, percent: `${pct}%` };
-          if (pct >= 100 && next.receiveStatus === "want") {
-            next = {
-              ...next,
-              receiveStatus: "done",
-              acceptedFeedbacks: [...next.acceptedFeedbacks, ...pending],
-              feedbacks: [],
-            };
-          }
-        } else {
-          next.receiveStatus = "done";
-          next.feedbacks = [];
-        }
-        return next;
-      });
-      localStorage.setItem("gifts", JSON.stringify(updatedAll));
-      setGifts(updatedAll.filter((g) => g.eventId === eventData.id));
-      setSelectedGift(updatedAll.find((g) => g.id === selectedGift.id) || null);
-    },
-    [eventData?.id, selectedGift]
-  );
-
-  const handleRejectFeedback = useCallback(
-    (fbId) => {
-      const all = JSON.parse(localStorage.getItem("gifts")) || [];
-      const updatedAll = all.map((g) =>
-        g.id !== selectedGift.id ? g : { ...g, feedbacks: (g.feedbacks || []).filter((f) => f.id !== fbId) }
-      );
-      localStorage.setItem("gifts", JSON.stringify(updatedAll));
-      setGifts(updatedAll.filter((g) => g.eventId === eventData.id));
-      setSelectedGift(updatedAll.find((g) => g.id === selectedGift.id) || null);
-    },
-    [eventData?.id, selectedGift]
-  );
-
-  const handleGiftAction = useCallback(() => {
-    if (requireLogin()) return;
-    if (!selectedGift) return;
-    const toSend = selectedGift;
-    setGifts((gs) => gs.filter((g) => g.id !== toSend.id));
-    setSelectedGift(null);
-    setTimeout(() => {
-      navigate("/fundsend", { state: { eventData, gift: toSend } });
-    }, 300);
-  }, [navigate, eventData, selectedGift, requireLogin]);
-
-  // 탭 전환 등 상호작용에도 적용 (예시: setMainTab, setGiftTab 등)
-  const handleTabChange = useCallback(
-    (tab) => {
-      if (requireLogin()) return;
-      setMainTab(tab);
-    },
-    [requireLogin]
-  );
-  const handleGiftTabChange = useCallback(
-    (tab) => {
-      if (requireLogin()) return;
-      setGiftTab(tab);
-    },
-    [requireLogin]
-  );
+  // 피드백 관련 핸들러 (서버 기반이면 필요시 구현)
+  const handleAcceptFeedback = useCallback(() => {}, []);
+  const handleRejectFeedback = useCallback(() => {}, []);
+  const handleGiftAction = useCallback(() => {}, []);
 
   // Preview props
   const previewFeedbacks = selectedGift
@@ -236,31 +164,40 @@ export default function EventView() {
   const previewOnReject = giftTab !== "received" ? handleRejectFeedback : undefined;
   const previewOnGiftAction = userMode === "giver" && giftTab === "want" ? handleGiftAction : undefined;
 
-  // 마지막에 return!
-  if (checking || !eventData) return <div>로딩중...</div>;
-
   return (
     <div className={styles.container}>
-      <Header title="이벤트 보기" subTitle="상세 정보" rightButton={shareIcon} />
+      <Header
+        title="이벤트 보기"
+        subTitle="상세 정보"
+        rightButton={
+          loading ? (
+            <Spinner size={20} />
+          ) : eventData && eventData.id ? (
+            <button className={styles.shareButton} onClick={() => setShowInviteModal(true)} title="친구 초대하기">
+              <Share2 size={20} />
+            </button>
+          ) : null
+        }
+      />
 
       {/* 이벤트 정보 */}
       <div className={styles.eventInfo}>
-        <img src={eventData.eventImg || defaultEventImg} alt="이벤트" className={styles.eventImage} />
+        <img src={eventData?.eventImg || defaultEventImg} alt="이벤트" className={styles.eventImage} />
         <div className={styles.eventTextBox}>
-          <div className={styles.hostName}>{eventData.hostName || "주최자"}</div>
-          <div className={styles.eventDate}>{eventData.eventDate || "날짜 정보 없음"}</div>
-          <div className={styles.eventTitle}>{eventData.eventName || "이벤트 제목"}</div>
+          <div className={styles.hostName}>{eventData?.hostName || "주최자"}</div>
+          <div className={styles.eventDate}>{eventData?.eventDate || "날짜 정보 없음"}</div>
+          <div className={styles.eventTitle}>{eventData?.eventName || "이벤트 제목"}</div>
           <div className={styles.eventDescription}>
-            {eventData.eventDescription || "이벤트 설명이 여기에 표시됩니다."}
+            {eventData?.eventDescription || "이벤트 설명이 여기에 표시됩니다."}
           </div>
         </div>
         {userMode === "owner" && (
           <div className={styles.buttonGroup}>
-            <button className={styles.addButton} onClick={handleAdd}>
-              ＋
+            <button className={styles.addButton} onClick={handleAdd} disabled={loading}>
+              {loading ? <Spinner size={16} /> : "＋"}
             </button>
-            <button className={styles.editButton} onClick={handleEdit}>
-              <img src={editButtonImg} alt="이벤트 수정" className={styles.editButtonImg} />
+            <button className={styles.editButton} onClick={handleEdit} disabled={loading}>
+              {loading ? <Spinner size={16} /> : <img src={editButtonImg} alt="이벤트 수정" />}
             </button>
           </div>
         )}
@@ -273,7 +210,8 @@ export default function EventView() {
             key={tab}
             className={`${styles.tab} ${mainTab === tab ? styles.activeTab : ""}`}
             onClick={() => {
-              handleTabChange(tab);
+              if (loading) return;
+              setMainTab(tab);
               setSelectedGift(null);
             }}
           >
@@ -290,7 +228,7 @@ export default function EventView() {
                 key={t}
                 className={`${styles.subTab} ${giftTab === t ? styles.activeSubTab : ""}`}
                 onClick={() => {
-                  handleGiftTabChange(t);
+                  setGiftTab(t);
                   setSelectedGift(null);
                 }}
               >
@@ -301,7 +239,9 @@ export default function EventView() {
 
           <div className={styles.itemList}>
             <AnimatePresence>
-              {currentList.length > 0 ? (
+              {loading ? (
+                <SkeletonCard count={3} />
+              ) : currentList.length > 0 ? (
                 currentList.map((item) => (
                   <motion.div
                     key={item.id}
@@ -317,7 +257,7 @@ export default function EventView() {
                       description={item.giftDescription}
                       image={item.imageUrl}
                       percent={item.selectedType === "fund" ? item.percent : null}
-                      price={item.selectedType === "fund" ? item.target_amount : item.price}
+                      feedbackCount={giftTab === "received" ? item.acceptedFeedbacks?.length : 0}
                       onClick={() => {
                         if (requireLogin()) return;
                         setSelectedGift(item);
@@ -326,7 +266,7 @@ export default function EventView() {
                         userMode === "owner" && giftTab !== "received" ? (e) => handleDeleteGift(item.id, e) : undefined
                       }
                     />
-
+                    {/* 받은 탭에서 GiftFeedback 리스트 표시 */}
                     {giftTab === "received" && item.acceptedFeedbacks?.length > 0 && (
                       <details className={styles.feedbackFolder}>
                         <summary>피드백 {item.acceptedFeedbacks.length}개 보기</summary>
@@ -366,6 +306,7 @@ export default function EventView() {
         <GiftPreview
           gift={selectedGift}
           feedbacks={previewFeedbacks}
+          feedbackType={giftTab === "received" ? "received" : "pending"}
           onAccept={previewOnAccept}
           onReject={previewOnReject}
           onClose={() => setSelectedGift(null)}
@@ -380,6 +321,13 @@ export default function EventView() {
           }
         />
       )}
+
+      {/* 친구 초대 모달 */}
+      <AnimatePresence>
+        {showInviteModal && eventData && eventData.id && (
+          <InviteFriends eventData={eventData} onClose={() => setShowInviteModal(false)} />
+        )}
+      </AnimatePresence>
     </div>
   );
 }
