@@ -6,11 +6,26 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
     plugins: [react(), svgr()],
     server: {
-        host: true,
+        host: 'localhost',
         port: 5173,
+        strictPort: true,
         hmr: {
             port: 5173,
             host: 'localhost',
         },
+        watch: {
+            usePolling: true,
+        },
+    },
+    optimizeDeps: {
+        include: ['react', 'react-dom', 'react-router-dom', '@supabase/supabase-js'],
+    },
+    build: {
+        rollupOptions: {
+            // Remove external configuration for Supabase
+        },
+    },
+    define: {
+        global: 'globalThis',
     },
 });

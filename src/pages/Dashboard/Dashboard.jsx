@@ -64,7 +64,7 @@ export default function Dashboard() {
             showSuccess('이벤트가 삭제되었습니다!');
         } catch (error) {
             console.error('이벤트 삭제 실패:', error);
-            showError('이벤트 삭제에 실패했습니다.');
+            showError('이벤트 삭제에 실패했습니다. 다시 시도해주세요.');
         }
     };
 
@@ -103,6 +103,7 @@ export default function Dashboard() {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         title="통계 보기"
+                        aria-label={showStats ? '통계 숨기기' : '통계 보기'}
                     >
                         <BarChart3 size={20} />
                     </motion.button>
@@ -140,6 +141,7 @@ export default function Dashboard() {
                     whileHover={{ scale: 1.02, y: -1 }}
                     whileTap={{ scale: 0.98 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+                    aria-label="이벤트 최신순 정렬"
                 >
                     {sortLoading ? (
                         <Spinner size={16} />
@@ -160,7 +162,7 @@ export default function Dashboard() {
                 ) : error ? (
                     <ErrorState
                         title="이벤트를 불러올 수 없습니다"
-                        message={error}
+                        message="네트워크 연결을 확인하고 다시 시도해주세요."
                         onRetry={() => window.location.reload()}
                     />
                 ) : events.length === 0 ? (
@@ -182,6 +184,15 @@ export default function Dashboard() {
                                 key={event.id}
                                 onClick={() => handleEventClick(event)}
                                 className={styles.eventLinkWrapper}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' || e.key === ' ') {
+                                        e.preventDefault();
+                                        handleEventClick(event);
+                                    }
+                                }}
+                                aria-label={`${event.title} 이벤트 보기`}
                             >
                                 <Eventbox
                                     id={event.id}
@@ -198,19 +209,6 @@ export default function Dashboard() {
                         );
                     })
                 )}
-            </div>
-
-            <div className={styles.buttonWrapper}>
-                <button className={styles.button} onClick={() => navigate('/addEvent')} disabled={loading}>
-                    {loading ? (
-                        <>
-                            <Spinner size={18} />
-                            로딩중...
-                        </>
-                    ) : (
-                        <>이벤트 추가하기</>
-                    )}
-                </button>
             </div>
         </div>
     );

@@ -16,7 +16,7 @@
 .message {
     margin: 0;
     font-size: 0.875rem;
-    color: #666;
+    color: #4b5563;
     font-weight: 500;
 }
 
@@ -90,6 +90,6 @@
     }
 
     .message {
-        color: #cccccc;
+        color: #d1d5db;
     }
 }

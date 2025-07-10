@@ -28,6 +28,11 @@ const Eventbox = ({
     isOwner,
     onDelete,
 }) => {
+    const handleImageError = (e) => {
+        // 기본 이미지로 대체
+        e.target.src = giftImg;
+    };
+
     return (
         <motion.div
             className={styles.container}
@@ -42,6 +47,7 @@ const Eventbox = ({
                     onClick={onDelete}
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
+                    aria-label="이벤트 삭제"
                 >
                     삭제
                 </motion.button>
@@ -49,7 +55,12 @@ const Eventbox = ({
 
             {/* 이벤트 대표 이미지: eventImg가 제공되면 사용, 아니면 기본 이미지 */}
             <div className={styles.giftImgDiv}>
-                <img src={eventImg || giftImg} alt="event preview" />
+                <img
+                    src={eventImg || giftImg}
+                    alt={`${eventName} 이벤트 미리보기`}
+                    loading="lazy"
+                    onError={handleImageError}
+                />
             </div>
 
             {/* 이벤트 텍스트 영역 */}
@@ -57,16 +68,16 @@ const Eventbox = ({
                 <div className={styles.eventTitle}>{eventName}</div>
                 <div className={styles.infoContainer}>
                     <div className={styles.infoItem}>
-                        <img src={calendarImg} alt="calendar" />
+                        <img src={calendarImg} alt="달력 아이콘" loading="lazy" onError={handleImageError} />
                         <span>{eventDate}</span>
                     </div>
                     <div className={styles.infoItem}>
-                        <img src={viewImg} alt="view" />
+                        <img src={viewImg} alt="조회수 아이콘" loading="lazy" onError={handleImageError} />
                         {/* 등록자라면 조회수를, 아니면 "비공개" 표시 */}
                         <span>{isOwner ? eventView : '비공개'}</span>
                     </div>
                     <div className={styles.infoItem}>
-                        <img src={presentImg} alt="present" />
+                        <img src={presentImg} alt="선물 아이콘" loading="lazy" onError={handleImageError} />
                         {/* receivedGiftCount가 있다면 그 값을, 없으면 eventPresent */}
                         <span>{typeof receivedGiftCount === 'number' ? receivedGiftCount : eventPresent}</span>
                     </div>

@@ -13,10 +13,15 @@ const Input = forwardRef(
             disabled = false,
             required = false,
             className = '',
+            id,
             ...props
         },
         ref
     ) => {
+        const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+        const messageId = `${inputId}-message`;
+        const hasMessage = error || helperText;
+
         const inputClasses = [
             styles.input,
             styles[size],
@@ -33,16 +38,28 @@ const Input = forwardRef(
         return (
             <div className={containerClasses}>
                 {label && (
-                    <label className={styles.label}>
+                    <label htmlFor={inputId} className={styles.label}>
                         {label}
                         {required && <span className={styles.required}>*</span>}
                     </label>
                 )}
                 <motion.div className={styles.inputWrapper} whileFocus={{ scale: 1.01 }} transition={{ duration: 0.1 }}>
-                    <input ref={ref} className={inputClasses} disabled={disabled} required={required} {...props} />
+                    <input
+                        ref={ref}
+                        id={inputId}
+                        className={inputClasses}
+                        disabled={disabled}
+                        required={required}
+                        aria-describedby={hasMessage ? messageId : undefined}
+                        {...props}
+                    />
                 </motion.div>
-                {(error || helperText) && (
-                    <div className={`${styles.message} ${error ? styles.error : styles.helper}`}>
+                {hasMessage && (
+                    <div
+                        id={messageId}
+                        className={`${styles.message} ${error ? styles.error : styles.helper}`}
+                        role={error ? 'alert' : undefined}
+                    >
                         {error || helperText}
                     </div>
                 )}

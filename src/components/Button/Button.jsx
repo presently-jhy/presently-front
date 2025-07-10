@@ -11,6 +11,8 @@ const Button = ({
     onClick,
     type = 'button',
     className = '',
+    'aria-label': ariaLabel,
+    'aria-describedby': ariaDescribedby,
     ...props
 }) => {
     const buttonClasses = [
@@ -34,10 +36,12 @@ const Button = ({
             whileHover={!disabled && !loading ? { scale: 1.02 } : {}}
             whileTap={!disabled && !loading ? { scale: 0.98 } : {}}
             transition={{ duration: 0.1 }}
+            aria-label={ariaLabel}
+            aria-describedby={ariaDescribedby}
             {...props}
         >
             {loading && (
-                <div className={styles.spinner}>
+                <div className={styles.spinner} aria-hidden="true">
                     <div className={styles.spinnerInner}></div>
                 </div>
             )}

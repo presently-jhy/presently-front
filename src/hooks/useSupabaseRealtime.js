@@ -22,11 +22,14 @@ export const useSupabaseRealtime = (table, filter = null) => {
 
                 const { data: initialData, error } = await query;
 
-                if (error) throw error;
+                if (error) {
+                    console.error(`Supabase query error for ${table}:`, error);
+                    throw new Error('데이터를 불러오는 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요.');
+                }
                 setData(initialData || []);
             } catch (error) {
                 console.error(`Error fetching ${table}:`, error);
-                setError(error);
+                setError('데이터를 불러올 수 없습니다. 네트워크 연결을 확인해주세요.');
             } finally {
                 setLoading(false);
             }
@@ -34,8 +37,8 @@ export const useSupabaseRealtime = (table, filter = null) => {
 
         fetchData();
 
-        // Realtime 구독 설정 (선택적)
-        const subscription = supabase
+        // Realtime 구독 설정
+        const channel = supabase
             .channel(`${table}_changes`)
             .on(
                 'postgres_changes',
@@ -46,27 +49,41 @@ export const useSupabaseRealtime = (table, filter = null) => {
                     filter: filter ? `${filter.column}=eq.${filter.value}` : undefined,
                 },
                 (payload) => {
-                    console.log('Realtime change:', payload);
+                    console.log('Realtime update:', payload);
+                    setData((currentData) => {
+                        const newData = [...currentData];
+                        const index = newData.findIndex((item) => item.id === payload.new?.id);
 
-                    switch (payload.eventType) {
-                        case 'INSERT':
-                            setData((prev) => [...prev, payload.new]);
-                            break;
-                        case 'UPDATE':
-                            setData((prev) => prev.map((item) => (item.id === payload.new.id ? payload.new : item)));
-                            break;
-                        case 'DELETE':
-                            setData((prev) => prev.filter((item) => item.id !== payload.old.id));
-                            break;
-                    }
+                        switch (payload.eventType) {
+                            case 'INSERT':
+                                if (payload.new) {
+                                    newData.unshift(payload.new);
+                                }
+                                break;
+                            case 'UPDATE':
+                                if (payload.new && index !== -1) {
+                                    newData[index] = payload.new;
+                                }
+                                break;
+                            case 'DELETE':
+                                if (index !== -1) {
+                                    newData.splice(index, 1);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+
+                        return newData;
+                    });
                 }
             )
             .subscribe();
 
         return () => {
-            subscription.unsubscribe();
+            supabase.removeChannel(channel);
         };
-    }, [table, filter, user]);
+    }, [user, table, filter]);
 
     return { data, loading, error };
 };

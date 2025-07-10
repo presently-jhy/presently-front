@@ -287,40 +287,6 @@
     background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
 }
 
-/* 피드백 디테일 */
-.feedbackFolder {
-    margin-top: 1rem;
-    padding: 1rem;
-    background: rgba(102, 79, 171, 0.05);
-    border-radius: 12px;
-    border: 1px solid rgba(102, 79, 171, 0.1);
-}
-.feedbackFolder summary {
-    cursor: pointer;
-    font-weight: var(--fw-medium);
-    color: var(--primary-color);
-    padding: 0.5rem 0;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.feedbackFolder summary::-webkit-details-marker {
-    display: none;
-}
-.feedbackFolder summary::before {
-    content: '▶';
-    transition: transform 0.3s ease;
-    font-size: 0.75rem;
-}
-.feedbackFolder[open] summary::before {
-    transform: rotate(90deg);
-}
-.feedbackHistory {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(102, 79, 171, 0.1);
-}
-
 /* 로딩 상태 개선 */
 .loading {
     display: flex;

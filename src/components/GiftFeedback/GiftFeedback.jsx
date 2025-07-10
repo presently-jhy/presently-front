@@ -5,7 +5,10 @@ import styles from './GiftFeedback.module.css';
 export default function GiftFeedback({ feedback, type, onAccept, onReject }) {
     if (!feedback) return null;
     const { id, nickname, message, amount, timestamp, avatarUrl, status } = feedback;
+
+    // 받은 탭에서는 히스토리 스타일, 받고 싶은 탭에서는 수락/거절 버튼 표시
     const isHistory = type === 'received';
+    const showActions = type === 'pending' && status === 'pending';
 
     if (isHistory) {
         return (
@@ -28,7 +31,7 @@ export default function GiftFeedback({ feedback, type, onAccept, onReject }) {
                 {amount != null && <div className={styles.amount}>{amount.toLocaleString()}원</div>}
                 {message && <div className={styles.message}>{message}</div>}
             </div>
-            {status === 'pending' ? (
+            {showActions ? (
                 <div className={styles.actions}>
                     <button className={styles.acceptButton} onClick={() => onAccept(id)}>
                         수락
@@ -38,7 +41,9 @@ export default function GiftFeedback({ feedback, type, onAccept, onReject }) {
                     </button>
                 </div>
             ) : (
-                <div className={styles.statusBadge}>{status === 'accepted' ? '완료' : '거절됨'}</div>
+                <div className={styles.statusBadge}>
+                    {status === 'accepted' ? '완료' : status === 'rejected' ? '거절됨' : '대기중'}
+                </div>
             )}
         </div>
     );

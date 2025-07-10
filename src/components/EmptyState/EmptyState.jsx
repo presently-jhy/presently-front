@@ -19,6 +19,8 @@ const EmptyState = ({ icon = 'package', title, description, action, size = 'medi
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
+            role="status"
+            aria-live="polite"
         >
             <div className={styles.icon}>
                 <Icon size={size === 'small' ? 32 : size === 'large' ? 64 : 48} />

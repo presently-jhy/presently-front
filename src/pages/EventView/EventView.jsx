@@ -275,24 +275,23 @@ export default function EventView() {
                                             description={item.giftDescription}
                                             image={item.imageUrl}
                                             percent={item.selectedType === 'fund' ? item.percent : null}
+                                            feedbackCount={giftTab === 'received' ? item.acceptedFeedbacks?.length : 0}
                                             onClick={() => setSelectedGift(item)}
+                                            onFeedbackClick={
+                                                giftTab === 'received' && item.acceptedFeedbacks?.length > 0
+                                                    ? () => {
+                                                          setSelectedGift(item);
+                                                          // 피드백 탭으로 자동 전환
+                                                          setGiftTab('received');
+                                                      }
+                                                    : undefined
+                                            }
                                             onDelete={
                                                 userMode === 'owner' && giftTab !== 'received'
                                                     ? (e) => handleDeleteGift(item.id, e)
                                                     : undefined
                                             }
                                         />
-
-                                        {giftTab === 'received' && item.acceptedFeedbacks?.length > 0 && (
-                                            <details className={styles.feedbackFolder}>
-                                                <summary>피드백 {item.acceptedFeedbacks.length}개 보기</summary>
-                                                <div className={styles.feedbackHistory}>
-                                                    {item.acceptedFeedbacks.map((fb) => (
-                                                        <GiftFeedback key={fb.id} feedback={fb} type="received" />
-                                                    ))}
-                                                </div>
-                                            </details>
-                                        )}
                                     </motion.div>
                                 ))
                             ) : (
@@ -322,6 +321,7 @@ export default function EventView() {
                 <GiftPreview
                     gift={selectedGift}
                     feedbacks={previewFeedbacks}
+                    feedbackType={giftTab === 'received' ? 'received' : 'pending'}
                     onAccept={previewOnAccept}
                     onReject={previewOnReject}
                     onClose={() => setSelectedGift(null)}

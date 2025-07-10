@@ -4,7 +4,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './GiftPreview.module.css';
 import GiftFeedback from '../GiftFeedback/GiftFeedback';
 
-export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, onClose, onGiftAction }) {
+export default function GiftPreview({
+    gift,
+    feedbacks = [],
+    feedbackType = 'pending',
+    onAccept,
+    onReject,
+    onClose,
+    onGiftAction,
+}) {
     const [anim, setAnim] = useState(0);
     const rafRef = useRef();
 
@@ -91,7 +99,7 @@ export default function GiftPreview({ gift, feedbacks = [], onAccept, onReject, 
                             <GiftFeedback
                                 key={fb.id}
                                 feedback={fb}
-                                type={type}
+                                type={feedbackType}
                                 onAccept={onAccept}
                                 onReject={onReject}
                             />

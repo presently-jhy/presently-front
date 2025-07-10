@@ -215,7 +215,7 @@
     background: linear-gradient(135deg, #f8f9fa, #ffffff);
     border: 2px solid rgba(102, 79, 171, 0.1);
     border-radius: 16px;
-    padding: 1rem 1.25rem;
+    padding: 1rem 0.5rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
@@ -230,7 +230,7 @@
     flex: 1;
     border: none;
     background: transparent;
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--gray-700);
     text-align: right;
@@ -246,10 +246,11 @@
 }
 
 .currency {
-    margin-left: 0.75rem;
+    margin-left: 0.25rem;
     font-size: 1.125rem;
     font-weight: 600;
     color: var(--purple);
+    white-space: nowrap;
 }
 
 .hint {

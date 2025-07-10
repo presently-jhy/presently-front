@@ -165,46 +165,55 @@
     cursor: default;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
-}
-
-.miniProgressCircle:hover {
-    transform: scale(1.1);
-}
-
-.miniProgressCircle::after {
-    content: attr(title);
-    position: absolute;
-    top: -3rem;
-    right: 50%;
-    transform: translateX(50%);
-    background: rgba(0, 0, 0, 0.85);
-    color: var(--white);
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    border: 2px solid #e0e0e0;
 }
 
 .miniProgressCircle::before {
     content: '';
     position: absolute;
-    top: -0.5rem;
-    right: 50%;
-    transform: translateX(50%);
-    border: 6px solid transparent;
-    border-top-color: rgba(0, 0, 0, 0.85);
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    bottom: 2px;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--purple-start) 0deg,
+        var(--purple-start) var(--progress, 0deg),
+        #e0e0e0 var(--progress, 0deg),
+        #e0e0e0 360deg
+    );
+    mask: radial-gradient(circle at center, transparent 8px, black 9px);
+    -webkit-mask: radial-gradient(circle at center, transparent 8px, black 9px);
+}
+
+.miniProgressCircle::after {
+    content: attr(data-progress);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 8px;
+    font-weight: 600;
+    color: var(--purple-dark);
+    background: white;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-.miniProgressCircle:hover::after,
-.miniProgressCircle:hover::before {
+.miniProgressCircle[data-progress]:not([data-progress=''])::after {
     opacity: 1;
+}
+
+.miniProgressCircle:hover {
+    transform: scale(1.2);
+    box-shadow: 0 4px 12px rgba(102, 79, 171, 0.2);
 }
 
 .linkButton {
@@ -230,6 +239,48 @@
 }
 
 .linkButton:active {
+    transform: scale(0.95);
+}
+
+.feedbackButton {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #ff6b9d, #ff8fab);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(255, 107, 157, 0.3);
+    position: relative;
+}
+
+.feedbackButton::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.feedbackButton:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 16px rgba(255, 107, 157, 0.4);
+}
+
+.feedbackButton:hover::before {
+    left: 100%;
+}
+
+.feedbackButton:active {
     transform: scale(0.95);
 }
 
@@ -276,7 +327,8 @@
 
     .deleteButton,
     .miniProgressCircle,
-    .linkButton {
+    .linkButton,
+    .feedbackButton {
         width: 28px;
         height: 28px;
     }
@@ -300,4 +352,21 @@
     .miniProgressCircle {
         background: #333333;
     }
+}
+
+.inputRow {
+    display: flex;
+    align-items: center;
+}
+
+.inputRow input {
+    flex: 1;
+    min-width: 0;
+}
+
+.unit {
+    margin-left: 8px;
+    color: #aaa;
+    font-size: 1rem;
+    white-space: nowrap;
 }

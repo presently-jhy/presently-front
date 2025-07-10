@@ -157,7 +157,7 @@ export default function FundSend() {
                                 id="amountInput"
                                 type="text"
                                 className={styles.amountInput}
-                                placeholder="0"
+                                placeholder=""
                                 value={formattedAmount}
                                 onChange={handleAmountChange}
                                 inputMode="numeric"

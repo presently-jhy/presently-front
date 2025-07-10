@@ -54,6 +54,11 @@ function Profile() {
         }
     };
 
+    // 이미지 로드 실패 시 기본 이미지로 대체
+    const handleImageError = (e) => {
+        e.target.style.display = 'none';
+    };
+
     // 폼 제출: 로컬 스토리지에 프로필 정보 저장
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -90,10 +95,10 @@ function Profile() {
         <div className={styles.container}>
             {/* 상단 헤더 */}
             <header className={styles.header}>
-                <button className={styles.backButton} onClick={handleBack}>
+                <button className={styles.backButton} onClick={() => navigate(-1)} aria-label="뒤로 가기">
                     <ArrowLeft size={24} />
                 </button>
-                <h2 className={styles.title}>프로필 정보</h2>
+                <h1 className={styles.title}>프로필 설정</h1>
             </header>
 
             {/* 프로필 편집 폼 */}
@@ -101,54 +106,79 @@ function Profile() {
                 {/* 프로필 이미지 영역 */}
                 <div className={styles.profileImageContainer}>
                     {profileImage ? (
-                        <img src={profileImage} alt="프로필" className={styles.profileImage} />
+                        <img
+                            src={profileImage}
+                            alt="프로필 이미지"
+                            className={styles.profileImage}
+                            loading="lazy"
+                            onError={handleImageError}
+                        />
                     ) : (
-                        <div className={styles.blankProfileImage} />
+                        <div className={styles.blankProfileImage}>
+                            <span>👤</span>
+                        </div>
                     )}
-
-                    {/* 원 하단 중앙에 "업로드" 버튼 라벨 */}
-                    <label htmlFor="profileImageInput" className={styles.uploadLabel}>
-                        {profileImage ? '변경' : '업로드'}
+                    <label htmlFor="imageUpload" className={styles.uploadLabel}>
+                        이미지 변경
                     </label>
                     <input
+                        id="imageUpload"
                         type="file"
-                        id="profileImageInput"
                         accept="image/*"
                         onChange={handleImageChange}
-                        className={styles.imageInput}
+                        className={styles.hiddenInput}
+                        aria-describedby="imageHelp"
                     />
+                    <div id="imageHelp" className={styles.helperText}>
+                        JPG, PNG 파일만 업로드 가능합니다 (최대 5MB)
+                    </div>
                 </div>
 
                 {/* 닉네임 */}
                 <div className={styles.inputGroup}>
-                    <label className={styles.label}>닉네임</label>
+                    <label htmlFor="nicknameInput" className={styles.inputLabel}>
+                        닉네임 *
+                    </label>
                     <input
+                        id="nicknameInput"
                         type="text"
                         value={nickname}
                         onChange={(e) => setNickname(e.target.value)}
                         className={styles.textInput}
                         placeholder="닉네임을 입력하세요"
-                        maxLength={20}
                         required
+                        aria-describedby="nicknameHelp"
                     />
-                    <span className={styles.charCount}>{nickname.length}/20</span>
+                    <div id="nicknameHelp" className={styles.helperText}>
+                        다른 사용자에게 표시될 이름입니다
+                    </div>
                 </div>
 
                 {/* 이메일 */}
                 <div className={styles.inputGroup}>
-                    <label className={styles.label}>이메일 주소</label>
+                    <label htmlFor="emailInput" className={styles.inputLabel}>
+                        이메일
+                    </label>
                     <input
+                        id="emailInput"
                         type="email"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        readOnly
                         className={styles.textInput}
-                        placeholder="이메일 주소를 입력하세요"
-                        required
+                        aria-describedby="emailHelp"
                     />
+                    <div id="emailHelp" className={styles.helperText}>
+                        로그인 시 사용한 이메일입니다
+                    </div>
                 </div>
 
                 {/* 저장하기 버튼 */}
-                <button type="submit" className={styles.saveButton} disabled={isSubmitting || !nickname.trim()}>
+                <button
+                    type="submit"
+                    className={styles.saveButton}
+                    disabled={isSubmitting || !nickname.trim()}
+                    aria-label="프로필 저장"
+                >
                     {isSubmitting ? '저장 중...' : '저장하기'}
                 </button>
             </form>
