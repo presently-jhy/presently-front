@@ -1,6 +1,6 @@
-import gift from './gift.png';
-import kakao from './kakao-icon.png';
-import google from './google-icon.png';
+import gift from '../Home/gift.png';
+import kakao from '../Home/kakao-icon.png';
+import google from '../Home/google-icon.png';
 import styles from './login.module.css';
 import { supabase } from '../../lib/supabaseClient';
 
