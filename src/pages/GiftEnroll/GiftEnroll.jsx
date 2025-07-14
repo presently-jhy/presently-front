@@ -12,7 +12,6 @@ import Spinner from '../../components/Spinner/Spinner';
 import Confetti from '../../components/Confetti/Confetti';
 import { giftService } from '../../services/giftService';
 import { useToast } from '../../context/ToastContext';
-import { Breadcrumb } from '../../components';
 
 const GIFT_TYPES = {
     fund: { label: '펀드', icon: PiggyBank, color: '#10b981' },
@@ -195,15 +194,6 @@ export default function GiftEnroll() {
 
     return (
         <div className={styles.container}>
-            <Breadcrumb
-                paths={[
-                    { label: '홈', to: '/' },
-                    { label: '대시보드', to: '/dashboard' },
-                    { label: '이벤트 보기', to: '/eventview' },
-                    { label: currentType.label + ' 등록' },
-                ]}
-            />
-
             {/* Header */}
             <motion.header
                 className={styles.header}

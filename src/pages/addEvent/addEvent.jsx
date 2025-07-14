@@ -4,7 +4,6 @@ import styles from './addEvent.module.css';
 import anniversaryIcon from './anniversaryIcon.png';
 import birthdayIcon from './birthdayIcon.png';
 import etcIcon from './etcIcon.png';
-import { Breadcrumb } from '../../components';
 
 const AddEvent = () => {
     const navigate = useNavigate();
@@ -13,9 +12,6 @@ const AddEvent = () => {
 
     return (
         <div className={styles.container}>
-            <Breadcrumb
-                paths={[{ label: '홈', to: '/' }, { label: '대시보드', to: '/dashboard' }, { label: '이벤트 추가' }]}
-            />
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
                     <ArrowLeft size={24} />

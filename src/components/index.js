@@ -22,4 +22,3 @@ export { default as InviteFriends } from './InviteFriends/InviteFriends';
 export { default as LoadingState } from './LoadingState/LoadingState';
 export { default as SkeletonCard } from './SkeletonCard/SkeletonCard';
 export { default as Spinner } from './Spinner/Spinner';
-export { default as Breadcrumb } from './Breadcrumb/Breadcrumb';

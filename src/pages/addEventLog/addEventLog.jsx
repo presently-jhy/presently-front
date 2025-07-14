@@ -8,7 +8,6 @@ import etcImg from './etcImg.png';
 
 import { eventService } from '../../services/eventService';
 import { useToast } from '../../context/ToastContext';
-import { Breadcrumb } from '../../components';
 
 const AddEventLog = () => {
     const navigate = useNavigate();
@@ -103,14 +102,6 @@ const AddEventLog = () => {
 
     return (
         <div className={styles.container}>
-            <Breadcrumb
-                paths={[
-                    { label: '홈', to: '/' },
-                    { label: '대시보드', to: '/dashboard' },
-                    { label: '이벤트 추가', to: '/addEvent' },
-                    { label: isEditMode ? '이벤트 수정' : '이벤트 상세 입력' },
-                ]}
-            />
             <header className={styles.header}>
                 <button className={styles.backButton} onClick={handleBack}>
                     <ArrowLeft size={24} />
