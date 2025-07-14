@@ -173,7 +173,7 @@ export default function GiftEnroll() {
                 giftData.price = amountValue;
             }
 
-            await giftService.createGiftHybrid(giftData);
+            const createdGift = await giftService.createGiftHybrid(giftData);
             showSuccess('선물이 등록되었습니다! 🎁');
 
             // Success animation
@@ -181,9 +181,14 @@ export default function GiftEnroll() {
             setTimeout(() => setShowConfetti(false), 3000);
 
             // Navigate after delay
-            setTimeout(() => {
-                navigate('/eventview', { state: eventData });
-            }, 2000);
+            const eventId = eventData?.id || createdGift?.event_id;
+            if (eventId) {
+                setTimeout(() => {
+                    navigate(`/eventview/${eventId}`);
+                }, 2000);
+            } else {
+                showError('이벤트 ID를 찾을 수 없습니다.');
+            }
         } catch (error) {
             console.error('선물 등록 실패:', error);
             showError('선물 등록에 실패했습니다.');
