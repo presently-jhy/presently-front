@@ -1,6 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
-import styles from './AddEvent.module.css';
+import styles from './addEvent.module.css';
 import anniversaryIcon from './anniversaryIcon.png';
 import birthdayIcon from './birthdayIcon.png';
 import etcIcon from './etcIcon.png';

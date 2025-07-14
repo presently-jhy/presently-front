@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from "react";
-import styles from "./Eventbox.module.css";
-import giftImg from "./giftImg.png";
-import calendarImg from "./calendarImg.png";
-import viewImg from "./viewImg.png";
-import presentImg from "./presentImg.png";
-=======
 import React from 'react';
 import { motion } from 'framer-motion';
 import styles from './Eventbox.module.css';
@@ -13,7 +5,6 @@ import giftImg from './giftImg.png';
 import calendarImg from './calendarImg.png';
 import viewImg from './viewImg.png';
 import presentImg from './presentImg.png';
->>>>>>> origin/jh
 
 /**
  * Eventbox 컴포넌트
@@ -29,60 +20,16 @@ import presentImg from './presentImg.png';
  * @param {Array} [props.giftOptions] - 선물 옵션 배열
  */
 const Eventbox = ({
-  eventImg,
-  eventName,
-  eventDate,
-  eventView,
-  eventPresent,
-  receivedGiftCount,
-  isOwner,
-  onDelete,
-  giftOptions = [],
+    eventImg,
+    eventName,
+    eventDate,
+    eventView,
+    eventPresent,
+    receivedGiftCount,
+    isOwner,
+    onDelete,
+    giftOptions = [],
 }) => {
-<<<<<<< HEAD
-  return (
-    <div className={styles.container}>
-      {/* 삭제 버튼: 삭제 핸들러가 있으면 표시 */}
-      {onDelete && (
-        <button className={styles.deleteButton} onClick={onDelete}>
-          삭제
-        </button>
-      )}
-
-      {/* 이벤트 대표 이미지: eventImg가 제공되면 사용, 아니면 기본 이미지 */}
-      <div className={styles.giftImgDiv}>
-        <img src={eventImg || giftImg} alt="event preview" />
-      </div>
-
-      {/* 이벤트 텍스트 영역 */}
-      <div className={styles.eventTextDiv}>
-        <div className={styles.eventTitle}>{eventName}</div>
-        <div className={styles.infoContainer}>
-          <div className={styles.infoItem}>
-            <img src={calendarImg} alt="calendar" />
-            <span>{eventDate}</span>
-          </div>
-          <div className={styles.infoItem}>
-            <img src={viewImg} alt="view" />
-            {/* 등록자라면 조회수를, 아니면 "비공개" 표시 */}
-            <span>{isOwner ? eventView : "비공개"}</span>
-          </div>
-          <div className={styles.infoItem}>
-            <img src={presentImg} alt="present" />
-            {/* 선물 옵션이 있으면 실제 개수, 없으면 기본값 */}
-            <span>
-              {giftOptions.length > 0
-                ? giftOptions.length
-                : typeof receivedGiftCount === "number"
-                ? receivedGiftCount
-                : eventPresent}
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-=======
     const handleImageError = (e) => {
         // 기본 이미지로 대체
         e.target.src = giftImg;
@@ -140,7 +87,6 @@ const Eventbox = ({
             </div>
         </motion.div>
     );
->>>>>>> origin/jh
 };
 
 export default Eventbox;

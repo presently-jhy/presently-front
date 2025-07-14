@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from './Home.module.css';
+import styles from './home.module.css';
 
 import gift from './gift2.png';
 import googleLoginImg from './google-icon.png';

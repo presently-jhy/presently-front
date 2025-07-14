@@ -1,7 +1,7 @@
 import gift from './gift.png';
 import kakao from './kakao-icon.png';
 import google from './google-icon.png';
-import styles from './Login.module.css';
+import styles from './login.module.css';
 import { supabase } from '../../lib/supabaseClient';
 
 function Login() {
